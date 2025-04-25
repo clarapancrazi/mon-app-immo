@@ -97,6 +97,29 @@
       margin-top: 5px;
       background-color: #c0392b;
     }
+
+    @media screen and (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .main-content {
+        padding: 20px;
+      }
+      .form-section {
+        padding: 15px;
+      }
+      .form-section h3 {
+        font-size: 18px;
+        padding: 8px;
+      }
+      .grid, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      input, select, button, .btn-inline {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -112,114 +135,55 @@
     <a href="simulateurs.html">Outils & simulateurs</a>
     <a href="administratif.html">Administratif agence</a>
   </div>
+
   <div class="main-content">
-    <h1>Nouvelle location</h1>
-
     <div class="form-section">
-      <h3>Propriétaire</h3>
-      <button type="button" class="btn-inline" onclick="dupliquerBloc('proprio')">+ Ajouter un propriétaire</button>
-      <div class="grid" id="proprio">
-        <div><label>Nom</label><input type="text"></div>
-        <div><label>Prénom</label><input type="text"></div>
-        <div><label>Téléphone</label><input type="text"></div>
-        <div><label>Email</label><input type="email"></div>
-        <button type="button" class="btn-inline remove-btn" onclick="this.parentNode.remove()">Supprimer</button>
-      </div>
+      <h3>Ajouter une location</h3>
+
+      <label>Nom du bien</label>
+      <input type="text" id="nomBien">
+
+      <label>Adresse</label>
+      <input type="text" id="adresseBien">
+
+      <label>Type de bien</label>
+      <select id="typeBien">
+        <option value="Appartement">Appartement</option>
+        <option value="Maison">Maison</option>
+        <option value="Studio">Studio</option>
+        <option value="Villa">Villa</option>
+      </select>
+
+      <label>Loyer mensuel (€)</label>
+      <input type="number" id="loyer">
+
+      <label>Date de début de bail</label>
+      <input type="date" id="dateDebut">
+
+      <label>Durée du bail (mois)</label>
+      <input type="number" id="dureeBail">
+
+      <button onclick="ajouterLocation()">Créer la location</button>
     </div>
-
-    <div class="form-section">
-      <h3>Locataire</h3>
-      <button type="button" class="btn-inline" onclick="dupliquerBloc('locataire')">+ Ajouter un locataire</button>
-      <div class="grid" id="locataire">
-        <div><label>Nom</label><input type="text"></div>
-        <div><label>Prénom</label><input type="text"></div>
-        <div><label>Téléphone</label><input type="text"></div>
-        <div><label>Email</label><input type="email"></div>
-        <button type="button" class="btn-inline remove-btn" onclick="this.parentNode.remove()">Supprimer</button>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3>Bien</h3>
-      <label>Adresse complète</label>
-      <input type="text">
-      <div class="grid">
-        <div><label>Code postal</label><input type="text"></div>
-        <div><label>Ville</label><input type="text"></div>
-      </div>
-      <div class="grid">
-        <div><label>Surface (m²)</label><input type="number" id="surface" onchange="calculerFrais()"></div>
-        <div><label>Type de bien</label><select><option>Appartement</option><option>Maison</option></select></div>
-        <div><label>Nombre de chambres</label><input type="number"></div>
-        <div><label>Bail</label><select><option>Meublé (1 an)</option><option>Non meublé (3 ans)</option></select></div>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3>Financier</h3>
-      <div class="grid">
-        <div><label>Loyer HC (€)</label><input type="number"></div>
-        <div><label>Charges (€)</label><input type="number"></div>
-        <div><label>Taxe ordures ménagères (an) (€)</label><input type="number"></div>
-        <div><label>Charges N-1 (€)</label><input type="number"></div>
-      </div>
-      <div class="grid">
-        <div><label>Déclaration de revenus</label><select><option>Formulaire 2044</option><option>Formulaire Meublé</option></select></div>
-        <div><label>Garantie loyers impayés : N° d'agrément</label><input type="text"></div>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3>Honoraires agence</h3>
-      <div class="grid">
-        <div>
-          <h4>Locataire</h4>
-          <label>Honoraires (9€/m²) : constitution dossier, visite, bail</label>
-          <input type="text" id="fraisLocataire" class="readonly" readonly>
-          <label>Réduction (€)</label>
-          <input type="number">
-          <label>État des lieux (3€/m²)</label>
-          <input type="text" id="edlLoc" class="readonly" readonly>
-          <label>Réduction (€)</label>
-          <input type="number">
-        </div>
-        <div>
-          <h4>Propriétaire</h4>
-          <label>Honoraires (9€/m²) : constitution dossier, visite, bail</label>
-          <input type="text" id="fraisProprio" class="readonly" readonly>
-          <label>Réduction (€)</label>
-          <input type="number">
-          <label>État des lieux (3€/m²)</label>
-          <input type="text" id="edlPro" class="readonly" readonly>
-          <label>Réduction (€)</label>
-          <input type="number">
-        </div>
-      </div>
-    </div>
-
-    <button type="submit">Créer la location</button>
-
-    <script>
-      function calculerFrais() {
-        const m2 = parseFloat(document.getElementById('surface').value) || 0;
-        document.getElementById('fraisLocataire').value = (m2 * 9).toFixed(2) + ' €';
-        document.getElementById('fraisProprio').value = (m2 * 9).toFixed(2) + ' €';
-        document.getElementById('edlLoc').value = (m2 * 3).toFixed(2) + ' €';
-        document.getElementById('edlPro').value = (m2 * 3).toFixed(2) + ' €';
-      }
-
-      function dupliquerBloc(id) {
-        const bloc = document.getElementById(id);
-        const clone = bloc.cloneNode(true);
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Supprimer';
-        removeButton.type = 'button';
-        removeButton.className = 'btn-inline remove-btn';
-        removeButton.onclick = () => clone.remove();
-        clone.appendChild(removeButton);
-        bloc.parentNode.insertBefore(clone, bloc.nextSibling);
-      }
-    </script>
   </div>
+
+  <script>
+    function ajouterLocation() {
+      const location = {
+        nomBien: document.getElementById('nomBien').value,
+        adresseBien: document.getElementById('adresseBien').value,
+        typeBien: document.getElementById('typeBien').value,
+        loyer: document.getElementById('loyer').value,
+        dateDebut: document.getElementById('dateDebut').value,
+        dureeBail: document.getElementById('dureeBail').value
+      };
+
+      let locations = JSON.parse(localStorage.getItem('locations')) || [];
+      locations.push(location);
+      localStorage.setItem('locations', JSON.stringify(locations));
+
+      window.location.href = 'locations.html';
+    }
+  </script>
 </body>
 </html>
