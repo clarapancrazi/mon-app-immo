@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulateur Rendement Locatif</title>
+
+  <!-- ChartJS pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- html2pdf.js pour exporter en PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f6f9;
+      color: #333;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #0c2d48;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .required::after {
+      content: " *";
+      color: red;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .section {
+      margin-top: 30px;
+    }
+    .button {
+      background: #0c2d48;
+      color: white;
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 30px auto;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+    }
+    .result-box {
+      background: #eef8f2;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      border-left: 5px solid #2e7d32;
+    }
+    .projection {
+      background: #fff3e0;
+      padding: 20px;
+      margin-top: 30px;
+      border-left: 5px solid #f57c00;
+      border-radius: 12px;
+    }
+    canvas {
+      margin-top: 30px;
+    }
+    .tooltip {
+      display: inline-block;
+      position: relative;
+      cursor: help;
+      color: #0c2d48;
+      font-size: 14px;
+    }
+    .tooltip:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background: #333;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      top: 120%;
+      left: 0;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .container { padding: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container" id="pdf-content">
+  <h1>📋 Simulateur de Rendement Locatif</h1>
+  <div class="section">
+    <label class="required">Nom du client</label>
+    <input type="text" id="client">
+  
+    <label class="required">Prix net vendeur (€) <span class="tooltip" data-tooltip="Prix du bien sans frais.">ℹ️</span></label>
+    <input type="number" id="prix">
+  
+    <label class="required">Frais d'agence (€) <span class="tooltip" data-tooltip="Honoraires d'agence.">ℹ️</span></label>
+    <input type="number" id="fraisAgence">
+  
+    <label class="required">Frais de notaire (€) <span class="tooltip" data-tooltip="7-8% dans l'ancien.">ℹ️</span></label>
+    <input type="number" id="notaire">
+  
+    <label>Travaux (€) <span class="tooltip" data-tooltip="Montant estimé des rénovations.">ℹ️</span></label>
+    <input type="number" id="travaux">
+  
+    <label>Mobilier (€) <span class="tooltip" data-tooltip="Valeur du mobilier si meublé.">ℹ️</span></label>
+    <input type="number" id="mobilier">
+  
+    <label class="required">Loyer mensuel (€)</label>
+    <input type="number" id="loyer">
+  
+    <label>Mois loués par an</label>
+    <input type="number" id="moisLoues" value="12">
+  
+    <label>Charges annuelles (€) <span class="tooltip" data-tooltip="Charges copro, entretien, assurances.">ℹ️</span></label>
+    <input type="number" id="charges">
+  
+    <label>Montant emprunté (€)</label>
+    <input type="number" id="emprunt">
+  
+    <label>Durée de l’emprunt (années)</label>
+    <input type="number" id="duree">
+  
+    <label>Taux d’intérêt (%)</label>
+    <input type="number" id="taux">
+  
+    <label>Assurance emprunteur annuelle (€)</label>
+    <input type="number" id="assurance">
+  
+    <label class="required">Régime fiscal</label>
+    <select id="typeBail">
+      <option value="microfoncier">Micro-foncier (30%)</option>
+      <option value="reel">Réel foncier</option>
+      <option value="lmnp_micro">Micro-BIC (50%)</option>
+      <option value="lmnp_reel">LMNP réel</option>
+    </select>
+  </div>
+  
+  <button class="button" onclick="calculer()">🧮 Calculer le rendement</button>
+  <div class="result-box" id="resultats" style="display:none">
+    <h2>📊 Résultats <span id="nomClient"></span></h2>
+    <p id="coutTotal"></p>
+    <p id="revenus"></p>
+    <p id="mensualite"></p>
+    <p id="cashflow"></p>
+    <p id="brut"></p>
+    <p id="net"></p>
+    <p id="apresImpots"></p>
+  
+    <canvas id="rentabiliteChart" width="400" height="300"></canvas>
+  
+    <div class="projection">
+      <h3>📆 Projection à 10 ans</h3>
+      <p id="cashflow10"></p>
+      <p id="plusvalue"></p>
+      <p id="rendementGlobal"></p>
+    </div>
+  </div>
+  <div class="result-box" style="background: #fffbe6; border-left: 5px solid #f9a825; margin-top: 30px;">
+    <h3>🔎 Diagnostic Investissement</h3>
+    <p id="diagnostic"></p>
+    <p id="conseilPrix"></p>
+  </div>
+    <button class="button" onclick="exportPDF()">📄 Exporter en PDF</button>
+  </div>
+  <script>
+    function calculer() {
+      const client = document.getElementById('client').value;
+      const prix = parseFloat(document.getElementById('prix').value) || 0;
+      const fraisAgence = parseFloat(document.getElementById('fraisAgence').value) || 0;
+      const notaire = parseFloat(document.getElementById('notaire').value) || 0;
+      const travaux = parseFloat(document.getElementById('travaux').value) || 0;
+      const mobilier = parseFloat(document.getElementById('mobilier').value) || 0;
+      const loyer = parseFloat(document.getElementById('loyer').value) || 0;
+      const moisLoues = parseFloat(document.getElementById('moisLoues').value) || 12;
+      const charges = parseFloat(document.getElementById('charges').value) || 0;
+      const emprunt = parseFloat(document.getElementById('emprunt').value) || 0;
+      const duree = parseFloat(document.getElementById('duree').value) || 0;
+      const taux = parseFloat(document.getElementById('taux').value) / 100 || 0;
+      const assurance = parseFloat(document.getElementById('assurance').value) || 0;
+      const typeBail = document.getElementById('typeBail').value;
+    
+      const coutTotal = prix + fraisAgence + notaire + travaux;
+      const loyerAnnuel = loyer * moisLoues;
+      const mensualite = emprunt > 0 && taux > 0 && duree > 0
+        ? (emprunt * (taux / 12)) / (1 - Math.pow(1 + (taux / 12), -duree * 12))
+        : 0;
+      const creditAnnuel = mensualite * 12 + assurance;
+      const gestion = loyerAnnuel * 0.085;
+      const assuranceLoyers = loyerAnnuel * 0.025;
+      const totalCharges = charges + gestion + assuranceLoyers;
+    
+      let impot = 0;
+      if (typeBail === "microfoncier") impot = (loyerAnnuel * 0.7) * 0.3;
+      if (typeBail === "reel") impot = ((loyerAnnuel - totalCharges) > 0 ? (loyerAnnuel - totalCharges) * 0.3 : 0);
+      if (typeBail === "lmnp_micro") impot = (loyerAnnuel * 0.5) * 0.3;
+      if (typeBail === "lmnp_reel") impot = ((loyerAnnuel - totalCharges) > 0 ? (loyerAnnuel - totalCharges) * 0.15 : 0);
+    
+      const cashflow = loyerAnnuel - totalCharges - creditAnnuel;
+      const brut = (loyerAnnuel / coutTotal) * 100;
+      const net = ((loyerAnnuel - totalCharges) / coutTotal) * 100;
+      const netImpots = ((loyerAnnuel - totalCharges - impot) / coutTotal) * 100;
+      const cash10 = cashflow * 10;
+      const plusvalue = prix * 1.2 - coutTotal;
+      const rendementGlobal = ((cash10 + plusvalue) / coutTotal) * 100;
+    
+      document.getElementById("resultats").style.display = "block";
+      document.getElementById("nomClient").innerText = client ? `pour ${client}` : '';
+      document.getElementById("coutTotal").innerText = `💰 Coût total d'acquisition : ${coutTotal.toLocaleString()} €`;
+      document.getElementById("revenus").innerText = `🏠 Revenus locatifs annuels : ${loyerAnnuel.toLocaleString()} €`;
+      document.getElementById("mensualite").innerText = `💳 Crédit annuel : ${creditAnnuel.toLocaleString()} €`;
+      document.getElementById("cashflow").innerText = `💵 Cashflow annuel : ${cashflow.toLocaleString()} €`;
+      document.getElementById("brut").innerText = `📈 Rendement brut : ${brut.toFixed(2)} %`;
+      document.getElementById("net").innerText = `📉 Rendement net avant impôt : ${net.toFixed(2)} %`;
+      document.getElementById("apresImpots").innerText = `📊 Rendement net après impôt : ${netImpots.toFixed(2)} %`;
+      document.getElementById("cashflow10").innerText = `💵 Cashflow cumulé sur 10 ans : ${cash10.toLocaleString()} €`;
+      document.getElementById("plusvalue").innerText = `📈 Plus-value estimée : ${plusvalue.toLocaleString()} €`;
+      document.getElementById("rendementGlobal").innerText = `🔄 Rendement global sur 10 ans : ${rendementGlobal.toFixed(2)} %`;
+    
+      const ctx = document.getElementById('rentabiliteChart').getContext('2d');
+      if (window.myChart) window.myChart.destroy();
+      window.myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Brut', 'Net', 'Net après impôt'],
+          datasets: [{
+            label: 'Rentabilité (%)',
+            data: [brut.toFixed(2), net.toFixed(2), netImpots.toFixed(2)],
+            backgroundColor: ['#42a5f5', '#66bb6a', '#ef5350']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+    
+    function exportPDF() {
+      const element = document.getElementById("pdf-content");
+      html2pdf().set({
+        margin: [0.3, 0.3, 0.3, 0.3],
+        filename: 'Simulation_rendement_locatif.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+    </script>
+      // Diagnostic Investissement
+      let diagnosticText = "";
+      if (netImpots >= 7) {
+        diagnosticText = "✅ Super affaire, excellente rentabilité !";
+      } else if (netImpots >= 5) {
+        diagnosticText = "👍 Bon achat, rentable.";
+      } else if (netImpots >= 3) {
+        diagnosticText = "⚖️ Achat équilibré, mais attention aux imprévus.";
+      } else if (netImpots >= 1) {
+        diagnosticText = "⚠️ Achat un peu risqué, rentabilité faible.";
+      } else {
+        diagnosticText = "❌ Mauvais investissement, à éviter.";
+      }
+      document.getElementById("diagnostic").innerText = diagnosticText;
+    
+      // Conseil de prix idéal
+      const seuilOptimal = 5; // pour un rendement cible à 5%
+      const prixOptimal = (loyerAnnuel - totalCharges - impot) * 100 / seuilOptimal;
+      if (coutTotal > prixOptimal) {
+        document.getElementById("conseilPrix").innerText = `💡 Pour rendre ce bien vraiment rentable (>5%), le prix d'achat total devrait être inférieur à environ : ${Math.round(prixOptimal).toLocaleString()} €`;
+      } else {
+        document.getElementById("conseilPrix").innerText = `✅ Votre prix d'achat est optimal par rapport à la rentabilité visée.`;
+      }
+    
+    </body>
+    </html>
+    

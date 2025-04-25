@@ -21,122 +21,119 @@
     .btn-inline { margin-top: -10px; margin-bottom: 10px; padding: 6px 14px; font-size: 14px; }
     .remove-btn { margin-top: 5px; background-color: #c0392b; }
     .hidden { display: none; }
+
+    @media screen and (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { padding: 20px; }
+      .form-section { padding: 15px; }
+      .form-section h3 { font-size: 18px; padding: 8px; }
+      .grid { grid-template-columns: 1fr; }
+      input, select, textarea, button, .btn-inline { font-size: 14px; padding: 10px; }
+    }
   </style>
 </head>
 <body>
   <div class="sidebar">
-    <h2>Pancrazi Immobilier</h2>
-    <a href="dashboard.html">Tableau de bord</a>
-    <a href="equipe.html">Équipe & Commerciaux</a>
-    <a href="transactions.html">Transactions</a>
-    <a href="locations.html">Locations</a>
-    <a href="gestion.html">Gestion locative</a>
-    <a href="saisonniere.html">Location saisonnière</a>
-    <a href="clients.html">Accès clients</a>
-    <a href="simulateurs.html">Outils & simulateurs</a>
-    <a href="administratif.html">Administratif agence</a>
+  <h2>Pancrazi Immobilier</h2>
+  <a href="dashboard.html">Tableau de bord</a>
+  <a href="equipe.html">Équipe & Commerciaux</a>
+  <a href="transactions.html">Transactions</a>
+  <a href="locations.html">Locations</a>
+  <a href="gestion.html">Gestion locative</a>
+  <a href="saisonniere.html">Location saisonnière</a>
+  <a href="clients.html">Accès clients</a>
+  <a href="simulateurs.html">Outils & simulateurs</a>
+  <a href="administratif.html">Administratif agence</a>
+</div>
+
+<div class="main-content">
+  <div class="form-section">
+    <h3>Ajouter une transaction</h3>
+
+    <label>Nom du vendeur</label>
+    <input type="text" id="vendeur">
+
+    <label>Notaire vendeur</label>
+    <input type="text" id="notaireVendeur">
+
+    <label>Nom de l'acheteur</label>
+    <input type="text" id="acheteur">
+
+    <label>Notaire acheteur</label>
+    <input type="text" id="notaireAcheteur">
+
+    <label>Adresse du bien</label>
+    <input type="text" id="adresseBien">
+
+    <label>Type de bien</label>
+    <select id="typeBien">
+      <option value="Appartement">Appartement</option>
+      <option value="Maison">Maison</option>
+      <option value="Terrain">Terrain</option>
+      <option value="Local professionnel">Local professionnel</option>
+    </select>
+
+    <label>Surface habitable (m²)</label>
+    <input type="number" id="surface">
+
+    <label>Nombre de pièces</label>
+    <input type="number" id="pieces">
+
+    <label>Prix de vente (€)</label>
+    <input type="number" id="prixVente">
+
+    <label>Honoraires (€)</label>
+    <input type="number" id="honoraires">
+
+    <label>Date de l'offre</label>
+    <input type="date" id="dateOffre">
+
+    <label>Date du compromis</label>
+    <input type="date" id="dateCompromis">
+
+    <label>Date de l'acte</label>
+    <input type="date" id="dateActe">
+
+    <label>Statut de la vente</label>
+    <select id="statut">
+      <option value="Offre">Offre</option>
+      <option value="Compromis">Compromis</option>
+      <option value="Acte">Acte</option>
+    </select>
+
+    <label>Commentaires / Suivi notaire</label>
+    <textarea id="commentaires"></textarea>
+
+    <button onclick="ajouterTransaction()">Créer la transaction</button>
   </div>
-  <div class="main-content">
-    <h1>Nouvelle transaction</h1>
+</div>
 
-    <div class="form-section">
-      <h3>Vendeur</h3>
-      <button type="button" class="btn-inline" onclick="dupliquerBloc('vendeur')">+ Ajouter un vendeur</button>
-      <div class="grid" id="vendeur">
-        <div><label>Nom</label><input type="text"></div>
-        <div><label>Prénom</label><input type="text"></div>
-        <div><label>Téléphone</label><input type="text"></div>
-        <div><label>Email</label><input type="email"></div>
-        <div><label>Notaire du vendeur</label><input type="text"></div>
-        <div><label>Négociateur</label><select><option value="">Sélectionner</option><option>Antoine Pancrazi</option><option>Claire Rossi</option><option>Jean-Marc Venturi</option><option>Lucie Peretti</option></select></div>
-        <div><label>CA alloué (€)</label><input type="number"></div>
-        <button type="button" class="btn-inline remove-btn" onclick="this.parentNode.remove()">Supprimer</button>
-      </div>
-    </div>
+<script>
+  function ajouterTransaction() {
+    const transaction = {
+      vendeur: document.getElementById('vendeur').value,
+      notaireVendeur: document.getElementById('notaireVendeur').value,
+      acheteur: document.getElementById('acheteur').value,
+      notaireAcheteur: document.getElementById('notaireAcheteur').value,
+      adresseBien: document.getElementById('adresseBien').value,
+      typeBien: document.getElementById('typeBien').value,
+      surface: document.getElementById('surface').value,
+      pieces: document.getElementById('pieces').value,
+      prixVente: document.getElementById('prixVente').value,
+      honoraires: document.getElementById('honoraires').value,
+      dateOffre: document.getElementById('dateOffre').value,
+      dateCompromis: document.getElementById('dateCompromis').value,
+      dateActe: document.getElementById('dateActe').value,
+      statut: document.getElementById('statut').value,
+      commentaires: document.getElementById('commentaires').value
+    };
 
-    <div class="form-section">
-      <h3>Acquéreur</h3>
-      <button type="button" class="btn-inline" onclick="dupliquerBloc('acquereur')">+ Ajouter un acquéreur</button>
-      <div class="grid" id="acquereur">
-        <div><label>Nom</label><input type="text"></div>
-        <div><label>Prénom</label><input type="text"></div>
-        <div><label>Téléphone</label><input type="text"></div>
-        <div><label>Email</label><input type="email"></div>
-        <div><label>Notaire de l'acquéreur</label><input type="text"></div>
-        <div><label>Négociateur</label><select><option value="">Sélectionner</option><option>Antoine Pancrazi</option><option>Claire Rossi</option><option>Jean-Marc Venturi</option><option>Lucie Peretti</option></select></div>
-        <div><label>CA alloué (€)</label><input type="number"></div>
-        <button type="button" class="btn-inline remove-btn" onclick="this.parentNode.remove()">Supprimer</button>
-      </div>
-    </div>
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    transactions.push(transaction);
+    localStorage.setItem('transactions', JSON.stringify(transactions));
 
-    <div class="form-section">
-      <h3>Bien</h3>
-      <label>Adresse complète</label><input type="text">
-      <div class="grid">
-        <div><label>Code postal</label><input type="text"></div>
-        <div><label>Ville</label><input type="text"></div>
-        <div><label>Surface (m²)</label><input type="number"></div>
-        <div><label>Nombre de pièces</label><input type="number"></div>
-        <div><label>Type de bien</label><select><option>Maison</option><option>Appartement</option></select></div>
-        <div><label>Copropriété (N° lot, tantièmes)</label><input type="text"></div>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3>Transaction</h3>
-      <div class="grid">
-        <div><label>Prix de vente (€)</label><input type="number"></div>
-        <div><label>Honoraires TTC (€)</label><input type="number"></div>
-        <div><label>Honoraires HT (€)</label><input type="number"></div>
-        <div><label>Mode de financement</label><input type="text"></div>
-      </div>
-      <div class="grid">
-        <div><label>Date de l'offre</label><input type="date"></div>
-        <div><label>Date du compromis</label><input type="date"></div>
-        <div><label>Date de l'acte</label><input type="date"></div>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3>Conditions suspensives</h3>
-      <label><input type="checkbox" id="pretCheck" onchange="toggleSection('pretSection')"> Obtention de prêt</label>
-      <div id="pretSection" class="hidden">
-        <label>Durée du prêt</label><input type="text">
-        <label>Taux du prêt</label><input type="text">
-        <label>Nom de la banque</label><input type="text">
-      </div>
-
-      <label><input type="checkbox" id="permisCheck" onchange="toggleSection('permisSection')"> Permis de construire</label>
-      <div id="permisSection" class="hidden">
-        <label>Type de projet</label><input type="text">
-        <label>Nom de l'architecte</label><input type="text">
-      </div>
-
-      <label><input type="checkbox" id="autreCheck" onchange="toggleSection('autreSection')"> Autre</label>
-      <div id="autreSection" class="hidden">
-        <label>Précisez la condition</label><textarea rows="3"></textarea>
-      </div>
-    </div>
-
-    <button type="submit">Créer la transaction</button>
-
-    <script>
-      function dupliquerBloc(id) {
-        const bloc = document.getElementById(id);
-        const clone = bloc.cloneNode(true);
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Supprimer';
-        removeButton.type = 'button';
-        removeButton.className = 'btn-inline remove-btn';
-        removeButton.onclick = () => clone.remove();
-        clone.appendChild(removeButton);
-        bloc.parentNode.insertBefore(clone, bloc.nextSibling);
-      }
-      function toggleSection(sectionId) {
-        const section = document.getElementById(sectionId);
-        section.classList.toggle('hidden');
-      }
-    </script>
-  </div>
+    window.location.href = 'transactions.html';
+  }
+</script>
 </body>
 </html>

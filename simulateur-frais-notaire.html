@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulateur Frais de Notaire</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #eef2f7; }
+  .container { max-width: 900px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .header-logo { display: flex; justify-content: center; margin-bottom: 20px; }
+  .header-logo img { max-height: 70px; }
+  h1 { color: #0c2d48; text-align: center; margin-top: 0; }
+  label { font-weight: bold; display: block; margin-top: 15px; }
+  input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+  input.user-input, select.user-input { background-color: #e3f2fd; }
+  .section { margin-top: 30px; padding: 20px; background-color: #f5faff; border-left: 6px solid #0c2d48; border-radius: 8px; }
+  .section h3 { margin-top: 0; color: #0c2d48; }
+  .result { padding: 10px; margin-top: 10px; background: #f9f9f9; border-radius: 8px; }
+  .info-icon { cursor: pointer; color: #0c2d48; margin-left: 5px; }
+  .info-bulle { display: none; background: #ffffff; border: 1px solid #ccc; padding: 10px; position: absolute; width: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .btn { background-color: #0c2d48; color: white; padding: 12px 20px; border: none; border-radius: 6px; margin-top: 20px; font-size: 16px; cursor: pointer; display: block; width: 100%; max-width: 300px; margin-left: auto; margin-right: auto; }
+  .btn:hover { background-color: #134b7a; }
+  .highlight { font-weight: bold; color: #0c2d48; }
+
+  @media screen and (max-width: 768px) {
+    .container { margin: 10px; padding: 20px; }
+    input, select { font-size: 14px; }
+    .section { padding: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="container" id="pdf-content">
+  <div class="header-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/f/f0/Logo_Lafor%C3%AAt_2022.svg/1200px-Logo_Lafor%C3%AAt_2022.svg.png" alt="Logo Laforêt">
+  </div>
+  <h1>Simulateur de Frais de Notaire</h1>
+
+  <div class="section">
+    <label for="prixVente">Prix de vente (offre d'achat)</label>
+    <input type="number" id="prixVente" class="user-input">
+
+    <label for="honoraires">Honoraires d'agence</label>
+    <input type="number" id="honoraires" class="user-input">
+
+    <label for="charge">Frais à la charge de :</label>
+    <select id="charge" class="user-input">
+      <option value="acquereur">Acquéreur</option>
+      <option value="vendeur">Vendeur</option>
+    </select>
+
+    <label for="typeBien">Type de bien :</label>
+    <select id="typeBien" class="user-input">
+      <option value="ancien">Ancien</option>
+      <option value="neuf">Neuf</option>
+    </select>
+
+    <label for="mobilier">Valeur du mobilier à déduire</label>
+    <input type="number" id="mobilier" class="user-input" value="0">
+
+    <button class="btn" onclick="calculerFrais()">Calculer</button>
+  </div>
+
+  <div id="resultats" style="display:none">
+    <div class="section">
+      <h3>Résultats</h3>
+      <div class="result">Montant net vendeur : <span id="netVendeur"></span></div>
+      <div class="result">Base taxable (prix corrigé) : <span id="baseTaxable"></span></div>
+      <div class="result">Frais de notaire estimés : <span id="fraisNotaire"></span></div>
+      <div class="result">Taux appliqué : <span id="taux"></span></div>
+      <div class="result">Économie réalisée <span class="info-icon" onclick="toggleInfo()">ℹ️</span> : <span id="economie"></span>
+        <div id="info" class="info-bulle">Économie = Différence entre scénario 100% charge vendeur sans mobilier et situation optimisée avec charge acquéreur + mobilier. Affiche aussi le pourcentage de réduction.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Détail des Frais de Notaire</h3>
+      <div class="result">Part État (taxes) : <span id="etat"></span></div>
+      <div class="result">Débours fixes : <span id="debours"></span></div>
+      <div class="result">Émoluments notaire : <span id="notaire"></span></div>
+    </div>
+
+    <button class="btn" onclick="exportPDF()">📄 Exporter en PDF</button>
+  </div>
+</div>
+
+<script>
+function toggleInfo() {
+  const info = document.getElementById('info');
+  info.style.display = (info.style.display === 'block') ? 'none' : 'block';
+}
+
+function calculerFrais() {
+  const prix = parseFloat(document.getElementById('prixVente').value) || 0;
+  const honoraires = parseFloat(document.getElementById('honoraires').value) || 0;
+  const charge = document.getElementById('charge').value;
+  const type = document.getElementById('typeBien').value;
+  const mobilier = parseFloat(document.getElementById('mobilier').value) || 0;
+
+  const taux = type === 'ancien' ? 0.075 : 0.027;
+  const debours = type === 'ancien' ? 1200 : 800;
+
+  const baseTaxable = (charge === 'vendeur' ? prix : prix - honoraires) - mobilier;
+  const frais = baseTaxable * taux;
+
+  const partEtat = frais * (type === 'ancien' ? 0.77 : 0.25);
+  const emoluments = frais - partEtat - debours;
+
+  const reference = prix * taux;
+  const economie = reference - frais;
+  const reduction = ((economie / reference) * 100).toFixed(1);
+
+  document.getElementById('netVendeur').innerText = prix.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+  document.getElementById('baseTaxable').innerText = baseTaxable.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+  document.getElementById('fraisNotaire').innerText = frais.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+  document.getElementById('taux').innerText = (taux * 100).toFixed(2) + '%';
+  document.getElementById('economie').innerHTML = `<span class='highlight'>${economie.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })} soit -${reduction}%</span>`;
+  document.getElementById('etat').innerText = partEtat.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+  document.getElementById('debours').innerText = debours.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+  document.getElementById('notaire').innerText = emoluments.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+
+  document.getElementById('resultats').style.display = 'block';
+}
+
+function exportPDF() {
+  const element = document.getElementById("pdf-content");
+  const opt = {
+    margin: [0.3, 0.3, 0.3, 0.3],
+    filename: 'frais-notaire.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 3, scrollY: 0 },
+    jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().from(element).set(opt).save();
+}
+</script>
+</body>
+</html>

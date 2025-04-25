@@ -16,6 +16,16 @@
     .card:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
     .card h4 { margin-bottom: 10px; color: #0c2d48; font-size: 18px; }
     .card p { font-size: 14px; color: #555; }
+
+    @media screen and (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { padding: 20px; }
+      .page-title { font-size: 22px; }
+      .cards { grid-template-columns: 1fr; }
+      .card { padding: 16px; }
+      .card h4 { font-size: 16px; }
+      .card p { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
@@ -40,11 +50,11 @@
         <h4>Commission négociateur</h4>
         <p>Estime la commission perçue par le commercial</p>
       </div>
-      <div class="card" onclick="location.href='simulateur-notaire.html'">
+      <div class="card" onclick="location.href='simulateur-frais-notaire.html'">
         <h4>Frais de notaire</h4>
         <p>Calcule les frais selon ancien/neuf et prix d'achat</p>
       </div>
-      <div class="card" onclick="location.href='simulateur-rendement.html'">
+      <div class="card" onclick="location.href='simulateur-rendement-locatif.html'">
         <h4>Rendement locatif</h4>
         <p>Estime la rentabilité d’un investissement</p>
       </div>
