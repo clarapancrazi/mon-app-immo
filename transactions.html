@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #0c2d48;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .main-content {
+      flex: 1;
+      background-color: #f9f9f9;
+      padding: 40px;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+    .transaction-card {
+      background-color: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .transaction-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .transaction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .transaction-header h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #0c2d48;
+    }
+    .transaction-info {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .statut {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      color: white;
+      text-transform: uppercase;
+    }
+    .statut.offre { background-color: #f0ad4e; }
+    .statut.compromis { background-color: #5bc0de; }
+    .statut.acte { background-color: #5cb85c; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+  <div class="main-content">
+    <div class="page-title">Transactions</div>
+
+    <div class="transaction-card" onclick="window.location.href='fiche-transaction1.html'">
+      <div class="transaction-header">
+        <h3>Villa - Route des Sanguinaires, Ajaccio</h3>
+        <span class="statut compromis">Compromis</span>
+      </div>
+      <div class="transaction-info">
+        <strong>Vendeur :</strong> Jean Dupont &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marie Rossi<br>
+        <strong>Prix de vente :</strong> 850 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 42 500 €<br>
+        <strong>Offre :</strong> 15/03/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 28/03/2024 &nbsp; | &nbsp; <strong>Acte prévu :</strong> 30/06/2024
+      </div>
+    </div>
+
+    <div class="transaction-card" onclick="window.location.href='fiche-transaction2.html'">
+      <div class="transaction-header">
+        <h3>Appartement - Cours Napoléon, Ajaccio</h3>
+        <span class="statut acte">Acte</span>
+      </div>
+      <div class="transaction-info">
+        <strong>Vendeur :</strong> Claire Martin &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marc Lemoine<br>
+        <strong>Prix de vente :</strong> 420 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 21 000 €<br>
+        <strong>Offre :</strong> 05/01/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 15/01/2024 &nbsp; | &nbsp; <strong>Acte :</strong> 28/02/2024
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

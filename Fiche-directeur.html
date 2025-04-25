@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche du directeur</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #0c2d48;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .main-content {
+      flex: 1;
+      background-color: #f4f4f4;
+      padding: 40px;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .profile-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 20px;
+      object-fit: cover;
+    }
+    .profile-header div {
+      font-size: 18px;
+    }
+    .profile-section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .profile-section h3 {
+      margin-top: 0;
+      color: #0c2d48;
+    }
+    .profile-section p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+  <div class="main-content">
+    <div class="profile-header">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Antoine Pancrazi">
+      <div>
+        <strong>Antoine Pancrazi</strong><br>
+        Directeur<br>
+        CA prévisionnel : 95 000 €<br>
+        CA encaissé : 60 000 €
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h3>Informations personnelles</h3>
+      <p>Date de naissance : 15/06/1980</p>
+      <p>Lieu de naissance : Ajaccio</p>
+      <p>Adresse : 3 rue du Marché, 20000 Ajaccio</p>
+      <p>Téléphone : 06 12 34 56 78</p>
+      <p>Email professionnel : antoine@pancrazi-immo.fr</p>
+      <p>Email personnel : antoine.pancrazi@gmail.com</p>
+      <p>Date de début de contrat : 01/01/2020</p>
+    </div>
+
+    <div class="profile-section">
+      <h3>Suivi d'activité</h3>
+      <p>À intégrer : prospection, estimations, mandats, offres, compromis, actes.</p>
+    </div>
+
+    <div class="profile-section">
+      <h3>Facturation</h3>
+      <p>À intégrer : factures mensuelles agence ↔ collaborateur.</p>
+    </div>
+  </div>
+</body>
+</html>

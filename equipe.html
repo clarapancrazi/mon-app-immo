@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Équipe & Commerciaux</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; display: flex; height: 100vh; }
+    .sidebar { width: 250px; background-color: #0c2d48; color: white; padding: 20px; display: flex; flex-direction: column; }
+    .sidebar h2 { margin-bottom: 30px; }
+    .sidebar a { color: white; text-decoration: none; margin: 10px 0; font-weight: bold; }
+    .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+    .page-title { font-size: 28px; color: #0c2d48; margin-bottom: 20px; }
+    .add-button { display: inline-block; margin-bottom: 30px; background-color: #0c2d48; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
+    .filters { margin-bottom: 20px; }
+    .filters select { padding: 8px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; }
+    .team-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s ease; cursor: pointer; display: flex; align-items: center; gap: 20px; }
+    .card:hover { transform: translateY(-5px); }
+    .card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+    .card-info { flex-grow: 1; }
+    .card-info h3 { margin: 0; font-size: 20px; color: #0c2d48; }
+    .card-info p { margin: 5px 0; font-size: 14px; color: #555; }
+    .card-info .ca { font-weight: bold; color: #333; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-title">Équipe & Commerciaux</div>
+    <a class="add-button" href="ajouter-collaborateur.html">+ Ajouter un collaborateur</a>
+
+    <div class="filters">
+      <label for="tri">Afficher le classement par :</label>
+      <select id="tri" onchange="trierCollaborateurs()">
+        <option value="previsionnel">CA Prévisionnel</option>
+        <option value="encaisse">CA Encaissé</option>
+      </select>
+    </div>
+
+    <div class="team-list" id="teamList"></div>
+  </div>
+
+  <script>
+    function trierCollaborateurs() {
+      afficherCollaborateurs();
+    }
+
+    function afficherCollaborateurs() {
+      const collaborateurs = JSON.parse(localStorage.getItem('collaborateurs')) || [];
+      const critere = document.getElementById('tri').value;
+
+      collaborateurs.sort((a, b) => {
+        const valA = parseFloat(a[critere] || 0);
+        const valB = parseFloat(b[critere] || 0);
+        return valB - valA;
+      });
+
+      const container = document.getElementById('teamList');
+      container.innerHTML = '';
+
+      collaborateurs.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.onclick = () => window.location.href = `fiche.html?prenom=${encodeURIComponent(c.prenom)}&nom=${encodeURIComponent(c.nom)}`;
+        div.innerHTML = `
+          <img src="${c.photo}" alt="Photo">
+          <div class="card-info">
+            <h3>${c.prenom} ${c.nom}</h3>
+            <p>${c.emailPro || ''}</p>
+            <p class="ca">CA Prévisionnel : ${c.previsionnel || '0 €'}</p>
+            <p class="ca">CA Encaissé : ${c.encaisse || '0 €'}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    afficherCollaborateurs();
+  </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulateur de Commission</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+      color: #333;
+    }
+
+    h1 {
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+
+    .simulateur {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .ligne {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    label {
+      width: 60%;
+    }
+
+    input {
+      width: 35%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .result {
+      font-weight: bold;
+      color: #0c2d48;
+      font-size: 20px;
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .export-actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-export, .btn-facture {
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-export:hover, .btn-facture:hover {
+      background-color: #134b7a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simulateur de Commission 2025</h1>
+  <div class="simulateur" id="bloc-simulateur">
+    <div class="ligne">
+      <label for="commissionTTC">Prix de la commission TTC (€)</label>
+      <input type="number" id="commissionTTC" value="30000" onchange="calculerCommission()">
+    </div>
+    <div class="ligne">
+      <label>Prix de la commission HT (20% TVA)</label>
+      <input type="text" id="commissionHT" readonly>
+    </div>
+    <div class="ligne">
+      <label>Prix de la commission hors REDEVANCE (8%)</label>
+      <input type="text" id="commissionHorsRedevance" readonly>
+    </div>
+    <div class="ligne">
+      <label>BASE DE CALCUL</label>
+      <input type="text" id="baseCalcul" readonly>
+    </div>
+    <div class="ligne">
+      <label>% Entrée</label>
+      <input type="number" id="pourcentageEntree" value="20" onchange="calculerCommission()">
+    </div>
+    <div class="ligne">
+      <label>% Sortie</label>
+      <input type="number" id="pourcentageSortie" value="20" onchange="calculerCommission()">
+    </div>
+
+    <div class="result" id="resultatCommission">
+      Ma commission : 0 €
+    </div>
+
+    <div class="export-actions">
+      <button class="btn-export" onclick="exportPDF()">📄 Exporter en PDF</button>
+      <button class="btn-facture" onclick="genererFacture()">🧾 Générer la facture collaborateur</button>
+    </div>
+  </div>
+
+  <!-- Librairie html2pdf -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    function calculerCommission() {
+      const ttc = parseFloat(document.getElementById("commissionTTC").value) || 0;
+      const ht = ttc / 1.2;
+      const horsRedevance = ht * 0.926; // 100% - 7.41%
+      const base = horsRedevance;
+
+      const entree = parseFloat(document.getElementById("pourcentageEntree").value) || 0;
+      const sortie = parseFloat(document.getElementById("pourcentageSortie").value) || 0;
+
+      const totalPourcentage = (entree + sortie) / 100;
+      const commission = base * totalPourcentage;
+
+      document.getElementById("commissionHT").value = ht.toFixed(2) + " €";
+      document.getElementById("commissionHorsRedevance").value = horsRedevance.toFixed(2) + " €";
+      document.getElementById("baseCalcul").value = base.toFixed(2) + " €";
+      document.getElementById("resultatCommission").innerText = "Ma commission : " + commission.toFixed(2) + " €";
+    }
+
+    function exportPDF() {
+      const element = document.getElementById("bloc-simulateur");
+      html2pdf().set({
+        margin: 10,
+        filename: 'simulateur-commission.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+
+    function genererFacture() {
+      window.location.href = "simulateur-commission-facture.html";
+    }
+
+    // Lancement automatique au chargement
+    window.onload = calculerCommission;
+  </script>
+
+</body>
+</html>

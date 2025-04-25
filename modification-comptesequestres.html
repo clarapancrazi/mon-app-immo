@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modifier les comptes séquestres</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn-save {
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 30px;
+      width: 100%;
+    }
+    .btn-save:hover {
+      background-color: #134b7a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Modifier les comptes séquestres</h1>
+    <form id="form-sequestres">
+      <label for="transaction">Séquestre Transaction</label>
+      <input type="text" id="transaction" name="transaction" />
+
+      <label for="gestion">Séquestre Gestion</label>
+      <input type="text" id="gestion" name="gestion" />
+
+      <label for="solde">Solde actuel</label>
+      <input type="text" id="solde" name="solde" />
+
+      <label for="garantie">Garantie exigée</label>
+      <input type="text" id="garantie" name="garantie" />
+
+      <button type="submit" class="btn-save">💾 Enregistrer</button>
+    </form>
+  </div>
+
+  <script>
+    window.onload = () => {
+      document.getElementById('transaction').value = localStorage.getItem('sequestreTransaction') || '';
+      document.getElementById('gestion').value = localStorage.getItem('sequestreGestion') || '';
+      document.getElementById('solde').value = localStorage.getItem('sequestreSolde') || '';
+      document.getElementById('garantie').value = localStorage.getItem('sequestreGarantie') || '';
+    };
+
+    document.getElementById('form-sequestres').addEventListener('submit', function(e) {
+      e.preventDefault();
+      localStorage.setItem('sequestreTransaction', document.getElementById('transaction').value);
+      localStorage.setItem('sequestreGestion', document.getElementById('gestion').value);
+      localStorage.setItem('sequestreSolde', document.getElementById('solde').value);
+      localStorage.setItem('sequestreGarantie', document.getElementById('garantie').value);
+      alert('Informations enregistrées !');
+      window.location.href = 'administratif.html';
+    });
+  </script>
+</body>
+</html>

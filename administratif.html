@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administratif Agence</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      background-color: #f9f9f9;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #0c2d48;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    h1 {
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    .section h2 {
+      color: #0c2d48;
+      margin-top: 0;
+    }
+
+    .info-ligne {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .status-ok { color: green; font-weight: bold; }
+    .status-alert { color: red; font-weight: bold; }
+    .status-warning { color: orange; font-weight: bold; }
+
+    .btn-export {
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .btn-export:hover {
+      background-color: #134b7a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f4f8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+
+  <div class="main-content" id="admin-content">
+    <h1>Situation administrative de l'agence</h1>
+
+    <div class="section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Informations réglementaires</h2>
+        <button class="btn-export" onclick="window.location.href='modification-informationreglementaire.html'">✏️ Modifier</button>
+      </div>
+      <div class="info-ligne"><span class="label">Carte professionnelle :</span><span id="val-cartePro"></span></div>
+      <div class="info-ligne"><span class="label">SIRET :</span><span id="val-siret"></span></div>
+      <div class="info-ligne"><span class="label">TVA intracom :</span><span id="val-tva"></span></div>
+      <div class="info-ligne"><span class="label">Dirigeant :</span><span id="val-dirigeant"></span></div>
+    </div>
+    
+    <div class="section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Assurances obligatoires</h2>
+        <button class="btn-export" onclick="window.location.href='modification-assuranceobligatoire.html'">✏️ Modifier</button>
+      </div>
+      <div class="info-ligne"><span class="label">Assurance RCP :</span><span id="val-rcp"></span></div>
+      <div class="info-ligne"><span class="label">Garantie financière :</span><span id="val-garantie"></span></div>
+      <div class="info-ligne"><span class="label">Assurance des locaux :</span><span id="val-locaux"></span></div>
+    </div>
+    
+    <div class="section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Comptes séquestres</h2>
+        <button class="btn-export" onclick="window.location.href='modification-comptesequestres.html'">✏️ Modifier</button>
+      </div>
+      <div class="info-ligne"><span class="label">Séquestre Transaction :</span><span id="val-transaction"></span></div>
+      <div class="info-ligne"><span class="label">Séquestre Gestion :</span><span id="val-gestion"></span></div>
+      <div class="info-ligne"><span class="label">Solde :</span><span id="val-solde"></span></div>
+      <div class="info-ligne"><span class="label">Garantie exigée :</span><span id="val-garantie-sequestre"></span></div>
+      <div class="info-ligne"><span class="label">État :</span><span id="val-etat-sequestre" class="status-alert"></span></div>
+    </div>
+    
+    <div class="section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Registre des Mandats</h2>
+        <button class="btn-export" onclick="window.location.href='registres.html'">📂 Accéder</button>
+      </div>
+      <div class="info-ligne"><span class="label">Mandats de transaction :</span><span class="status-ok">📘 À jour</span></div>
+      <div class="info-ligne"><span class="label">Mandats de gestion :</span><span class="status-ok">📗 À jour</span></div>
+    </div>
+
+    <div class="section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Documents importants</h2>
+        <button class="btn-export" onclick="alert('Fonction d’ajout de documents à venir')">📎 Ajouter</button>
+      </div>
+      <ul>
+        <li>📄 Attestation RCP</li>
+        <li>📄 Garantie financière</li>
+        <li>📄 KBIS</li>
+        <li>📄 Statuts société</li>
+      </ul>
+        </div>
+
+    <div class="section" id="bloc-collaborateurs">
+      <h2>Suivi des attestations collaborateurs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>RCP</th>
+            <th>Statut RCP</th>
+            <th>Carte Pro</th>
+            <th>Statut Carte Pro</th>
+          </tr>
+        </thead>
+        <tbody id="table-collaborateurs"></tbody>
+      </table>
+    </div>
+
+    <button class="btn-export" onclick="exportPDF()">📄 Exporter la situation complète en PDF</button>
+  </div>
+
+  <script>
+    const collaborateurs = [
+      { nom: "Jean Dupont", rcp: "2025-12-31", carte: "2024-06-15" },
+      { nom: "Marie Rossi", rcp: "2024-05-10", carte: "2025-10-30" },
+      { nom: "Hugo Bernard", rcp: "2024-07-01", carte: "2023-12-01" }
+    ];
+
+    const today = new Date();
+
+    function getStatut(dateStr) {
+      if (!dateStr) return '<span class="status-alert">❌ Non fourni</span>';
+      const d = new Date(dateStr);
+      const diff = (d - today) / (1000 * 3600 * 24);
+      if (diff < 0) return '<span class="status-alert">❌ Expiré</span>';
+      if (diff <= 30) return '<span class="status-warning">⚠️ Bientôt expiré</span>';
+      return '<span class="status-ok">✅ Valide</span>';
+    }
+
+    function remplirTableau() {
+      const table = document.getElementById("table-collaborateurs");
+      collaborateurs.forEach(c => {
+        table.innerHTML += `
+          <tr>
+            <td>${c.nom}</td>
+            <td>${c.rcp}</td>
+            <td>${getStatut(c.rcp)}</td>
+            <td>${c.carte}</td>
+            <td>${getStatut(c.carte)}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function exportPDF() {
+      const element = document.getElementById("admin-content");
+      html2pdf().set({
+        margin: 10,
+        filename: 'situation-administrative-pancrazi.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+
+    window.onload = remplirTableau;
+    // Remplissage automatique depuis localStorage
+document.getElementById('val-cartePro').innerText = localStorage.getItem('cartePro') || 'n° CPI2001... - CCI de Corse - Valide jusqu’au 31/12/2025 ✅';
+document.getElementById('val-siret').innerText = localStorage.getItem('siret') || '512 789 654 00012';
+document.getElementById('val-tva').innerText = localStorage.getItem('tva') || 'FR12 512789654';
+document.getElementById('val-dirigeant').innerText = localStorage.getItem('dirigeant') || 'Jean Pancrazi';
+document.getElementById('val-rcp').innerText = localStorage.getItem('assuranceRCP') || 'AXA - valide jusqu’au 31/12/2025';
+document.getElementById('val-garantie').innerText = localStorage.getItem('garantieFinanciere') || 'GALIAN - 110 000 € - valide jusqu’au 31/12/2025';
+document.getElementById('val-locaux').innerText = localStorage.getItem('assuranceLocaux') || 'Non renseignée ❌';
+const transaction = localStorage.getItem('sequestreTransaction') || 'IBAN FR76 XXXX XXXX XXXX';
+const gestion = localStorage.getItem('sequestreGestion') || 'IBAN FR76 YYYY YYYY YYYY';
+const solde = parseFloat(localStorage.getItem('sequestreSolde')) || 97580;
+const garantie = parseFloat(localStorage.getItem('sequestreGarantie')) || 110000;
+
+document.getElementById('val-transaction').innerText = transaction;
+document.getElementById('val-gestion').innerText = gestion;
+document.getElementById('val-solde').innerText = solde.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+document.getElementById('val-garantie-sequestre').innerText = garantie.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+
+const etat = document.getElementById('val-etat-sequestre');
+if (solde >= garantie) {
+  etat.innerText = '✅ Conforme à la garantie';
+  etat.className = 'status-ok';
+} else {
+  etat.innerText = '⚠️ Inférieur à la garantie';
+  etat.className = 'status-alert';
+}
+
+
+  </script>
+
+</body>
+</html>

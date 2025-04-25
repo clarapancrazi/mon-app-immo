@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modifier les informations réglementaires</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn-save {
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 30px;
+      width: 100%;
+    }
+    .btn-save:hover {
+      background-color: #134b7a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Modifier les informations réglementaires</h1>
+    <form id="form-infos">
+      <label for="cartePro">Carte professionnelle</label>
+      <input type="text" id="cartePro" name="cartePro" />
+
+      <label for="siret">SIRET</label>
+      <input type="text" id="siret" name="siret" />
+
+      <label for="tva">TVA intracom</label>
+      <input type="text" id="tva" name="tva" />
+
+      <label for="dirigeant">Dirigeant</label>
+      <input type="text" id="dirigeant" name="dirigeant" />
+
+      <button type="submit" class="btn-save">💾 Enregistrer</button>
+    </form>
+  </div>
+
+  <script>
+    // Chargement des données depuis localStorage
+    window.onload = () => {
+      document.getElementById('cartePro').value = localStorage.getItem('cartePro') || '';
+      document.getElementById('siret').value = localStorage.getItem('siret') || '';
+      document.getElementById('tva').value = localStorage.getItem('tva') || '';
+      document.getElementById('dirigeant').value = localStorage.getItem('dirigeant') || '';
+    };
+
+    // Sauvegarde des données
+    document.getElementById('form-infos').addEventListener('submit', function(e) {
+      e.preventDefault();
+      localStorage.setItem('cartePro', document.getElementById('cartePro').value);
+      localStorage.setItem('siret', document.getElementById('siret').value);
+      localStorage.setItem('tva', document.getElementById('tva').value);
+      localStorage.setItem('dirigeant', document.getElementById('dirigeant').value);
+      alert('Informations enregistrées !');
+      window.location.href = 'administratif.html';
+    });
+  </script>
+</body>
+</html>

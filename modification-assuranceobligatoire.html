@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modifier les assurances obligatoires</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn-save {
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 30px;
+      width: 100%;
+    }
+    .btn-save:hover {
+      background-color: #134b7a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Modifier les assurances obligatoires</h1>
+    <form id="form-assurances">
+      <label for="rcp">Assurance RCP</label>
+      <input type="text" id="rcp" name="rcp" />
+
+      <label for="garantie">Garantie financière</label>
+      <input type="text" id="garantie" name="garantie" />
+
+      <label for="locaux">Assurance des locaux</label>
+      <input type="text" id="locaux" name="locaux" />
+
+      <button type="submit" class="btn-save">💾 Enregistrer</button>
+    </form>
+  </div>
+
+  <script>
+    window.onload = () => {
+      document.getElementById('rcp').value = localStorage.getItem('assuranceRCP') || '';
+      document.getElementById('garantie').value = localStorage.getItem('garantieFinanciere') || '';
+      document.getElementById('locaux').value = localStorage.getItem('assuranceLocaux') || '';
+    };
+
+    document.getElementById('form-assurances').addEventListener('submit', function(e) {
+      e.preventDefault();
+      localStorage.setItem('assuranceRCP', document.getElementById('rcp').value);
+      localStorage.setItem('garantieFinanciere', document.getElementById('garantie').value);
+      localStorage.setItem('assuranceLocaux', document.getElementById('locaux').value);
+      alert('Informations enregistrées !');
+      window.location.href = 'administratif.html';
+    });
+  </script>
+</body>
+</html>

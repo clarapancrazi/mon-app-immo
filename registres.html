@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Registres & Mandats</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      background-color: #f9f9f9;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #0c2d48;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+    h1 {
+      color: #0c2d48;
+    }
+    .etiquettes {
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .etiquette {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px 18px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .tabs {
+      margin-top: 20px;
+    }
+    .tab-btn {
+      background-color: #e0e0e0;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px 8px 0 0;
+      margin-right: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab-btn.active {
+      background-color: #0c2d48;
+      color: white;
+    }
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f4f8;
+    }
+    select, input {
+      padding: 6px;
+      font-size: 14px;
+    }
+    .btn {
+      background-color: #0c2d48;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background-color: #134b7a;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+    <a href="registres.html">Registres & Mandats</a>
+  </div>
+  <div class="main-content">
+    <h1>Registres & Mandats</h1>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('transaction')">📘 Transaction</button>
+      <button class="tab-btn" onclick="switchTab('gestion')">📗 Gestion</button>
+    </div>
+    <div class="etiquettes" id="etiquettes-transaction"></div>
+    <div class="tab-content active" id="transaction">
+      <table id="table-transaction"></table>
+      <button class="btn" onclick="addRow('transaction')">➕ Ajouter un mandat</button>
+      <button class="btn" onclick="exportPDF('transaction')">📄 Exporter PDF</button>
+    </div>
+    <div class="etiquettes" id="etiquettes-gestion"></div>
+    <div class="tab-content" id="gestion">
+      <table id="table-gestion"></table>
+      <button class="btn" onclick="addRow('gestion')">➕ Ajouter un mandat</button>
+      <button class="btn" onclick="exportPDF('gestion')">📄 Exporter PDF</button>
+    </div>
+  </div>
+  <script>
+    const colonnes = ["N° de mandat", "Bien / Client", "Type de mandat", "Date", "Statut"];
+    const statuts = ["En commercialisation", "Vendu", "Résilié"];
+    const data = {
+      transaction: [["TR-001", "Villa Alta", "Exclusif", "2024-03-01", "En commercialisation"]],
+      gestion: [["GE-001", "Résidence Porticcio", "Simple", "2022-08-01", "Vendu"]]
+    };
+    function switchTab(id) {
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+      document.querySelector(`.tab-btn[onclick*="${id}"]`).classList.add("active");
+      document.getElementById(id).classList.add("active");
+      updateStats(id);
+    }
+    function buildTable(id) {
+      const table = document.getElementById("table-" + id);
+      table.innerHTML = "<thead><tr>" + colonnes.map(c => `<th>${c}</th>`).join("") + "</tr></thead><tbody></tbody>";
+      data[id].forEach((row, index) => {
+        const tr = document.createElement("tr");
+        colonnes.forEach((col, i) => {
+          const td = document.createElement("td");
+          if (col === "Statut") {
+            const select = document.createElement("select");
+            statuts.forEach(s => {
+              const option = document.createElement("option");
+              option.text = s;
+              option.value = s;
+              if (s === row[i]) option.selected = true;
+              select.appendChild(option);
+            });
+            select.onchange = () => { data[id][index][i] = select.value; updateStats(id); };
+            td.appendChild(select);
+          } else {
+            const input = document.createElement("input");
+            input.value = row[i];
+            input.oninput = () => { data[id][index][i] = input.value; };
+            td.appendChild(input);
+          }
+          tr.appendChild(td);
+        });
+        table.querySelector("tbody").appendChild(tr);
+      });
+      updateStats(id);
+    }
+    function addRow(id) {
+      data[id].push(["", "", "", "", "En commercialisation"]);
+      buildTable(id);
+    }
+    function exportPDF(id) {
+      const content = document.getElementById(id);
+      html2pdf().set({
+        margin: 10,
+        filename: 'registre-' + id + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      }).from(content).save();
+    }
+    function updateStats(id) {
+      const stats = { "En commercialisation": 0, "Vendu": 0, "Résilié": 0 };
+      const total = data[id].length;
+      let exclusif = 0;
+      let simple = 0;
+      data[id].forEach(row => {
+        stats[row[4]]++;
+        if (row[2].toLowerCase().includes("exclusif")) exclusif++;
+        if (row[2].toLowerCase().includes("simple")) simple++;
+      });
+      const zone = document.getElementById("etiquettes-" + id);
+      zone.innerHTML = "";
+      Object.entries(stats).forEach(([label, count]) => {
+        const ratio = total ? Math.round((count / total) * 100) : 0;
+        zone.innerHTML += `<div class="etiquette">${label} : ${count} (${ratio}%)</div>`;
+      });
+      zone.innerHTML += `<div class="etiquette">Exclusifs : ${exclusif}</div>`;
+      zone.innerHTML += `<div class="etiquette">Simples : ${simple}</div>`;
+    }
+    buildTable("transaction");
+    buildTable("gestion");
+  </script>
+</body>
+</html>

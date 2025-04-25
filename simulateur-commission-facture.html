@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Facture Collaborateur</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      padding: 40px;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    .facture {
+      background: #fff;
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0c2d48;
+    }
+
+    .entetes {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .bloc {
+      width: 45%;
+    }
+
+    .bloc h3 {
+      margin-bottom: 5px;
+      color: #0c2d48;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #e9f1f8;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #0c2d48;
+    }
+
+    .export-actions {
+      margin-top: 30px;
+      text-align: right;
+    }
+
+    .btn-export {
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .mention-legale {
+      margin-top: 40px;
+      font-size: 11px;
+      color: #666;
+      line-height: 1.4;
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="facture" id="facture">
+    <h1>Facture collaborateur</h1>
+
+    <div class="entetes">
+      <div class="bloc">
+        <h3>Émise par :</h3>
+        Jean Dupont<br>
+        SIRET : 123 456 789 00012<br>
+        Contrat RCP : RCP-2025-017<br>
+        Email : jean.dupont@email.com
+      </div>
+      <div class="bloc">
+        <h3>Destinataire :</h3>
+        Pancrazi Immobilier<br>
+        12 avenue de la République<br>
+        20000 Ajaccio<br>
+        SIREN : 512 789 654<br>
+        TVA : FR12 512789654
+      </div>
+    </div>
+
+    <p><strong>Facture n° :</strong> FAC-2025-001</p>
+    <p><strong>Date :</strong> 24/04/2025</p>
+    <p><strong>Dossier :</strong> Villa Les Pins - Transaction 2025-017</p>
+
+    <table>
+      <tr>
+        <th>Description</th>
+        <th>Montant HT (€)</th>
+      </tr>
+      <tr>
+        <td>Commission négociateur (40% sur base 28 951,20 €)</td>
+        <td>11 580,48</td>
+      </tr>
+    </table>
+
+    <div class="total">
+      Total à régler : 11 580,48 € HT<br>
+      TVA non applicable, article 293 B du CGI
+    </div>
+
+    <div class="export-actions">
+      <button class="btn-export" onclick="exportPDF()">📄 Exporter en PDF</button>
+    </div>
+
+    <div class="mention-legale">
+      Ce document est fourni à titre informatif au collaborateur. En aucun cas l’agence Pancrazi Immobilier ou cette application ne pourra être tenue responsable d’une mauvaise gestion comptable du négociateur. Chaque collaborateur est seul responsable de la tenue à jour de sa comptabilité, notamment en cas de contrôle fiscal ou social.
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function exportPDF() {
+      const element = document.getElementById("facture");
+      html2pdf().set({
+        margin: 10,
+        filename: 'facture-collaborateur.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+  </script>
+
+</body>
+</html>

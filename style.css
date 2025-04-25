@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+#menu {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    width: 250px;
+    position: fixed;
+    height: 100%;
+}
+
+#menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+#menu ul li {
+    margin: 10px 0;
+}
+
+#menu ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+#dashboard {
+    margin-left: 260px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.label {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.label h3 {
+    margin: 0;
+    color: #333;
+}
+
+.label p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #007bff;
+}

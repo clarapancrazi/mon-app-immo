@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter un collaborateur</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; background-color: #f2f2f2; }
+    .sidebar { width: 250px; background-color: #0c2d48; color: white; padding: 20px; display: flex; flex-direction: column; }
+    .sidebar h2 { margin-bottom: 30px; }
+    .sidebar a { color: white; text-decoration: none; margin: 10px 0; font-weight: bold; }
+    .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+    .form-container { max-width: 700px; margin: auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h1 { color: #0c2d48; margin-bottom: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; }
+    button { margin-top: 30px; padding: 12px 24px; background-color: #0c2d48; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    button:hover { background-color: #10476b; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+
+  <div class="main-content">
+    <div class="form-container">
+      <h1>Ajouter un collaborateur</h1>
+
+      <label>Nom</label>
+      <input type="text" id="nom">
+
+      <label>Prénom</label>
+      <input type="text" id="prenom">
+
+      <label>Téléphone</label>
+      <input type="text" id="telephone">
+
+      <label>Email professionnel</label>
+      <input type="email" id="emailPro">
+
+      <label>Email personnel</label>
+      <input type="email" id="emailPerso">
+
+      <label>Adresse</label>
+      <input type="text" id="adresse">
+
+      <label>Date de naissance</label>
+      <input type="date" id="dateNaissance">
+
+      <label>Lieu de naissance</label>
+      <input type="text" id="lieuNaissance">
+
+      <label>Date de début de contrat</label>
+      <input type="date" id="dateContrat">
+
+      <label>Photo (URL)</label>
+      <input type="text" id="photo">
+
+      <button onclick="ajouterCollaborateur()">Créer le collaborateur</button>
+    </div>
+  </div>
+
+  <script>
+    function ajouterCollaborateur() {
+      const collaborateur = {
+        nom: document.getElementById('nom').value,
+        prenom: document.getElementById('prenom').value,
+        telephone: document.getElementById('telephone').value,
+        emailPro: document.getElementById('emailPro').value,
+        emailPerso: document.getElementById('emailPerso').value,
+        adresse: document.getElementById('adresse').value,
+        dateNaissance: document.getElementById('dateNaissance').value,
+        lieuNaissance: document.getElementById('lieuNaissance').value,
+        dateContrat: document.getElementById('dateContrat').value,
+        photo: document.getElementById('photo').value
+      };
+
+      let collaborateurs = JSON.parse(localStorage.getItem('collaborateurs')) || [];
+      collaborateurs.push(collaborateur);
+      localStorage.setItem('collaborateurs', JSON.stringify(collaborateurs));
+
+      window.location.href = 'equipe.html';
+    }
+  </script>
+</body>
+</html>

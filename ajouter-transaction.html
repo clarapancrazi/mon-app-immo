@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter une transaction</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; }
+    .sidebar { width: 250px; background-color: #0c2d48; color: white; padding: 20px; display: flex; flex-direction: column; }
+    .sidebar h2 { margin-bottom: 30px; }
+    .sidebar a { color: white; text-decoration: none; margin: 10px 0; font-weight: bold; }
+    .main-content { flex: 1; background-color: #f9f9f9; padding: 40px; overflow-y: auto; }
+    .form-section { background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin-bottom: 30px; }
+    .form-section h3 { margin-top: 0; margin-bottom: 20px; font-size: 20px; background-color: #0c2d48; color: white; padding: 10px; border-radius: 6px; }
+    label { display: block; margin: 12px 0 6px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .readonly { background-color: #eee; }
+    button, .btn-inline { padding: 12px 20px; background-color: #0c2d48; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    button:hover, .btn-inline:hover { background-color: #10476b; }
+    .btn-inline { margin-top: -10px; margin-bottom: 10px; padding: 6px 14px; font-size: 14px; }
+    .remove-btn { margin-top: 5px; background-color: #c0392b; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+  <div class="main-content">
+    <h1>Nouvelle transaction</h1>
+
+    <div class="form-section">
+      <h3>Vendeur</h3>
+      <button type="button" class="btn-inline" onclick="dupliquerBloc('vendeur')">+ Ajouter un vendeur</button>
+      <div class="grid" id="vendeur">
+        <div><label>Nom</label><input type="text"></div>
+        <div><label>Prénom</label><input type="text"></div>
+        <div><label>Téléphone</label><input type="text"></div>
+        <div><label>Email</label><input type="email"></div>
+        <div><label>Notaire du vendeur</label><input type="text"></div>
+        <div><label>Négociateur</label><select><option value="">Sélectionner</option><option>Antoine Pancrazi</option><option>Claire Rossi</option><option>Jean-Marc Venturi</option><option>Lucie Peretti</option></select></div>
+        <div><label>CA alloué (€)</label><input type="number"></div>
+        <button type="button" class="btn-inline remove-btn" onclick="this.parentNode.remove()">Supprimer</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Acquéreur</h3>
+      <button type="button" class="btn-inline" onclick="dupliquerBloc('acquereur')">+ Ajouter un acquéreur</button>
+      <div class="grid" id="acquereur">
+        <div><label>Nom</label><input type="text"></div>
+        <div><label>Prénom</label><input type="text"></div>
+        <div><label>Téléphone</label><input type="text"></div>
+        <div><label>Email</label><input type="email"></div>
+        <div><label>Notaire de l'acquéreur</label><input type="text"></div>
+        <div><label>Négociateur</label><select><option value="">Sélectionner</option><option>Antoine Pancrazi</option><option>Claire Rossi</option><option>Jean-Marc Venturi</option><option>Lucie Peretti</option></select></div>
+        <div><label>CA alloué (€)</label><input type="number"></div>
+        <button type="button" class="btn-inline remove-btn" onclick="this.parentNode.remove()">Supprimer</button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Bien</h3>
+      <label>Adresse complète</label><input type="text">
+      <div class="grid">
+        <div><label>Code postal</label><input type="text"></div>
+        <div><label>Ville</label><input type="text"></div>
+        <div><label>Surface (m²)</label><input type="number"></div>
+        <div><label>Nombre de pièces</label><input type="number"></div>
+        <div><label>Type de bien</label><select><option>Maison</option><option>Appartement</option></select></div>
+        <div><label>Copropriété (N° lot, tantièmes)</label><input type="text"></div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Transaction</h3>
+      <div class="grid">
+        <div><label>Prix de vente (€)</label><input type="number"></div>
+        <div><label>Honoraires TTC (€)</label><input type="number"></div>
+        <div><label>Honoraires HT (€)</label><input type="number"></div>
+        <div><label>Mode de financement</label><input type="text"></div>
+      </div>
+      <div class="grid">
+        <div><label>Date de l'offre</label><input type="date"></div>
+        <div><label>Date du compromis</label><input type="date"></div>
+        <div><label>Date de l'acte</label><input type="date"></div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Conditions suspensives</h3>
+      <label><input type="checkbox" id="pretCheck" onchange="toggleSection('pretSection')"> Obtention de prêt</label>
+      <div id="pretSection" class="hidden">
+        <label>Durée du prêt</label><input type="text">
+        <label>Taux du prêt</label><input type="text">
+        <label>Nom de la banque</label><input type="text">
+      </div>
+
+      <label><input type="checkbox" id="permisCheck" onchange="toggleSection('permisSection')"> Permis de construire</label>
+      <div id="permisSection" class="hidden">
+        <label>Type de projet</label><input type="text">
+        <label>Nom de l'architecte</label><input type="text">
+      </div>
+
+      <label><input type="checkbox" id="autreCheck" onchange="toggleSection('autreSection')"> Autre</label>
+      <div id="autreSection" class="hidden">
+        <label>Précisez la condition</label><textarea rows="3"></textarea>
+      </div>
+    </div>
+
+    <button type="submit">Créer la transaction</button>
+
+    <script>
+      function dupliquerBloc(id) {
+        const bloc = document.getElementById(id);
+        const clone = bloc.cloneNode(true);
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Supprimer';
+        removeButton.type = 'button';
+        removeButton.className = 'btn-inline remove-btn';
+        removeButton.onclick = () => clone.remove();
+        clone.appendChild(removeButton);
+        bloc.parentNode.insertBefore(clone, bloc.nextSibling);
+      }
+      function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.classList.toggle('hidden');
+      }
+    </script>
+  </div>
+</body>
+</html>

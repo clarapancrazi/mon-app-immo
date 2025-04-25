@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locations</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #0c2d48;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .main-content {
+      flex: 1;
+      background-color: #f9f9f9;
+      padding: 40px;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #0c2d48;
+      margin-bottom: 30px;
+    }
+    .add-button {
+      display: inline-block;
+      margin-bottom: 30px;
+      background-color: #0c2d48;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .add-button:hover {
+      background-color: #10476b;
+    }
+    .location-card {
+      background-color: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .location-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .location-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .location-header h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #0c2d48;
+    }
+    .location-info {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .statut {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      color: white;
+      text-transform: uppercase;
+    }
+    .statut.dossier { background-color: #f0ad4e; }
+    .statut.bail { background-color: #5bc0de; }
+    .statut.entree { background-color: #5cb85c; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+  <div class="main-content">
+    <div class="page-title">Locations</div>
+
+    <a href="ajouter-location.html" class="add-button">+ Nouvelle location</a>
+
+    <div class="location-card" onclick="window.location.href='fiche-location1.html'">
+      <div class="location-header">
+        <h3>Appartement - Avenue Maréchal Juin, Ajaccio</h3>
+        <span class="statut bail">Bail signé</span>
+      </div>
+      <div class="location-info">
+        <strong>Bailleur :</strong> Stéphane Orsini &nbsp; | &nbsp; <strong>Locataire :</strong> Emma Fabiani<br>
+        <strong>Loyer :</strong> 1 150 €/mois &nbsp; | &nbsp; <strong>Dossier validé :</strong> 10/04/2024<br>
+        <strong>Bail signé :</strong> 12/04/2024 &nbsp; | &nbsp; <strong>Entrée prévue :</strong> 20/04/2024
+      </div>
+    </div>
+
+    <div class="location-card" onclick="window.location.href='fiche-location2.html'">
+      <div class="location-header">
+        <h3>Studio - Rue Fesch, Ajaccio</h3>
+        <span class="statut dossier">Dossier en cours</span>
+      </div>
+      <div class="location-info">
+        <strong>Bailleur :</strong> Isabelle Pieri &nbsp; | &nbsp; <strong>Locataire :</strong> Théo Giudicelli<br>
+        <strong>Loyer :</strong> 690 €/mois<br>
+        <strong>Dossier :</strong> déposé le 22/04/2024
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
