@@ -17,7 +17,6 @@
       align-items: center;
       justify-content: center;
     }
-
     body::before {
       content: '';
       position: absolute;
@@ -25,23 +24,19 @@
       background-color: rgba(255, 255, 255, 0.5);
       z-index: 0;
     }
-
     .login-box, .titre-app {
       position: relative;
       z-index: 1;
     }
-
     .titre-app {
       text-align: center;
       margin-bottom: 20px;
     }
-
     .titre-app h1 {
       font-size: 32px;
       color: #0c2d48;
       margin: 0;
     }
-
     .login-box {
       background: white;
       padding: 40px;
@@ -51,12 +46,10 @@
       max-width: 400px;
       text-align: center;
     }
-
     h2 {
       color: #0c2d48;
       margin-bottom: 30px;
     }
-
     input {
       width: 100%;
       padding: 12px;
@@ -64,8 +57,8 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
+      box-sizing: border-box;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -77,16 +70,13 @@
       border-radius: 8px;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #134b7a;
     }
-
     .error {
       color: red;
       margin-top: 10px;
     }
-
     .forgot-link {
       display: block;
       margin-top: 10px;
@@ -95,61 +85,46 @@
       text-decoration: underline;
       cursor: pointer;
     }
-
-    /* Pop-up */
-    .popup {
+    .popup, .overlay {
+      display: none;
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1000;
+    }
+    .popup {
       background: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      z-index: 999;
-      display: none;
       width: 90%;
       max-width: 400px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1001;
     }
-
-    .popup h3 {
-      margin-top: 0;
-      color: #0c2d48;
-    }
-
-    .popup input {
-      margin-top: 10px;
-    }
-
-    .popup button {
-      margin-top: 15px;
-    }
-
     .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.3);
-      z-index: 998;
-      display: none;
+      background: rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
 <body>
-
   <div class="titre-app">
     <h1>Pancrazi Immobilier</h1>
   </div>
-
   <div class="login-box">
-    <h2>Connexion négociateur</h2>
-    <input type="text" id="username" placeholder="Nom d'utilisateur ou email">
-    <input type="password" id="password" placeholder="Mot de passe">
+    <h2>Connexion administrateur</h2>
+    <input type="text" id="username" placeholder="Email">
+    <div style="position: relative;">
+      <input type="password" id="password" placeholder="Mot de passe" style="padding-right: 40px;">
+      <span onclick="togglePassword()" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer; font-size: 16px;">👁️</span>
+    </div>
     <button onclick="login()">Se connecter</button>
     <span class="forgot-link" onclick="ouvrirPopup()">Mot de passe oublié ?</span>
     <div class="error" id="errorMessage"></div>
   </div>
 
-  <!-- POPUP de réinitialisation -->
   <div class="overlay" id="overlay"></div>
   <div class="popup" id="popup">
     <h3>Réinitialiser mon mot de passe</h3>
@@ -160,9 +135,7 @@
 
   <script>
     const utilisateurs = [
-      { nom: "Jean Dupont", email: "jean@pancrazi.com", password: "azerty" },
-      { nom: "Marie Rossi", email: "marie@pancrazi.com", password: "secret" },
-      { nom: "Hugo Bernard", email: "hugo@pancrazi.com", password: "123456" }
+      { nom: "Clara PANCRAZI", email: "cbpancrazi@laforet.com", password: "Paulagiu2015!" }
     ];
 
     function login() {
@@ -183,6 +156,11 @@
       }
     }
 
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
     function ouvrirPopup() {
       document.getElementById("popup").style.display = "block";
       document.getElementById("overlay").style.display = "block";
@@ -201,6 +179,5 @@
       document.getElementById("overlay").style.display = "none";
     }
   </script>
-
 </body>
 </html>
