@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formations Immobilières - PANCRAZI & Partners</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Styles globaux */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      background-image: url('https://i.imgur.com/iAfmZ3z.jpeg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 900px;
+    }
+
+    h1 {
+      color: #D4AF37;
+      font-size: 50px;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: #0c2d48;
+      width: 100%;
+      max-width: 280px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background-color: #D4AF37;
+    }
+
+    .card h3 {
+      color: white;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: white;
+      font-size: 16px;
+    }
+
+    .card a {
+      color: #0c2d48;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .card img {
+      width: 50px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      background-color: #D4AF37;
+      padding: 10px 20px;
+      color: #0c2d48;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .back-button:hover {
+      background-color: #e1b500;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Formations Immobilières</h1>
+    <div class="card-container">
+      <!-- Introduction à l'immobilier -->
+      <div class="card">
+        <h3>Introduction à l'immobilier</h3>
+        <p>Les bases de l'immobilier, le marché et les acteurs principaux.</p>
+        <a href="https://www.youtube.com/watch?v=XXXXXX" target="_blank">Accéder à la formation</a>
+      </div>
+
+      <!-- Commercialisation immobilière -->
+      <div class="card">
+        <h3>Commercialisation immobilière</h3>
+        <p>Les techniques de vente et négociation dans l'immobilier.</p>
+        <a href="https://www.youtube.com/watch?v=YYYYYY" target="_blank">Accéder à la formation</a>
+      </div>
+
+      <!-- Gestion locative -->
+      <div class="card">
+        <h3>Gestion locative</h3>
+        <p>Comment gérer efficacement les biens en location.</p>
+        <a href="https://www.youtube.com/watch?v=ZZZZZZ" target="_blank">Accéder à la formation</a>
+      </div>
+
+      <!-- Évaluation immobilière -->
+      <div class="card">
+        <h3>Évaluation immobilière</h3>
+        <p>Les méthodes pour estimer la valeur d'un bien immobilier.</p>
+        <a href="https://www.youtube.com/watch?v=AAAAAA" target="_blank">Accéder à la formation</a>
+      </div>
+
+      <!-- Transactions immobilières -->
+      <div class="card">
+        <h3>Transactions immobilières</h3>
+        <p>Le processus d'achat et de vente d'un bien immobilier.</p>
+        <a href="https://www.youtube.com/watch?v=BBBBBB" target="_blank">Accéder à la formation</a>
+      </div>
+
+      <!-- Outils numériques pour l'immobilier -->
+      <div class="card">
+        <h3>Outils numériques</h3>
+        <p>Utilisation des outils numériques dans la gestion immobilière.</p>
+        <a href="https://www.youtube.com/watch?v=CCCCC" target="_blank">Accéder à la formation</a>
+      </div>
+    </div>
+
+    <!-- Bouton retour -->
+    <a href="accueil.html" class="back-button">Retour à l'Accueil</a>
+  </div>
+</body>
+</html>

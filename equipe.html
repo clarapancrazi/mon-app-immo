@@ -14,7 +14,7 @@
     .add-button { display: inline-block; margin-bottom: 30px; background-color: #0c2d48; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
     .filters { margin-bottom: 20px; }
     .filters select { padding: 8px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; }
-    .team-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .team-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
     .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s ease; cursor: pointer; display: flex; align-items: center; gap: 20px; }
     .card:hover { transform: translateY(-5px); }
     .card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
@@ -22,6 +22,7 @@
     .card-info h3 { margin: 0; font-size: 20px; color: #0c2d48; }
     .card-info p { margin: 5px 0; font-size: 14px; color: #555; }
     .card-info .ca { font-weight: bold; color: #333; margin-top: 10px; }
+    .card-info .entry-date { color: #888; font-size: 12px; margin-top: 5px; }
 
     @media screen and (max-width: 768px) {
       .sidebar {
@@ -56,7 +57,7 @@
       .card-info h3 {
         font-size: 18px;
       }
-      .card-info p, .card-info .ca {
+      .card-info p, .card-info .ca, .card-info .entry-date {
         font-size: 14px;
       }
     }
@@ -66,13 +67,13 @@
   <div class="sidebar">
     <h2>Pancrazi Immobilier</h2>
     <a href="dashboard.html">Tableau de bord</a>
-    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="equipe.html">Équipe &amp; Commerciaux</a>
     <a href="transactions.html">Transactions</a>
     <a href="locations.html">Locations</a>
     <a href="gestion.html">Gestion locative</a>
     <a href="saisonniere.html">Location saisonnière</a>
     <a href="clients.html">Accès clients</a>
-    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="simulateurs.html">Outils &amp; simulateurs</a>
     <a href="administratif.html">Administratif agence</a>
   </div>
 
@@ -92,6 +93,39 @@
   </div>
 
   <script>
+    // Simuler des données dans localStorage pour le test
+    const collaborateurs = [
+      { 
+        prenom: 'Jean', 
+        nom: 'Dupont', 
+        photo: 'https://www.w3schools.com/w3images/avatar2.png', 
+        emailPro: 'jean.dupont@example.com', 
+        previsionnel: '50000', 
+        encaisse: '35000', 
+        dateEntree: '2020-06-01'
+      },
+      { 
+        prenom: 'Marie', 
+        nom: 'Lemoine', 
+        photo: 'https://www.w3schools.com/w3images/avatar1.png', 
+        emailPro: 'marie.lemoine@example.com', 
+        previsionnel: '40000', 
+        encaisse: '30000', 
+        dateEntree: '2021-03-15'
+      },
+      { 
+        prenom: 'Luc', 
+        nom: 'Martin', 
+        photo: 'https://www.w3schools.com/w3images/avatar6.png', 
+        emailPro: 'luc.martin@example.com', 
+        previsionnel: '60000', 
+        encaisse: '50000', 
+        dateEntree: '2019-09-10'
+      }
+    ];
+
+    localStorage.setItem('collaborateurs', JSON.stringify(collaborateurs));
+
     function trierCollaborateurs() {
       afficherCollaborateurs();
     }
@@ -120,6 +154,7 @@
             <p>${c.emailPro || ''}</p>
             <p class="ca">CA Prévisionnel : ${c.previsionnel || '0 €'}</p>
             <p class="ca">CA Encaissé : ${c.encaisse || '0 €'}</p>
+            <p class="entry-date">Date d'entrée : ${c.dateEntree || 'N/A'}</p>
           </div>
         `;
         container.appendChild(div);

@@ -11,11 +11,11 @@
   <style>
     /* RESET */
     *{box-sizing:border-box;margin:0;padding:0}
-    body{display:flex;min-height:100vh;font-family:Arial,Helvetica,sans-serif;font-size:14px;background:#f4f4f4}
+    body{display:flex;min-height:100vh;font-family:Arial,Helvetica,sans-serif;font-size:14px;background:black;color:white;overflow:hidden}
     a{text-decoration:none;color:inherit}
 
     /* SIDEBAR */
-    .sidebar{width:250px;background:#0c2d48;color:#fff;display:flex;flex-direction:column}
+    .sidebar{width:250px;background:#0c2d48;color:#fff;display:flex;flex-direction:column;z-index:10;position:relative}
     .sidebar-header{padding:24px 20px 10px;border-bottom:1px solid rgba(255,255,255,.15)}
     .sidebar-header h1{font-size:20px;font-weight:700}
     .menu{flex:1;padding:18px 20px 0}
@@ -24,11 +24,33 @@
     .sidebar-bottom{padding:18px 20px 26px;border-top:1px solid rgba(255,255,255,.15)}
 
     /* MAIN */
-    main{flex:1;padding:40px;position:relative}
+    main{flex:1;padding:40px;position:relative;background:black;z-index:20}
     .user-info{position:absolute;top:26px;right:40px;display:flex;align-items:center;gap:20px;font-size:13px}
     .logout-btn{background:#e74c3c;border:none;color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer}
     .logout-btn:hover{background:#c0392b}
-    h2.dashboard-title{font-size:24px;margin-bottom:28px;color:#0c2d48}
+    h2.dashboard-title{font-size:28px;margin-bottom:28px;color:#D4AF37;letter-spacing:1px;font-weight:700}
+
+    /* LOGO EN HAUT */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+    .logo-container img {
+      width: 50px;
+      height: auto;
+      margin-right: 10px;
+    }
+    .logo-container a h1 {
+      color: #D4AF37; /* Or pâle pour le titre */
+      font-size: 32px;
+      font-family: 'Playfair Display', serif; /* Police élégante */
+      font-weight: 700;
+      cursor: pointer;
+    }
 
     /* STATS */
     .stats{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:32px}
@@ -47,11 +69,32 @@
     .chart-wrapper{width:300px;height:300px;margin:0 auto}
     canvas{display:block}
 
+    /* BACKGROUND LOGO */
+    .background-logo {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 100vh;
+      background-image: url('https://i.imgur.com/mK5wTyx.png'); /* Logo en arrière-plan */
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.3;
+      z-index:-1; /* Mettre le logo derrière tout le contenu */
+    }
+
     /* RESPONSIVE */
     @media(max-width:768px){body{flex-direction:column}.sidebar{width:100%;flex-direction:row;overflow-x:auto}.menu{display:flex;gap:12px;padding:12px 16px}.menu a{padding:12px 16px;white-space:nowrap}.sidebar-bottom{display:none}main{padding:28px}.chart-wrapper{width:240px;height:240px}}
   </style>
 </head>
 <body>
+  <!-- LOGO EN HAUT avec lien vers accueil.html -->
+  <div class="logo-container">
+    <a href="accueil.html"><img src="https://i.imgur.com/q5E4ZEV.jpeg" alt="Logo PANCRAZI & Partners" /></a>
+    <a href="accueil.html"><h1>PANCRAZI & Partners</h1></a>
+  </div>
+
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="sidebar-header"><h1>Pancrazi Immobilier</h1></div>
@@ -68,6 +111,9 @@
     </div>
     <div class="sidebar-bottom"><a href="parametrages.html">⚙️ Mes Paramétrages</a></div>
   </nav>
+
+  <!-- BACKGROUND LOGO -->
+  <div class="background-logo"></div>
 
   <!-- MAIN -->
   <main>
@@ -93,7 +139,7 @@
   <script>
     // --- USER
     const user = JSON.parse(sessionStorage.getItem('utilisateurConnecte'));
-    document.getElementById('userName').textContent = user?.nom ? `Bonjour, ${user.nom}` : 'Bonjour,';
+    document.getElementById('userName').textContent = user?.nom ? `Bonjour, ${user.nom}` : 'Bonjour,'; 
     function logout(){sessionStorage.removeItem('utilisateurConnecte');location.href='login.html'}
 
     // --- COUNTS
@@ -112,9 +158,10 @@
     const caVals={encaisse:+localStorage.caEncaisse||0,previsionnel:+localStorage.caPrevisionnel||0};
     const objectif=Math.max(+localStorage.objectifCA||1,1);
     const caChart=new Chart(caCtx,{type:'doughnut',data:{labels:['Atteint','Reste'],datasets:[{data:[0,0],backgroundColor:['#0c2d48','#dcdcdc'],borderWidth:0}]},options:{responsive:false,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
+
     function updateCA(t){const v=caVals[t];caChart.data.datasets[0].data=[v,Math.max(objectif-v,0)];caChart.$centerText=v.toLocaleString('fr-FR')+' €';caChart.update();}
     updateCA('encaisse');
-    document.querySelectorAll('#ca-section .toggle button').forEach(btn=>btn.addEventListener('click',()=>{btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn));updateCA(btn.dataset.type);}));
+    document.querySelectorAll('#ca-section .toggle button').forEach(btn=>btn.addEventListener('click',()=>{btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn));updateCA(btn.dataset.type);}));    
   </script>
 </body>
 </html>

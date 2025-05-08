@@ -14,6 +14,27 @@
       height: 100vh;
     }
 
+    /* LOGO ET TITRE EN HAUT */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+    .logo-container img {
+      width: 50px;
+      height: auto;
+      margin-right: 10px;
+    }
+    .logo-container h1 {
+      color: #D4AF37; /* Or pâle pour le titre */
+      font-size: 32px;
+      font-family: 'Playfair Display', serif; /* Police élégante */
+      font-weight: 700;
+    }
+
     .sidebar {
       width: 250px;
       background-color: #0c2d48;
@@ -133,8 +154,15 @@
   </style>
 </head>
 <body>
+  <!-- LOGO EN HAUT -->
+  <div class="logo-container">
+    <img src="https://i.imgur.com/q5E4ZEV.jpeg" alt="Logo PANCRAZI & Partners" />
+    <h1>PANCRAZI & <br />Partners</h1>
+  </div>
+
+  <!-- SIDEBAR -->
   <div class="sidebar">
-    <h2>Pancrazi Immobilier</h2>
+    <h2>..</h2>
     <a href="dashboard.html">Tableau de bord</a>
     <a href="equipe.html">Équipe & Commerciaux</a>
     <a href="transactions.html">Transactions</a>
@@ -146,6 +174,8 @@
     <a href="administratif.html">Administratif agence</a>
   </div>
 
+
+  <!-- MAIN CONTENT -->
   <div class="main-content">
     <h1>Espace Administratif de l'Agence</h1>
 

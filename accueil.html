@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accueil - PANCRAZI & Partners</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Styles globaux */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      background-image: url('https://i.imgur.com/iAfmZ3z.jpeg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 900px;
+    }
+
+    h1 {
+      color: #D4AF37;
+      font-size: 50px;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: #0c2d48;
+      width: 100%;
+      max-width: 280px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      text-align: center;
+      border: 2px solid transparent; /* Bordure invisible par défaut */
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background-color: #D4AF37; /* Reste en doré pour la carte */
+      border: 2px solid #0c2d48; /* Ajout d'une bordure bleu foncé sur le survol */
+    }
+
+    .card h3 {
+      color: white;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: white;
+      font-size: 16px;
+    }
+
+    .card a {
+      color: #D4AF37; /* Le lien "Accéder" reste en or */
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 10px;
+      display: block;
+    }
+
+    /* Lorsque la carte est survolée, nous donnons un effet visuel distinct */
+    .card:hover a {
+      color: #0c2d48; /* Le lien devient bleu foncé pour s'intégrer au survol */
+    }
+
+    /* Bouton déconnexion */
+    .logout-btn {
+      margin-top: 30px;
+      background-color: #e74c3c;
+      padding: 10px 20px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenue</h1>
+    <div class="card-container">
+      <!-- Pilotage d'entreprise -->
+      <div class="card">
+        <h3>Pilotage d'entreprise</h3>
+        <p>Accédez à votre logiciel pour gérer votre entreprise efficacement.</p>
+        <a href="dashboard.html">Accéder</a>
+      </div>
+      
+      <!-- Formation -->
+      <div class="card">
+        <h3>Formation</h3>
+        <p>Suivez des formations pour améliorer vos compétences.</p>
+        <a href="formation.html">Accéder</a>
+      </div>
+
+      <!-- Documentation -->
+      <div class="card">
+        <h3>Documentation</h3>
+        <p>Consultez toute la documentation pour vos besoins.</p>
+        <a href="documentation.html">Accéder</a>
+      </div>
+
+      <!-- Messagerie Mail -->
+      <div class="card">
+        <h3>Messagerie Mail</h3>
+        <p>Accédez à votre boîte mail pour rester connecté.</p>
+        <a href="mail.html">Accéder</a>
+      </div>
+
+      <!-- Outils Logiciel -->
+      <div class="card">
+        <h3>Outils Logiciel</h3>
+        <p>Utilisez nos outils logiciels pour améliorer votre quotidien.</p>
+        <a href="outils.html">Accéder</a>
+      </div>
+
+      <!-- Services Digital selon Métier -->
+      <div class="card">
+        <h3>Services Digital</h3>
+        <p>Retrouvez nos métiers en présentation digitale.</p>
+        <a href="services-digital.html">Accéder</a>
+      </div>
+    </div>
+
+    <!-- Bouton de déconnexion -->
+    <a href="login.html" class="logout-btn">Déconnexion</a>
+  </div>
+</body>
+</html>

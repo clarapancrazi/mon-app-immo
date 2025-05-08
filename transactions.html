@@ -39,6 +39,25 @@
       color: #0c2d48;
       margin-bottom: 30px;
     }
+    .filters {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .filters input, .filters select, .filters button {
+      padding: 8px 15px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .filters button {
+      background-color: #0c2d48;
+      color: white;
+      cursor: pointer;
+    }
+    .filters button:hover {
+      background-color: #D4AF37;
+    }
     .transaction-card {
       background-color: white;
       padding: 24px;
@@ -79,6 +98,12 @@
     .statut.offre { background-color: #f0ad4e; }
     .statut.compromis { background-color: #5bc0de; }
     .statut.acte { background-color: #5cb85c; }
+    .honoraires-calculation {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #D4AF37;
+    }
   </style>
 </head>
 <body>
@@ -94,33 +119,113 @@
     <a href="simulateurs.html">Outils & simulateurs</a>
     <a href="administratif.html">Administratif agence</a>
   </div>
+
   <div class="main-content">
     <div class="page-title">Transactions</div>
 
-    <div class="transaction-card" onclick="window.location.href='fiche-transaction1.html'">
-      <div class="transaction-header">
-        <h3>Villa - Route des Sanguinaires, Ajaccio</h3>
-        <span class="statut compromis">Compromis</span>
+    <!-- Filters Section -->
+    <div class="filters">
+      <input type="text" id="searchClient" placeholder="Prénom ou Nom du client" />
+      <button onclick="searchTransaction()">Recherche</button>
+      <select id="statusFilter">
+        <option value="all">Tout</option>
+        <option value="offre">Offres</option>
+        <option value="compromis">Compromis</option>
+        <option value="acte">Actes</option>
+      </select>
+      <button onclick="filterTransactions()">Filtrer</button>
+    </div>
+
+    <!-- Transactions Cards -->
+    <div id="transactionsContainer">
+      <div class="transaction-card" onclick="window.location.href='fiche-transaction1.html'">
+        <div class="transaction-header">
+          <h3>Villa - Route des Sanguinaires, Ajaccio</h3>
+          <span class="statut compromis">Compromis</span>
+        </div>
+        <div class="transaction-info">
+          <strong>Vendeur :</strong> Jean Dupont &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marie Rossi<br>
+          <strong>Prix de vente :</strong> 850 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 42 500 €<br>
+          <strong>Offre :</strong> 15/03/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 28/03/2024 &nbsp; | &nbsp; <strong>Acte prévu :</strong> 30/06/2024
+        </div>
       </div>
-      <div class="transaction-info">
-        <strong>Vendeur :</strong> Jean Dupont &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marie Rossi<br>
-        <strong>Prix de vente :</strong> 850 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 42 500 €<br>
-        <strong>Offre :</strong> 15/03/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 28/03/2024 &nbsp; | &nbsp; <strong>Acte prévu :</strong> 30/06/2024
+
+      <div class="transaction-card" onclick="window.location.href='fiche-transaction2.html'">
+        <div class="transaction-header">
+          <h3>Appartement - Cours Napoléon, Ajaccio</h3>
+          <span class="statut acte">Acte</span>
+        </div>
+        <div class="transaction-info">
+          <strong>Vendeur :</strong> Claire Martin &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marc Lemoine<br>
+          <strong>Prix de vente :</strong> 420 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 21 000 €<br>
+          <strong>Offre :</strong> 05/01/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 15/01/2024 &nbsp; | &nbsp; <strong>Acte :</strong> 28/02/2024
+        </div>
       </div>
     </div>
 
-    <div class="transaction-card" onclick="window.location.href='fiche-transaction2.html'">
-      <div class="transaction-header">
-        <h3>Appartement - Cours Napoléon, Ajaccio</h3>
-        <span class="statut acte">Acte</span>
-      </div>
-      <div class="transaction-info">
-        <strong>Vendeur :</strong> Claire Martin &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marc Lemoine<br>
-        <strong>Prix de vente :</strong> 420 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 21 000 €<br>
-        <strong>Offre :</strong> 05/01/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 15/01/2024 &nbsp; | &nbsp; <strong>Acte :</strong> 28/02/2024
-      </div>
+    <!-- Honoraires Calculation -->
+    <div class="honoraires-calculation">
+      <button onclick="calculateHonoraires()">Calculer les Honoraires</button>
+      <div id="honorairesResult"></div>
     </div>
-
   </div>
+
+  <script>
+    // Transactions example data
+    const transactions = [
+      { prenom: "Jean", nom: "Dupont", bien: "Villa - Route des Sanguinaires", prix: 850000, etat: "compromis", honoraires: 42500 },
+      { prenom: "Claire", nom: "Martin", bien: "Appartement - Cours Napoléon", prix: 420000, etat: "acte", honoraires: 21000 },
+    ];
+
+    // Display transactions
+    function displayTransactions(filteredTransactions) {
+      const container = document.getElementById('transactionsContainer');
+      container.innerHTML = ''; // Reset container
+      filteredTransactions.forEach(transaction => {
+        const card = document.createElement('div');
+        card.classList.add('transaction-card');
+        card.innerHTML = `
+          <div class="transaction-header">
+            <h3>${transaction.bien}</h3>
+            <span class="statut ${transaction.etat}">${transaction.etat.charAt(0).toUpperCase() + transaction.etat.slice(1)}</span>
+          </div>
+          <div class="transaction-info">
+            <strong>Vendeur :</strong> ${transaction.prenom} ${transaction.nom} <br>
+            <strong>Prix de vente :</strong> ${transaction.prix.toLocaleString('fr-FR')} € <br>
+            <strong>Honoraires :</strong> ${transaction.honoraires.toLocaleString('fr-FR')} €
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Filter transactions based on status
+    function filterTransactions() {
+      const statusFilter = document.getElementById('statusFilter').value;
+      const filteredTransactions = transactions.filter(transaction => 
+        statusFilter === "all" || transaction.etat === statusFilter
+      );
+      displayTransactions(filteredTransactions);
+    }
+
+    // Search transactions by client name
+    function searchTransaction() {
+      const searchValue = document.getElementById('searchClient').value.toLowerCase();
+      const filteredTransactions = transactions.filter(transaction =>
+        transaction.prenom.toLowerCase().includes(searchValue) ||
+        transaction.nom.toLowerCase().includes(searchValue)
+      );
+      displayTransactions(filteredTransactions);
+    }
+
+    // Calculate the total honoraires based on filtered transactions
+    function calculateHonoraires() {
+      const totalHonoraires = transactions.reduce((acc, transaction) => acc + transaction.honoraires, 0);
+      document.getElementById('honorairesResult').innerText = `Total des honoraires : ${totalHonoraires.toLocaleString('fr-FR')} €`;
+    }
+
+    // Initial display
+    displayTransactions(transactions);
+  </script>
 </body>
 </html>

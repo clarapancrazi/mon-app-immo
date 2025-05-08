@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Outils - PANCRAZI & Partners</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Styles globaux */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      background-image: url('https://i.imgur.com/iAfmZ3z.jpeg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 900px;
+    }
+
+    h1 {
+      color: #D4AF37;
+      font-size: 50px;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: #0c2d48;
+      width: 100%;
+      max-width: 280px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      text-align: center;
+      border: 2px solid transparent; /* Bordure invisible par défaut */
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background-color: #D4AF37; /* Reste en doré pour la carte */
+      border: 2px solid #0c2d48; /* Ajout d'une bordure bleu foncé sur le survol */
+    }
+
+    .card h3 {
+      color: white;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: white;
+      font-size: 16px;
+    }
+
+    .card a {
+      color: #0c2d48; /* Lien en bleu foncé pour qu'il soit bien visible */
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .card a:hover {
+      color: #D4AF37; /* Au survol, le lien devient doré */
+    }
+
+    .card img {
+      width: 50px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      background-color: #D4AF37;
+      padding: 10px 20px;
+      color: #0c2d48;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .back-button:hover {
+      background-color: #e1b500;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Outils Métier</h1>
+    <div class="card-container">
+      <!-- PROCADASTRE -->
+      <div class="card">
+        <img src="https://www.procadastre.com/favicon.ico" alt="PROCADASTRE" />
+        <h3>PROCADASTRE</h3>
+        <p>Accédez à votre logiciel de gestion de cadastre.</p>
+        <!-- Remplacer par l'URL de connexion automatique, si supporté -->
+        <a href="https://www.procadastre.com?login=YOUR_LOGIN&password=YOUR_PASSWORD" target="_blank">Accéder</a>
+      </div>
+      
+      <!-- GIRAFFE360 -->
+      <div class="card">
+        <img src="https://dashboard.giraffe360.com/favicon.ico" alt="GIRAFFE360" />
+        <h3>GIRAFFE360</h3>
+        <p>Accédez à votre espace Giraffe360.</p>
+        <a href="https://dashboard.giraffe360.com/fr/signin?redirectTo=%2F%3F_gl%3D1*o7uf2o*_gcl_au*MTEzMDYxODMwLjE3NDY3MjIxMDc." target="_blank">Accéder</a>
+      </div>
+
+      <!-- CADASTRE.com -->
+      <div class="card">
+        <img src="https://www.cadastre.com/favicon.ico" alt="CADASTRE.com" />
+        <h3>CADASTRE.com</h3>
+        <p>Accédez à votre outil de gestion de cadastre.</p>
+        <a href="https://www.cadastre.com" target="_blank">Accéder</a>
+      </div>
+
+      <!-- NODALVIEW -->
+      <div class="card">
+        <img src="https://www.nodalview.com/favicon.ico" alt="NODALVIEW" />
+        <h3>NODALVIEW</h3>
+        <p>Accédez à votre espace Nodalview.</p>
+        <a href="https://www.nodalview.com" target="_blank">Accéder</a>
+      </div>
+    </div>
+
+    <!-- Bouton retour -->
+    <a href="accueil.html" class="back-button">Retour à l'Accueil</a>
+  </div>
+</body>
+</html>

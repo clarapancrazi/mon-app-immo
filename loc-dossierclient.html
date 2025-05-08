@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dossier Clients - Location Saisonnière</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; height: 100vh; }
+    .sidebar { width: 250px; background-color: #0c2d48; color: white; padding: 20px; display: flex; flex-direction: column; }
+    .sidebar h2 { margin-bottom: 30px; }
+    .sidebar a { color: white; text-decoration: none; margin: 10px 0; font-weight: bold; }
+    .main-content { flex: 1; background-color: #f9f9f9; padding: 40px; overflow-y: auto; }
+    .page-title { font-size: 28px; font-weight: 600; color: #0c2d48; margin-bottom: 30px; }
+    .search-box { margin-bottom: 20px; }
+    .filter-box { margin-bottom: 20px; }
+    .section { margin-bottom: 30px; }
+    .section h3 { color: #0c2d48; margin-bottom: 16px; font-size: 20px; }
+    .status-prospect { color: orange; font-weight: bold; }
+    .status-mandat { color: green; font-weight: bold; }
+    .status-resilie { color: red; font-weight: bold; }
+
+    /* Styles pour les étiquettes des clients */
+    .client-label {
+      background-color: #0c2d48;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin: 5px;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .client-label:hover {
+      background-color: #08406d;
+    }
+
+    .client-labels-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pancrazi Immobilier</h2>
+    <a href="dashboard.html">Tableau de bord</a>
+    <a href="equipe.html">Équipe & Commerciaux</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="locations.html">Locations</a>
+    <a href="gestion.html">Gestion locative</a>
+    <a href="saisonniere.html">Location saisonnière</a>
+    <a href="clients.html">Accès clients</a>
+    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="administratif.html">Administratif agence</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-title">Dossier Clients - Location Saisonnière</div>
+
+    <!-- Moteur de recherche -->
+    <div class="search-box">
+      <input type="text" id="search-client" placeholder="Rechercher par nom ou prénom" onkeyup="searchClients()">
+    </div>
+
+    <!-- Filtre par statut -->
+    <div class="filter-box">
+      <select id="client-status" onchange="filterByStatus()">
+        <option value="">Filtrer par statut</option>
+        <option value="prospect">Prospect</option>
+        <option value="mandat">Mandat</option>
+        <option value="resilie">Résilié</option>
+      </select>
+    </div>
+
+    <!-- Liste des clients par statut -->
+    <div class="section" id="prospect-section">
+      <h3>Prospects</h3>
+      <div class="client-labels-container">
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1FUGfMWXBipX9GWGrsl8Vg6oxxI_9GXoK?usp=drive_link', '_blank')">DE SAXCE</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1GVn1sUqL97CB1LftR973BI6OfaynhqFs?usp=drive_link', '_blank')">BIANCHI</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/15RwVqVx1PWzXyNp6SES2-o-ChDeEYWGD?usp=drive_link', '_blank')">GAGNARD</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1n8T4Awob89jiz4lti2bi9tGgYT1KIga0?usp=drive_link', '_blank')">SAGNES</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1-7duQ9cqUBaYb9B-lm_eGwL-U3UBNJm5?usp=drive_link', '_blank')">BOURGEY</span>
+      </div>
+    </div>
+
+    <div class="section" id="mandat-section">
+      <h3>Mandat</h3>
+      <div class="client-labels-container">
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1iMz8yaKoq_lziK1_hhbX63yg5A1MkarV?usp=drive_link', '_blank')">JACCOBACCI</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1cLrP8-i-Eab2GYaSbnWxjNG3p8Uv16RL?usp=drive_link', '_blank')">MONTISCI</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1DX5vTLghHLjrVrpeqcHe3UuLC71d8q_7?usp=drive_link', '_blank')">SCHMITT</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1E9ns5hoe6VSPPM7bzvK-4P8YzL8hzcJ2?usp=drive_link', '_blank')">WALCZAK</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1RkAISYmk0qfqQ02_PuMyWla3_JnlDMza?usp=drive_link', '_blank')">ANGLADE</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1LQ3xjtQHQ-DpOLIEiE8yA7ScjG8_CrMl?usp=drive_link', '_blank')">ZERBIB</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1DTZb8DOo3j2tXGDkOdV74msbkH_HM52p?usp=drive_link', '_blank')">BEAUREGARD</span>
+      </div>
+    </div>
+
+    <div class="section" id="resilie-section">
+      <h3>Résiliés</h3>
+      <div class="client-labels-container">
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1CO1EfwaPtcBSQypifZT3UnhYAoxeqvp4?usp=drive_link', '_blank')">BORG</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1ApjwopUmih4vACg5M8xooLqIpzRAXaI0?usp=drive_link', '_blank')">MALIA</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1d_g_utS7nFUANr93bgkXBQYjM-xPHjKK?usp=drive_link', '_blank')">GABISON</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1VD_qsCabJW-w2aTFm_BD_cVyGPnHdUtK?usp=drive_link', '_blank')">SIMOND</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/1tKT3goPhC4Sp0OqYzjKWfB1qgEluyKn8?usp=drive_link', '_blank')">LE TALLEC</span>
+        <span class="client-label" onclick="window.open('https://drive.google.com/drive/folders/15VF_J2U1BNhnjZBBY6jd79kYKYefTpF3?usp=drive_link', '_blank')">ROCCI</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function searchClients() {
+      var input, filter, sections, buttons, i, txtValue;
+      input = document.getElementById('search-client');
+      filter = input.value.toUpperCase();
+      sections = document.querySelectorAll('.section');
+      
+      sections.forEach(function(section) {
+        buttons = section.querySelectorAll('.client-label');
+        buttons.forEach(function(button) {
+          txtValue = button.textContent || button.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            button.style.display = "";
+          } else {
+            button.style.display = "none";
+          }
+        });
+      });
+    }
+
+    function filterByStatus() {
+      var status, sections;
+      status = document.getElementById('client-status').value;
+      sections = document.querySelectorAll('.section');
+
+      sections.forEach(function(section) {
+        if (status === "" || section.id === status + "-section") {
+          section.style.display = "block";
+        } else {
+          section.style.display = "none";
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

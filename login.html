@@ -3,122 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Connexion - Pancrazi Immobilier</title>
+  <title>Connexion </title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* Styles globaux */
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') no-repeat center center fixed;
-      background-size: cover;
-      position: relative;
+      padding: 0;
       height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      justify-content: center; /* Centre horizontalement */
+      align-items: flex-start; /* Aligne le contenu en haut de la page */
+      color: white;
+      overflow: hidden;
+      background-image: url('https://i.imgur.com/iAfmZ3z.jpeg'); /* Image de fond */
+      background-size: cover; /* Utilisation de 'cover' pour couvrir l'écran */
+      background-position: center center; /* Centrage de l'image */
+      background-attachment: fixed; /* Rendre l'image fixe lors du défilement */
     }
-    body::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-color: rgba(255, 255, 255, 0.5);
-      z-index: 0;
-    }
-    .login-box, .titre-app {
+
+    /* Conteneur pour le formulaire de connexion */
+    .container {
       position: relative;
       z-index: 1;
-    }
-    .titre-app {
       text-align: center;
-      margin-bottom: 20px;
-    }
-    .titre-app h1 {
-      font-size: 32px;
-      color: #0c2d48;
-      margin: 0;
-    }
-    .login-box {
-      background: white;
+      background-color: rgba(0, 0, 0, 0.75); /* Fond sombre pour la lisibilité */
       padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
       width: 100%;
-      max-width: 400px;
-      text-align: center;
+      max-width: 450px;
+      margin-top: 50px; /* Espace en haut pour éviter que le cadre touche le bord */
     }
+
+    h1 {
+      color: #D4AF37; /* Or doux pour le titre */
+      font-size: 50px;
+      margin-bottom: 10px;
+      font-family: 'Playfair Display', serif; /* Police de luxe pour le titre */
+    }
+
     h2 {
-      color: #0c2d48;
-      margin-bottom: 30px;
+  color: #D4AF37; /* Or pâle */
+  font-size: 40px; /* Taille plus grande */
+  font-family: 'Playfair Display', serif; /* Belle écriture élégante */
+  margin-bottom: 30px;
+  font-weight: 700; /* Gras pour un titre plus impactant */
+}
+
+    /* Conteneur des champs email et mot de passe */
+    .input-container {
+      display: flex;
+      justify-content: space-between; /* Espace entre les champs */
+      gap: 10px; /* Espacement entre les champs */
     }
-    input {
-      width: 100%;
+
+    /* Largeur des champs */
+    .input-field {
+      flex: 1; /* Les deux champs prennent la même largeur */
       padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      border: 2px solid #0c2d48;
       border-radius: 8px;
       font-size: 16px;
+      color: #0c2d48;
+      background-color: #f9f9f9;
       box-sizing: border-box;
+      transition: border-color 0.3s;
     }
-    button {
+
+    .input-field:focus {
+      border-color: #D4AF37; /* Or doux sur focus */
+      outline: none;
+    }
+
+    .login-button {
       width: 100%;
       padding: 12px;
-      background-color: #0c2d48;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
+      background-color: #D4AF37; /* Or doux pour les boutons */
+      color: #0c2d48;
+      font-weight: 600;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-    }
-    button:hover {
-      background-color: #134b7a;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-    .forgot-link {
-      display: block;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #0c2d48;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    .popup, .overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1000;
-    }
-    .popup {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      width: 90%;
-      max-width: 400px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1001;
-    }
-    .overlay {
-      background: rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease-in-out;
     }
 
+    .login-button:hover {
+      background-color: #e1b500; /* Un or plus intense lors du survol */
+    }
+
+    .forgot-link {
+      margin-top: 15px;
+      font-size: 14px;
+      color: white;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .forgot-link:hover {
+      color: #D4AF37; /* Or doux au survol */
+    }
+
+    /* Réduire la taille sur mobile */
     @media screen and (max-width: 500px) {
-      .login-box {
-        padding: 20px;
-        border-radius: 0;
-        box-shadow: none;
+      .container {
+        padding: 30px;
       }
-      .titre-app h1 {
-        font-size: 24px;
+      h1 {
+        font-size: 28px;
       }
       h2 {
-        font-size: 18px;
+        font-size: 16px;
       }
       input, button {
         font-size: 14px;
@@ -128,27 +125,17 @@
   </style>
 </head>
 <body>
-  <div class="titre-app">
-    <h1>Pancrazi Immobilier</h1>
-  </div>
-  <div class="login-box">
-    <h2>Connexion administrateur</h2>
-    <input type="text" id="username" placeholder="Email">
-    <div style="position: relative;">
-      <input type="password" id="password" placeholder="Mot de passe" style="padding-right: 40px;">
-      <span onclick="togglePassword()" style="position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer; font-size: 16px;">👁️</span>
+  <!-- Conteneur de la page de connexion -->
+  <div class="container">
+    <h2>Connexion au Logiciel</h2>
+    <!-- Conteneur pour les champs email et mot de passe -->
+    <div class="input-container">
+      <input type="text" class="input-field" id="username" placeholder="Email" />
+      <input type="password" class="input-field" id="password" placeholder="Mot de passe" />
     </div>
-    <button onclick="login()">Se connecter</button>
+    <button class="login-button" onclick="login()">Se connecter</button>
     <span class="forgot-link" onclick="ouvrirPopup()">Mot de passe oublié ?</span>
     <div class="error" id="errorMessage"></div>
-  </div>
-
-  <div class="overlay" id="overlay"></div>
-  <div class="popup" id="popup">
-    <h3>Réinitialiser mon mot de passe</h3>
-    <p>Veuillez saisir votre adresse email, un lien de réinitialisation vous sera envoyé.</p>
-    <input type="email" id="emailReset" placeholder="exemple@email.com">
-    <button onclick="envoyerReset()">Envoyer</button>
   </div>
 
   <script>
@@ -168,7 +155,7 @@
 
       if (user) {
         sessionStorage.setItem("utilisateurConnecte", JSON.stringify(user));
-        window.location.href = "dashboard.html";
+        window.location.href = "accueil.html";
       } else {
         erreur.textContent = "Identifiants incorrects. Veuillez réessayer.";
       }
@@ -177,24 +164,6 @@
     function togglePassword() {
       const pwd = document.getElementById("password");
       pwd.type = pwd.type === "password" ? "text" : "password";
-    }
-
-    function ouvrirPopup() {
-      document.getElementById("popup").style.display = "block";
-      document.getElementById("overlay").style.display = "block";
-    }
-
-    function envoyerReset() {
-      const email = document.getElementById("emailReset").value.trim();
-      if (email) {
-        alert("Un lien de réinitialisation a été envoyé à : " + email);
-        fermerPopup();
-      }
-    }
-
-    function fermerPopup() {
-      document.getElementById("popup").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
     }
   </script>
 </body>
