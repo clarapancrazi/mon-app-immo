@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Parcours – P&amp;P ACADEMY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-aQ3GDJcf4xgGqNRmOcV3IqdG2C19zUxhEP1h5T4KbnIuOdwmALrhYxFC3vEP+TjtbxgK6V+JjCHuYwZ1+w4QeQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <style>
+        @keyframes zoomIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .bubble-enter {
+            animation: zoomIn 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body class="h-screen flex bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-black text-white flex flex-col">
+        <div class="p-6 text-2xl font-bold tracking-wide text-yellow-300">P&amp;P ACADEMY</div>
+        <nav class="flex-1">
+            <ul>
+                <li>
+                    <a href="formation-app.html" class="block px-6 py-3 hover:bg-yellow-500 transition">Accueil</a>
+                </li>
+                <li>
+                    <a href="parcours.html" class="block px-6 py-3 bg-yellow-500 text-black font-semibold">Parcours</a>
+                </li>
+                <li>
+                    <a href="formations.html" class="block px-6 py-3 hover:bg-yellow-500 transition">Formations</a>
+                </li>
+                <li>
+                    <a href="faq.html" class="block px-6 py-3 hover:bg-yellow-500 transition">FAQ</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto">
+        <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
+            <h1 id="greeting" class="text-xl font-semibold"></h1>
+            <a
+                href="accueil.html"
+                class="px-4 py-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-black transition"
+            >
+                Accueil
+            </a>
+        </header>
+
+        <section class="p-8">
+            <h2 class="text-3xl font-bold text-center text-yellow-500 uppercase mb-10">Votre parcours de formation</h2>
+            <div id="themesGrid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center"></div>
+        </section>
+    </main>
+
+    <script>
+        const userName = 'Alexandre';
+        document.getElementById('greeting').textContent = `Bonjour, ${userName}`;
+
+        const themes = [
+            'Introduction métier',
+            'Prospection 360°',
+            'Présentation de service',
+            'Mandat de Vente et son suivi',
+            'Offre et Négociation',
+            "Rédaction d'un compromis et son suivi",
+            'Location',
+            'Location saisonnière',
+            'Investissement',
+            'Gestion'
+        ];
+
+        const grid = document.getElementById('themesGrid');
+        themes.forEach((theme, index) => {
+            const bubble = document.createElement('div');
+            bubble.className =
+                'bubble-enter w-40 h-40 bg-yellow-500 text-black font-semibold rounded-full flex items-center justify-center text-center p-4 shadow-lg transform hover:scale-105 transition cursor-pointer';
+            bubble.style.animationDelay = `${index * 100}ms`;
+            bubble.textContent = theme;
+            grid.appendChild(bubble);
+        });
+    </script>
+</body>
+</html>
