@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Formation App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-aQ3GDJcf4xgGqNRmOcV3IqdG2C19zUxhEP1h5T4KbnIuOdwmALrhYxFC3vEP+TjtbxgK6V+JjCHuYwZ1+w4QeQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <style>
+        /* Effet machine à écrire pour le bonjour */
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: #000;
+            margin-left: 2px;
+            animation: blink 1s steps(2, start) infinite;
+        }
+    </style>
+</head>
+<body class="h-screen flex bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-black text-white flex flex-col">
+        <div class="p-6 text-2xl font-bold tracking-wide text-yellow-300">PANCRAZI & PARTNERS</div>
+        <nav class="flex-1">
+            <ul>
+                <li>
+                    <a href="#" class="block px-6 py-3 hover:bg-yellow-500 transition">Parcours</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-6 py-3 hover:bg-yellow-500 transition">Formations</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-6 py-3 hover:bg-yellow-500 transition">FAQ</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 overflow-y-auto">
+        <!-- Header -->
+        <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
+            <h1 id="greeting" class="text-xl font-semibold"></h1>
+            <div class="flex gap-2">
+                <button
+                    id="toggleForm"
+                    class="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-400 transition"
+                >
+                    + Nouveau post
+                </button>
+                <a
+                    href="accueil.html"
+                    class="px-4 py-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-black transition"
+                >
+                    Accueil
+                </a>
+            </div>
+        </header>
+
+        <!-- Central welcome title -->
+        <section class="mx-8 my-6">
+            <h2 class="text-2xl font-semibold text-center text-gray-800">Bienvenue sur la plateforme</h2>
+        </section>
+
+        <!-- Post form -->
+        <section id="postForm" class="hidden bg-white mx-8 my-4 p-6 rounded shadow-lg">
+            <h2 class="text-lg font-semibold mb-4">Ajouter une actualité</h2>
+            <form id="newsForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="title">Titre</label>
+                    <input type="text" id="title" required class="w-full border rounded p-2" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="message">Message</label>
+                    <textarea id="message" rows="3" required class="w-full border rounded p-2"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="pdf">Ajouter un PDF (optionnel)</label>
+                    <input type="file" id="pdf" accept="application/pdf" class="w-full" />
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" id="cancelForm" class="px-4 py-2 border rounded">Annuler</button>
+                    <button
+                        type="submit"
+                        class="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-400 transition"
+                    >
+                        Publier
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Feed -->
+        <section id="feed" class="space-y-4 px-8 py-4">
+            <!-- Example post removed -->
+            <article class="bg-white rounded shadow p-6">
+                <header class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-semibold">Nouveau guide : Gestion de projet agile</h3>
+                    <time class="text-sm text-gray-500">07/05/2025</time>
+                </header>
+                <p class="mb-4">Retrouvez le guide complet pour débuter avec la méthode agile.</p>
+                <a
+                    href="docs/guide-agile.pdf"
+                    class="inline-flex items-center text-yellow-500 hover:underline"
+                >
+                    <i class="fa-solid fa-file-pdf mr-2"></i> Télécharger le PDF
+                </a>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        // Nom du collaborateur connecté — à injecter dynamiquement côté back
+        const userName = 'Alexandre';
+
+        // Affichage dynamique typewriter du bonjour
+        const greetingElement = document.getElementById('greeting');
+        const message = `Bonjour, ${userName}`;
+
+        // Curseur animé
+        const cursor = document.createElement('span');
+        cursor.className = 'typewriter-cursor';
+        greetingElement.appendChild(cursor);
+
+        let i = 0;
+        const typer = setInterval(() => {
+            if (i < message.length) {
+                greetingElement.insertBefore(document.createTextNode(message.charAt(i)), cursor);
+                i++;
+            } else {
+                clearInterval(typer);
+                cursor.remove();
+            }
+        }, 80);
+
+        // --- Reste de la logique pour les posts ---
+        const toggleFormBtn = document.getElementById('toggleForm');
+        const postForm = document.getElementById('postForm');
+        const cancelFormBtn = document.getElementById('cancelForm');
+        const newsForm = document.getElementById('newsForm');
+        const feed = document.getElementById('feed');
+
+        toggleFormBtn.addEventListener('click', () => {
+            postForm.classList.toggle('hidden');
+        });
+
+        cancelFormBtn && cancelFormBtn.addEventListener('click', () => {
+            postForm.classList.add('hidden');
+        });
+
+        newsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const pdfInput = document.getElementById('pdf');
+            const date = new Date().toLocaleDateString('fr-FR');
+
+            if (!title || !message) return;
+
+            const article = document.createElement('article');
+            article.className = 'bg-white rounded shadow p-6';
+
+            article.innerHTML = `
+                <header class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-semibold">${title}</h3>
+                    <time class="text-sm text-gray-500">${date}</time>
+                </header>
+                <p class="mb-4">${message}</p>
+            `;
+
+            if (pdfInput.files.length) {
+                const file = pdfInput.files[0];
+                const url = URL.createObjectURL(file);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = file.name;
+                link.className = 'inline-flex items-center text-yellow-500 hover:underline';
+                link.innerHTML = '<i class="fa-solid fa-file-pdf mr-2"></i> Télécharger le PDF';
+                article.appendChild(link);
+            }
+
+            feed.prepend(article);
+            newsForm.reset();
+            postForm.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
