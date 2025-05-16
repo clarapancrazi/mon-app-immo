@@ -4,134 +4,193 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Outils - PANCRAZI & Partners</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Styles globaux */
+    :root {
+      --gold: #D4AF37;
+      --offwhite: #f5f4f1;
+      --dark: #000;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      overflow: hidden;
-      background-image: url('https://i.imgur.com/iAfmZ3z.jpeg');
+      flex-direction: column;
+      background: #000;
+      color: var(--offwhite);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Luxury background image */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
+      background-position: center;
+      filter: grayscale(40%) brightness(0.6) contrast(1.15);
+      opacity: 0.55;
+      pointer-events: none;
     }
 
-    .container {
-      position: relative;
-      z-index: 1;
+    /* ===== HEADER – Brand ===== */
+    .brand {
+      position: fixed;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 900px;
+      gap: 6px;
+      z-index: 0;
+    }
+    .brand h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      color: var(--gold);
+      line-height: 1.05;
+      font-size: 94px;
+    }
+    .brand .ampersand { font-size: 1.99em; }
+    .brand .slogan {
+      margin: 0;
+      font: 500 20px 'Montserrat', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
     }
 
-    h1 {
-      color: #D4AF37;
-      font-size: 50px;
-      margin-bottom: 20px;
+    /* ===== MAIN CONTENT ===== */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      text-align: center;
+      margin: 260px auto 40px; /* leave space for fixed header */
+    }
+    .page-title {
       font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .card-container {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
     }
-
     .card {
-      background-color: #0c2d48;
-      width: 100%;
-      max-width: 280px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, background-color 0.3s ease;
-      text-align: center;
-      border: 2px solid transparent; /* Bordure invisible par défaut */
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 15px;
+      padding: 30px 20px 60px;
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      backdrop-filter: blur(5px);
     }
-
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, transparent 40%, rgba(212, 175, 55, 0.2));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
     .card:hover {
-      transform: translateY(-10px);
-      background-color: #D4AF37; /* Reste en doré pour la carte */
-      border: 2px solid #0c2d48; /* Ajout d'une bordure bleu foncé sur le survol */
+      transform: translateY(-12px);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.35);
+      border-color: var(--gold);
     }
-
-    .card h3 {
-      color: white;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    .card p {
-      color: white;
-      font-size: 16px;
-    }
-
-    .card a {
-      color: #0c2d48; /* Lien en bleu foncé pour qu'il soit bien visible */
-      font-weight: 600;
-      text-decoration: none;
-      margin-top: 10px;
-      display: block;
-    }
-
-    .card a:hover {
-      color: #D4AF37; /* Au survol, le lien devient doré */
-    }
-
+    .card:hover::before { opacity: 1; }
     .card img {
       width: 50px;
       height: auto;
       margin-bottom: 15px;
     }
-
-    .back-button {
-      margin-top: 20px;
-      background-color: #D4AF37;
-      padding: 10px 20px;
-      color: #0c2d48;
-      text-decoration: none;
-      border-radius: 8px;
+    .card h3 {
+      margin: 0 0 15px;
+      font-size: 1.25rem;
+      color: var(--gold);
       font-weight: 600;
     }
-
-    .back-button:hover {
-      background-color: #e1b500;
+    .card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .card a {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: #000;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .card a:hover {
+      background: var(--dark);
+      color: var(--gold);
     }
 
-    /* Responsive */
-    @media screen and (max-width: 768px) {
-      .card-container {
-        flex-direction: column;
-        align-items: center;
-      }
+    /* Home button */
+    .home-btn {
+      display: inline-block;
+      margin-top: 60px;
+      background: var(--gold);
+      color: #000;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .home-btn:hover {
+      background: var(--dark);
+      color: var(--gold);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .brand h1 { font-size: 60px; }
+      .brand .ampersand { font-size: 1.8em; }
+      .brand .slogan { font-size: 16px; }
+      .container { margin-top: 220px; }
+      .card { padding: 24px 16px 70px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Outils Métier</h1>
+  <!-- ===== HEADER ===== -->
+  <header class="brand">
+    <h1>PANCRAZI</h1>
+    <h1 class="ampersand">&amp; PARTNERS</h1>
+    <p class="slogan">L’excellence pour tous</p>
+  </header>
+
+  <main class="container">
+    <h2 class="page-title">Outils Métier</h2>
     <div class="card-container">
       <!-- PROCADASTRE -->
       <div class="card">
         <img src="https://www.procadastre.com/favicon.ico" alt="PROCADASTRE" />
         <h3>PROCADASTRE</h3>
         <p>Accédez à votre logiciel de gestion de cadastre.</p>
-        <!-- Remplacer par l'URL de connexion automatique, si supporté -->
         <a href="https://www.procadastre.com?login=YOUR_LOGIN&password=YOUR_PASSWORD" target="_blank">Accéder</a>
       </div>
-      
       <!-- GIRAFFE360 -->
       <div class="card">
         <img src="https://dashboard.giraffe360.com/favicon.ico" alt="GIRAFFE360" />
@@ -139,7 +198,6 @@
         <p>Accédez à votre espace Giraffe360.</p>
         <a href="https://dashboard.giraffe360.com/fr/signin?redirectTo=%2F%3F_gl%3D1*o7uf2o*_gcl_au*MTEzMDYxODMwLjE3NDY3MjIxMDc." target="_blank">Accéder</a>
       </div>
-
       <!-- CADASTRE.com -->
       <div class="card">
         <img src="https://www.cadastre.com/favicon.ico" alt="CADASTRE.com" />
@@ -147,7 +205,6 @@
         <p>Accédez à votre outil de gestion de cadastre.</p>
         <a href="https://www.cadastre.com" target="_blank">Accéder</a>
       </div>
-
       <!-- NODALVIEW -->
       <div class="card">
         <img src="https://www.nodalview.com/favicon.ico" alt="NODALVIEW" />
@@ -157,8 +214,7 @@
       </div>
     </div>
 
-    <!-- Bouton retour -->
-    <a href="accueil.html" class="back-button">Retour à l'Accueil</a>
-  </div>
+    <a href="accueil.html" class="home-btn">Accueil</a>
+  </main>
 </body>
 </html>

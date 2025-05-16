@@ -1,181 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <title>Formation – P&amp;P ACADEMY</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-          integrity="sha512-aQ3GDJcf4xgGqNRmOcV3IqdG2C19zUxhEP1h5T4KbnIuOdwmALrhYxFC3vEP+TjtbxgK6V+JjCHuYwZ1+w4QeQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* Effet machine à écrire pour le bonjour */
-        @keyframes blink { 0%,49%{opacity:1;} 50%,100%{opacity:0;} }
-        .typewriter-cursor{
-            display:inline-block;width:2px;height:1em;background:#000;
-            margin-left:2px;animation:blink 1s steps(2,start) infinite;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>PANCRAZI ACADEMY – Fil actu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--gold:#D4AF37;--offwhite:#f5f4f1;--glass:rgba(0,0,0,.60);}    
+    body::before{content:"";position:fixed;inset:0;z-index:-1;background:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;filter:grayscale(40%) brightness(.55) contrast(1.1);opacity:.55;pointer-events:none;}
+    /* HEADER */
+    .brand{position:fixed;top:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;z-index:10;}
+    .brand h1{margin:0;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:2px;color:var(--gold);line-height:1.05;font-size:90px;text-shadow:0 4px 10px rgba(0,0,0,.85),0 0 14px rgba(212,175,55,.55);-webkit-text-stroke:1px rgba(0,0,0,.65);}    
+    .brand .ampersand{font-size:1.8em;}
+    .brand .slogan{margin:0;font:600 22px 'Montserrat',sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--gold);text-shadow:0 2px 6px rgba(0,0,0,.8);} 
+    /* TOP BAR */
+    .top-bar{margin-top:18rem;}@media(max-width:1024px){.top-bar{margin-top:17rem;}}@media(max-width:640px){.top-bar{margin-top:13rem;}}
+    /* TYPEWRITER */
+    @keyframes blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+    .typewriter-cursor{display:inline-block;width:2px;height:1em;background:var(--gold);margin-left:2px;animation:blink 1s steps(2,start) infinite;}
+    /* BUTTONS */
+    .btn-gold{background:var(--gold);color:#000;font-weight:600;transition:background .25s;border-radius:.375rem;padding:.5rem 1rem;}
+    .btn-gold:hover{background:#caa52d;}
+    .btn-outline{border:1px solid var(--gold);color:var(--gold);padding:.5rem 1rem;border-radius:.375rem;transition:background .25s,color .25s;}
+    .btn-outline:hover{background:var(--gold);color:#000;}
+    /* POST CARD */
+    .post-card{background:var(--glass);backdrop-filter:blur(8px);border:1px solid rgba(212,175,55,.35);border-radius:1rem;padding:1.5rem;overflow:hidden;}
+    .badge{background:var(--gold);color:#000;font-weight:600;border-radius:.25rem;padding:.15rem .45rem;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;}
+    .actions{display:flex;align-items:center;gap:1.25rem;margin-top:.75rem;color:var(--gold);}    
+    .actions svg{width:20px;height:20px;cursor:pointer;transition:transform .15s fill .2s;fill:var(--gold);}
+    .actions svg:hover{transform:scale(1.15);fill:#ffd86b;}
+    .actions .liked svg{fill:#e63946;}
+    main::-webkit-scrollbar{width:6px;}main::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+    @media(max-width:640px){.brand h1{font-size:60px;}.brand .ampersand{font-size:1.6em;}.brand .slogan{font-size:16px;}}
+  </style>
 </head>
-<body class="h-screen flex bg-gray-100">
-<!-- Sidebar -->
-<aside class="w-64 bg-black text-white flex flex-col">
-    <div class="p-6 text-2xl font-bold tracking-wide text-yellow-300">
-        P&amp;P ACADEMY
+<body class="h-screen flex flex-col text-[color:var(--offwhite)]">
+  <!-- HEADER LOGO -->
+  <header class="brand pointer-events-none select-none">
+    <h1>PANCRAZI</h1>
+    <h1 class="ampersand">ACADEMY</h1>
+    <p class="slogan">L’excellence pour tous</p>
+  </header>
+
+  <!-- TOP NAV -->
+  <div class="top-bar mx-4 rounded-lg bg-black/65 backdrop-blur-md shadow text-[color:var(--gold)]">
+    <div class="grid grid-cols-3 items-center px-6 py-3 gap-4">
+      <span id="greeting" class="justify-self-start text-sm sm:text-base"></span>
+      <nav class="justify-self-center"><ul class="flex space-x-6 text-sm sm:text-base">
+        <li><a href="#" class="font-bold text-black bg-[color:var(--gold)] px-2 py-1 rounded">Accueil</a></li>
+        <li><a href="parcours.html" class="hover:text-black hover:bg-[color:var(--gold)] px-2 py-1 rounded transition">Parcours</a></li>
+        <li><a href="fiche-pratique.html" class="hover:text-black hover:bg-[color:var(--gold)] px-2 py-1 rounded transition">Formations</a></li>
+        <li><a href="faq.html" class="hover:text-black hover:bg-[color:var(--gold)] px-2 py-1 rounded transition">FAQ</a></li></ul></nav>
+      <div class="justify-self-end flex gap-2"><button id="toggleForm" class="btn-gold">+ Nouveau post</button><a href="accueil.html" class="btn-outline">Apps</a></div>
     </div>
-    <nav class="flex-1">
-        <ul>
-            <li>
-                <a href="formation-app.html"
-                   class="block px-6 py-3 hover:bg-yellow-500 transition">Accueil</a>
-            </li>
-            <li>
-                <a href="parcours.html"
-                   class="block px-6 py-3 hover:bg-yellow-500 transition">Parcours</a>
-            </li>
-            <li>
-                <a href="formations.html"
-                   class="block px-6 py-3 hover:bg-yellow-500 transition">Formations</a>
-            </li>
-            <li>
-                <a href="faq.html"
-                   class="block px-6 py-3 hover:bg-yellow-500 transition">FAQ</a>
-            </li>
-        </ul>
-    </nav>
-</aside>
+  </div>
 
-<!-- Main content -->
-<main class="flex-1 overflow-y-auto">
-    <!-- Header -->
-    <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
-        <h1 id="greeting" class="text-xl font-semibold"></h1>
-        <div class="flex gap-2">
-            <button id="toggleForm"
-                    class="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-400 transition">
-                + Nouveau post
-            </button>
-            <a href="accueil.html"
-               class="px-4 py-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-black transition">
-                Accueil
-            </a>
-        </div>
-    </header>
+  <!-- POST FORM -->
+  <section id="postForm" class="hidden bg-black/60 backdrop-blur-md mx-8 my-6 p-6 rounded-lg shadow-lg">
+    <h2 class="text-lg font-semibold mb-4 text-[color:var(--gold)]">Ajouter une actualité</h2>
+    <form id="newsForm" class="space-y-4">
+      <div><label class="block text-sm font-medium mb-1">Service</label><select id="service" class="w-full border border-[color:var(--gold)] bg-transparent rounded p-2" required>
+          <option>Service Juridique</option><option>Service Transaction</option><option>Service Location</option><option>Service Marketing</option></select></div>
+      <div><label class="block text-sm font-medium mb-1">Titre</label><input id="title" class="w-full border border-[color:var(--gold)] bg-transparent rounded p-2" required></div>
+      <div><label class="block text-sm font-medium mb-1">Message</label><textarea id="message" rows="3" class="w-full border border-[color:var(--gold)] bg-transparent rounded p-2" required></textarea></div>
+      <div><label class="block text-sm font-medium mb-1">Image (optionnel)</label><input id="image" type="file" accept="image/*" class="w-full"></div>
+      <div><label class="block text-sm font-medium mb-1">PDF (optionnel)</label><input id="pdf" type="file" accept="application/pdf" class="w-full"></div>
+      <div class="flex justify-end gap-2"><button type="button" id="cancelForm" class="btn-outline">Annuler</button><button type="submit" class="btn-gold">Publier</button></div>
+    </form>
+  </section>
 
-    <!-- Titre central -->
-    <section class="mx-8 my-6">
-        <h2 class="text-2xl font-semibold text-center text-gray-800">
-            Bienvenue sur la plateforme
-        </h2>
-    </section>
-
-    <!-- Formulaire d’ajout -->
-    <section id="postForm" class="hidden bg-white mx-8 my-4 p-6 rounded shadow-lg">
-        <h2 class="text-lg font-semibold mb-4">Ajouter une actualité</h2>
-        <form id="newsForm" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium mb-1" for="title">Titre</label>
-                <input type="text" id="title" required class="w-full border rounded p-2" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1" for="message">Message</label>
-                <textarea id="message" rows="3" required class="w-full border rounded p-2"></textarea>
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1" for="pdf">Ajouter un PDF (optionnel)</label>
-                <input type="file" id="pdf" accept="application/pdf" class="w-full" />
-            </div>
-            <div class="flex justify-end space-x-2">
-                <button type="button" id="cancelForm" class="px-4 py-2 border rounded">Annuler</button>
-                <button type="submit"
-                        class="px-4 py-2 bg-yellow-500 text-black font-semibold rounded hover:bg-yellow-400 transition">
-                    Publier
-                </button>
-            </div>
-        </form>
-    </section>
-
-    <!-- Fil d’actualité -->
-    <section id="feed" class="space-y-4 px-8 py-4">
-        <!-- Exemple de post -->
-        <article class="bg-white rounded shadow p-6">
-            <header class="flex items-center justify-between mb-2">
-                <h3 class="text-lg font-semibold">Nouveau guide : Gestion de projet agile</h3>
-                <time class="text-sm text-gray-500">07/05/2025</time>
-            </header>
-            <p class="mb-4">Retrouvez le guide complet pour débuter avec la méthode agile.</p>
-            <a href="docs/guide-agile.pdf"
-               class="inline-flex items-center text-yellow-500 hover:underline">
-                <i class="fa-solid fa-file-pdf mr-2"></i> Télécharger le PDF
-            </a>
-        </article>
-    </section>
-</main>
+  <!-- FEED -->
+  <main class="flex-1 overflow-y-auto p-8 pt-20"><section id="feed" class="space-y-6"></section></main>
 
 <script>
-// Nom du collaborateur (à injecter côté back)
-const userName = 'Alexandre';
-
-// Animation « typewriter »
-const greetingElement = document.getElementById('greeting');
-const message = `Bonjour, ${userName}`;
-const cursor = document.createElement('span');
-cursor.className = 'typewriter-cursor';
-greetingElement.appendChild(cursor);
-
-let i = 0;
-const typer = setInterval(() => {
-    if (i < message.length) {
-        greetingElement.insertBefore(document.createTextNode(message.charAt(i)), cursor);
-        i++;
-    } else {
-        clearInterval(typer);
-        cursor.remove();
-    }
-}, 80);
-
-// Gestion des posts
-const toggleFormBtn = document.getElementById('toggleForm');
-const postForm     = document.getElementById('postForm');
-const cancelFormBtn= document.getElementById('cancelForm');
-const newsForm     = document.getElementById('newsForm');
-const feed         = document.getElementById('feed');
-
-toggleFormBtn.addEventListener('click', () => postForm.classList.toggle('hidden'));
-cancelFormBtn.addEventListener('click', () => postForm.classList.add('hidden'));
-
-newsForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const title = document.getElementById('title').value.trim();
-    const msg   = document.getElementById('message').value.trim();
-    const pdf   = document.getElementById('pdf');
-    const date  = new Date().toLocaleDateString('fr-FR');
-    if (!title || !msg) return;
-
-    const article = document.createElement('article');
-    article.className = 'bg-white rounded shadow p-6';
-    article.innerHTML = `
-        <header class="flex items-center justify-between mb-2">
-            <h3 class="text-lg font-semibold">${title}</h3>
-            <time class="text-sm text-gray-500">${date}</time>
-        </header>
-        <p class="mb-4">${msg}</p>
-    `;
-    if (pdf.files.length) {
-        const file = pdf.files[0];
-        const url  = URL.createObjectURL(file);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = file.name;
-        link.className = 'inline-flex items-center text-yellow-500 hover:underline';
-        link.innerHTML = '<i class=\"fa-solid fa-file-pdf mr-2\"></i> Télécharger le PDF';
-        article.appendChild(link);
-    }
-    feed.prepend(article);
-    newsForm.reset();
-    postForm.classList.add('hidden');
-});
+/***** outils *****/
+const uuid=()=>crypto.randomUUID();
+const save=arr=>localStorage.setItem('pp_posts',JSON.stringify(arr));
+const load=()=>JSON.parse(localStorage.getItem('pp_posts')||'[]');
+/***** greeting *****/
+const greet=document.getElementById('greeting');const txt=`Bonjour, Alexandre`;let gi=0;const cur=document.createElement('span');cur.className='typewriter-cursor';greet.appendChild(cur);const typer=setInterval(()=>{if(gi<txt.length)greet.insertBefore(document.createTextNode(txt[gi++]),cur);else{clearInterval(typer);cur.remove();}},80);
+/***** icônes svg *****/
+const icons={heart:`<svg viewBox='0 0 24 24'><path d='M12 21s-6.6-4.35-9.33-7.91C.47 10.79 1.71 6.4 5.35 5.13A5.2 5.2 0 0 1 12 7.09a5.2 5.2 0 0 1 6.65-1.96c3.64 1.27 4.88 5.66 2.68 7.96C18.6 16.65 12 21 12 21Z'/></svg>`,comment:`<svg viewBox='0 0 24 24'><path d='M20 2H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z'/></svg>`,trash:`<svg viewBox='0 0 24 24'><path d='M3 6h18M8 6V4h8v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14Z'/></svg>`};
+const feed=document.getElementById('feed');
+function card(p){return `<article class='post-card' data-id='${p.id}'><header class='flex justify-between mb-3'><span class='badge'>${p.service}</span><time class='text-xs text-gray-400'>${p.date} • ${p.time}</time></header>${p.img?`<img src='${p.img}' class='w-full rounded mb-3'>`:''}<h3 class='text-lg font-semibold text-[color:var(--gold)] mb-1'>${p.title}</h3><p class='mb-3'>${p.msg}</p>${p.pdf?`<a href='${p.pdf}' class='inline-flex items-center text-[color:var(--gold)] hover:underline mb-3'>PDF</a>`:''}<div class='actions'><span class='like ${p.liked?'liked':''}'>${icons.heart}<span>${p.likes}</span></span><span class='comment'>${icons.comment}<span>${(p.comments||[]).length}</span></span><span class='delete ml-auto'>${icons.trash}</span></div></article>`;}
+function render(){feed.innerHTML='';load().forEach(p=>feed.insertAdjacentHTML('afterbegin',card(p)));attach();}
+function attach(){document.querySelectorAll('.post-card').forEach(card=>{const id=card.dataset.id;let posts=load();const idx=posts.findIndex(x=>x.id===id);const p=posts[idx];card.querySelector('.like').onclick=()=>{p.liked=!p.liked;p.likes+=(p.liked?1:-1);posts[idx]=p;save(posts);render();};card.querySelector('.comment').onclick=()=>{const t=prompt('Commentaire');if(t){p.comments.push({id:uuid(),text:t,date:new Date().toLocaleString('fr-FR')});posts[idx]=p;save(posts);render();}};card.querySelector('.delete').onclick=()=>{if(confirm('Supprimer ?')){posts.splice(idx,1);save(posts);render();}};});}
+/***** init *****/
+if(!load().length){save([{id:uuid(),service:'Service Formation',title:'Nouveaux modules financement immo',msg:'Formez-vous aux leviers de financement.',img:'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80',pdf:'',date:new Date().toLocaleDateString('fr-FR'),time:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),likes:0,liked:false,comments:[]}]);}
+render();
+/***** form *****/
+const postForm=document.getElementById('postForm');document.getElementById('toggleForm').onclick=()=>postForm.classList.toggle('hidden');document.getElementById('cancelForm').onclick=()=>postForm.classList.add('hidden');
+const newsForm=document.getElementById('newsForm');
+newsForm.onsubmit=e=>{e.preventDefault();const service=document.getElementById('service').value,title=document.getElementById('title').value.trim(),msg=document.getElementById('message').value.trim();if(!title||!msg)return;const d=new Date();const newPost={id:uuid(),service,title,msg,date:d.toLocaleDateString('fr-FR'),time:d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),likes:0,liked:false,comments:[]};const imgF=document.getElementById('image').files[0];const finalize=()=>{const pdfF=document.getElementById('pdf').files[0];if(pdfF)newPost.pdf=URL.createObjectURL(pdfF);const posts=load();posts.push(newPost);save(posts);postForm.classList.add('hidden');newsForm.reset();render();};if(imgF){const reader=new FileReader();reader.onload=ev=>{newPost.img=ev.target.result;finalize();};reader.readAsDataURL(imgF);}else finalize();};
 </script>
 </body>
 </html>

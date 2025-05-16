@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PANCRAZI &amp; PARTNERS – Services</title>
+
+    <!-- Google Font for an elegant, uppercase serif look -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        /* Brand colours */
+        --black: #0b0b0b;
+        --navy: #071e36;
+        --beige: #f2efe8;
+        --gold: #d4a44f;
+        --white: #f5f5f5;
+        --burnt: #b35421;
+
+        /* Transition timing */
+        --transition: 0.6s ease;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Cinzel", serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--white);
+      }
+
+      /* ============================================ */
+      /*   BACKGROUND LAYERS : photo luxe + logo      */
+      /* ============================================ */
+      body.has-bg {
+        background: var(--black); /* fallback behind images */
+      }
+      body.has-bg::before {
+        /* Luxury real-estate photo */
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: url("photo-base.jpg") center/cover no-repeat;
+        opacity: 0.2; /* adjust */
+        z-index: -3;
+        pointer-events: none;
+      }
+      body.has-bg::after {
+        /* Software logo watermark */
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: url("logo-software.png") center/contain no-repeat;
+        opacity: 0.25;
+        z-index: -2;
+        pointer-events: none;
+      }
+
+      /* ============================================ */
+      /*                HERO / HEADER                 */
+      /* ============================================ */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 0.6rem;
+        padding: 4rem 1rem 2.5rem;
+      }
+      .hero .logo-main {
+        margin: 0;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 700;
+        color: var(--gold);
+        line-height: 1;
+      }
+      .hero .logo-sub {
+        margin: 0;
+        font-size: clamp(1.3rem, 4vw, 2.5rem);
+        color: var(--gold);
+        line-height: 1.1;
+      }
+      .hero .tagline {
+        margin: 0 0 1.5rem;
+        font-size: clamp(0.8rem, 2vw, 1.2rem);
+        letter-spacing: 0.2em;
+        color: var(--gold);
+      }
+      .btn-home {
+        display: inline-block;
+        padding: 0.8rem 2.4rem;
+        font-size: clamp(0.75rem, 1.5vw, 1rem);
+        background: var(--gold);
+        color: var(--black);
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background var(--transition), transform var(--transition);
+      }
+      .btn-home:hover,
+      .btn-home:focus-visible {
+        background: #c89945; /* slightly darker gold */
+        transform: translateY(-2px);
+      }
+      .btn-home:focus-visible {
+        outline: 3px dashed var(--white);
+      }
+
+      /* ============================================ */
+      /*               SERVICES  GRID                 */
+      /* ============================================ */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        width: 100%;
+        min-height: 60vh;
+        transition: var(--transition);
+      }
+
+      .service-tile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        gap: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-tile h1 {
+        margin: 0;
+        font-size: clamp(1.6rem, 4vw, 3rem);
+        line-height: 1.1;
+        text-align: center;
+      }
+
+      .service-tile h2 {
+        margin: 0;
+        font-size: clamp(0.8rem, 2vw, 1.2rem);
+        font-weight: 400;
+        letter-spacing: 0.25em;
+        text-align: center;
+      }
+
+      /* Brand colour variants */
+      .prestige {
+        background: var(--black);
+        color: var(--gold);
+      }
+      .immobilier {
+        background: var(--navy);
+        color: var(--white);
+      }
+      .investissement {
+        background: var(--beige);
+        color: var(--navy);
+      }
+      .conciergerie {
+        background: var(--black);
+        color: var(--burnt);
+      }
+
+      /* Hover / focus behaviour */
+      .services-grid:hover .service-tile {
+        opacity: 0.3;
+        filter: blur(2px);
+        transform: scale(0.9);
+      }
+      .service-tile:hover,
+      .service-tile:focus-visible {
+        grid-column: 1 / -1;
+        grid-row: 1 / -1;
+        opacity: 1 !important;
+        filter: none !important;
+        transform: scale(1) !important;
+        z-index: 10;
+      }
+      .service-tile:hover h1 {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+      }
+      .service-tile:hover h2 {
+        font-size: clamp(1.2rem, 3vw, 2rem);
+      }
+
+      /* Keyboard focus */
+      .service-tile:focus-visible {
+        outline: 4px dashed currentColor;
+      }
+
+      /* Responsive stack */
+      @media (max-width: 640px) {
+        .services-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(4, 1fr);
+        }
+        .hero {
+          padding: 3rem 1rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="has-bg">
+    <!-- HERO HEADER -->
+    <header class="hero">
+      <h1 class="logo-main">PANCRAZI</h1>
+      <h2 class="logo-sub">&amp; PARTNERS</h2>
+      <p class="tagline">L'excellence pour tous</p>
+      <a href="accueil.html" class="btn-home">Accueil</a>
+    </header>
+
+    <!-- 4 SERVICE TILES -->
+    <main class="services-grid">
+      <!-- Prestige Property -->
+      <article
+        class="service-tile prestige"
+        data-target="prestige.html"
+        tabindex="0"
+      >
+        <h1>Pancrazi &amp; Partners</h1>
+        <h2>Propriété de prestige</h2>
+      </article>
+
+      <!-- Real Estate -->
+      <article
+        class="service-tile immobilier"
+        data-target="immobilier.html"
+        tabindex="0"
+      >
+        <h1>Pancrazi &amp; Partners</h1>
+        <h2>Immobilier</h2>
+      </article>
+
+      <!-- Investment -->
+      <article
+        class="service-tile investissement"
+        data-target="investissement.html"
+        tabindex="0"
+      >
+        <h1>Pancrazi &amp; Partners</h1>
+        <h2>Investissement</h2>
+      </article>
+
+      <!-- Concierge -->
+      <article
+        class="service-tile conciergerie"
+        data-target="conciergerie.html"
+        tabindex="0"
+      >
+        <h1>Pancrazi &amp; Partners</h1>
+        <h2>Conciergerie</h2>
+      </article>
+    </main>
+
+    <script>
+      // Simple redirect on click or keyboard activation
+      document.querySelectorAll(".service-tile").forEach((tile) => {
+        const target = tile.getAttribute("data-target");
+        if (target) {
+          tile.addEventListener("click", () => {
+            window.location.href = target;
+          });
+          tile.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              window.location.href = target;
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

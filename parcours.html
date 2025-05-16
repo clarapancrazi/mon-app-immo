@@ -1,92 +1,271 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <title>Parcours – P&amp;P ACADEMY</title>
+    <title>Parcours – PANCRAZI ACADEMY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind (layout utilities only) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
     <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        integrity="sha512-aQ3GDJcf4xgGqNRmOcV3IqdG2C19zUxhEP1h5T4KbnIuOdwmALrhYxFC3vEP+TjtbxgK6V+JjCHuYwZ1+w4QeQ=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
     />
+
     <style>
-        @keyframes zoomIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+      :root {
+        --gold: #d4af37;
+        --offwhite: #f5f4f1;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Montserrat", sans-serif;
+        color: var(--offwhite);
+      }
+
+      /* ============================================ */
+      /*            LUXURY PHOTO BACKGROUND           */
+      /* ============================================ */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1920&q=80")
+          center/cover no-repeat;
+        filter: grayscale(35%) brightness(0.5) contrast(1.15);
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      /* ============================================ */
+      /*                 BRAND HEADER                */
+      /* ============================================ */
+      .brand {
+        position: fixed;
+        top: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        z-index: 10;
+        pointer-events: none;
+      }
+      .brand h1 {
+        margin: 0;
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--gold);
+        line-height: 1.05;
+        font-size: 90px;
+        text-shadow: 0 4px 10px rgba(0, 0, 0, 0.9), 0 0 16px rgba(212, 175, 55, 0.6);
+        -webkit-text-stroke: 1px rgba(0, 0, 0, 0.7);
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
+      }
+      .brand .ampersand {
+        font-size: 1.8em;
+      }
+      .brand .slogan {
+        margin: 0;
+        font: 600 22px "Montserrat", sans-serif;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--gold);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+      }
+
+      /* ============================================ */
+      /*              CONTRAST THEME TILES            */
+      /* ============================================ */
+      @keyframes rotateGlow {
+        from {
+          transform: rotate(0deg);
         }
-        .bubble-enter {
-            animation: zoomIn 0.6s ease forwards;
+        to {
+          transform: rotate(360deg);
         }
+      }
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .theme-tile {
+        position: relative;
+        width: 270px;
+        min-height: 230px;
+        padding: 2rem 1rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.65);
+        border: 1px solid rgba(212, 175, 55, 0.5);
+        border-radius: 18px;
+        backdrop-filter: blur(8px);
+        color: var(--gold);
+        font-weight: 600;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
+        overflow: hidden;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+      }
+      /* Rotating gold halo */
+      .theme-tile::before {
+        content: "";
+        position: absolute;
+        inset: -45%;
+        background: conic-gradient(
+          var(--gold),
+          transparent 30%,
+          transparent 60%,
+          var(--gold) 90%
+        );
+        animation: rotateGlow 7s linear infinite;
+        filter: blur(4px);
+      }
+      /* Inner dark layer */
+      .theme-tile::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: inherit;
+        background: rgba(0, 0, 0, 0.85);
+      }
+      .theme-tile h3 {
+        position: relative;
+        z-index: 2;
+        font-size: 1.05rem;
+      }
+      .theme-tile:hover {
+        transform: translateY(-14px) scale(1.05);
+        box-shadow: 0 14px 38px rgba(212, 175, 55, 0.4);
+        border-color: var(--gold);
+      }
+      .theme-tile:hover::before {
+        filter: blur(6px);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 640px) {
+        .brand h1 {
+          font-size: 60px;
+        }
+        .brand .ampersand {
+          font-size: 1.6em;
+        }
+        .brand .slogan {
+          font-size: 16px;
+        }
+        .theme-tile {
+          width: 220px;
+          min-height: 190px;
+        }
+      }
+
+      /* Spacing below brand */
+      .top-bar {
+        margin-top: 18rem;
+      }
+      @media (max-width: 1024px) {
+        .top-bar {
+          margin-top: 17rem;
+        }
+      }
+      @media (max-width: 640px) {
+        .top-bar {
+          margin-top: 13rem;
+        }
+      }
+
+      /* Scrollbar for main */
+      main::-webkit-scrollbar {
+        width: 6px;
+      }
+      main::-webkit-scrollbar-thumb {
+        background: var(--gold);
+        border-radius: 3px;
+      }
     </style>
-</head>
-<body class="h-screen flex bg-gray-100">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-black text-white flex flex-col">
-        <div class="p-6 text-2xl font-bold tracking-wide text-yellow-300">P&amp;P ACADEMY</div>
-        <nav class="flex-1">
-            <ul>
-                <li>
-                    <a href="formation-app.html" class="block px-6 py-3 hover:bg-yellow-500 transition">Accueil</a>
-                </li>
-                <li>
-                    <a href="parcours.html" class="block px-6 py-3 bg-yellow-500 text-black font-semibold">Parcours</a>
-                </li>
-                <li>
-                    <a href="formations.html" class="block px-6 py-3 hover:bg-yellow-500 transition">Formations</a>
-                </li>
-                <li>
-                    <a href="faq.html" class="block px-6 py-3 hover:bg-yellow-500 transition">FAQ</a>
-                </li>
-            </ul>
+  </head>
+
+  <body class="h-screen flex flex-col">
+    <!-- BRAND HEADER -->
+    <header class="brand select-none">
+      <h1>PANCRAZI</h1>
+      <h1 class="ampersand">ACADEMY</h1>
+      <p class="slogan">L'excellence pour tous</p>
+    </header>
+
+    <!-- TOP BAR -->
+    <div class="top-bar mx-4 rounded-lg bg-black/65 backdrop-blur-md shadow text-[color:var(--gold)]">
+      <div class="grid grid-cols-2 items-center px-6 py-3">
+        <!-- Greeting -->
+        <span id="greeting" class="justify-self-start text-sm sm:text-base"></span>
+        <!-- Navigation -->
+        <nav class="justify-self-end">
+          <ul class="flex space-x-6 text-sm sm:text-base">
+            <li>
+              <a href="accueil.html" class="hover:text-black hover:bg-[color:var(--gold)] px-2 py-1 rounded transition">Accueil</a>
+            </li>
+            <li>
+              <a href="parcours.html" class="font-bold text-black bg-[color:var(--gold)] px-2 py-1 rounded">Parcours</a>
+            </li>
+          </ul>
         </nav>
-    </aside>
+      </div>
+    </div>
 
-    <main class="flex-1 overflow-y-auto">
-        <header class="flex items-center justify-between px-8 py-4 bg-white shadow">
-            <h1 id="greeting" class="text-xl font-semibold"></h1>
-            <a
-                href="accueil.html"
-                class="px-4 py-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-black transition"
-            >
-                Accueil
-            </a>
-        </header>
-
-        <section class="p-8">
-            <h2 class="text-3xl font-bold text-center text-yellow-500 uppercase mb-10">Votre parcours de formation</h2>
-            <div id="themesGrid" class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center"></div>
-        </section>
+    <!-- MAIN GRID -->
+    <main class="flex-1 overflow-y-auto p-8 pt-20">
+      <div id="themesGrid" class="grid gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center"></div>
     </main>
 
     <script>
-        const userName = 'Alexandre';
-        document.getElementById('greeting').textContent = `Bonjour, ${userName}`;
+      // Greeting
+      const userName = "Alexandre";
+      document.getElementById("greeting").textContent = `Bonjour, ${userName}`;
 
-        const themes = [
-            'Introduction métier',
-            'Prospection 360°',
-            'Présentation de service',
-            'Mandat de Vente et son suivi',
-            'Offre et Négociation',
-            "Rédaction d'un compromis et son suivi",
-            'Location',
-            'Location saisonnière',
-            'Investissement',
-            'Gestion'
-        ];
+      // Course themes
+      const themes = [
+        "Introduction métier",
+        "Prospection 360°",
+        "Présentation de service",
+        "Mandat de Vente et son suivi",
+        "Offre et Négociation",
+        "Rédaction d'un compromis et son suivi",
+        "Location",
+        "Location saisonnière",
+        "Investissement",
+        "Gestion",
+      ];
 
-        const grid = document.getElementById('themesGrid');
-        themes.forEach((theme, index) => {
-            const bubble = document.createElement('div');
-            bubble.className =
-                'bubble-enter w-40 h-40 bg-yellow-500 text-black font-semibold rounded-full flex items-center justify-center text-center p-4 shadow-lg transform hover:scale-105 transition cursor-pointer';
-            bubble.style.animationDelay = `${index * 100}ms`;
-            bubble.textContent = theme;
-            grid.appendChild(bubble);
-        });
+      const grid = document.getElementById("themesGrid");
+      themes.forEach((theme, i) => {
+        const tile = document.createElement("article");
+        tile.className = "theme-tile";
+        tile.style.animation = `fadeIn 0.7s ease ${i * 120}ms both`;
+        tile.innerHTML = `<h3>${theme}</h3>`;
+        grid.appendChild(tile);
+      });
     </script>
-</body>
+  </body>
 </html>
