@@ -1,169 +1,191 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Connexion </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Connexion</title>
+
+  <!-- Polices -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Styles globaux */
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center; /* Centre horizontalement */
-      align-items: flex-start; /* Aligne le contenu en haut de la page */
-      color: white;
-      overflow: hidden;
-      background-image: url('https://i.imgur.com/iAfmZ3z.jpeg'); /* Image de fond */
-      background-size: cover; /* Utilisation de 'cover' pour couvrir l'écran */
-      background-position: center center; /* Centrage de l'image */
-      background-attachment: fixed; /* Rendre l'image fixe lors du défilement */
+    /* ===== Conteneur vidéo plein-écran ===== */
+    #ytwrap{
+      position:fixed; inset:0;
+      overflow:hidden;               /* masque ce qui déborde */
+      z-index:-2;
+    }
+    #ytwrap iframe{
+      position:absolute;
+      top:-35vh;                     /* remonte ≈ 35 % de la hauteur */
+      left:0;
+      width:100vw;
+      height:180vh;                 /* zoom 170 % */
+      object-fit:cover;
+      pointer-events:none;
+      filter:brightness(.65);
     }
 
-    /* Conteneur pour le formulaire de connexion */
-    .container {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.75); /* Fond sombre pour la lisibilité */
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 450px;
-      margin-top: 50px; /* Espace en haut pour éviter que le cadre touche le bord */
+    .overlay{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.25);   /* voile sombre */
+      z-index:-1;
     }
 
-    h1 {
-      color: #D4AF37; /* Or doux pour le titre */
-      font-size: 50px;
-      margin-bottom: 10px;
-      font-family: 'Playfair Display', serif; /* Police de luxe pour le titre */
+    /* ===== GLOBAL ===== */
+    body{
+      margin:0; height:100vh;
+      display:flex; justify-content:center; align-items:center;
+      overflow:hidden;
+      font-family:'Montserrat',sans-serif;
+      color:#fff; background:#000;
     }
 
-    h2 {
-  color: #D4AF37; /* Or pâle */
-  font-size: 40px; /* Taille plus grande */
-  font-family: 'Playfair Display', serif; /* Belle écriture élégante */
-  margin-bottom: 30px;
-  font-weight: 700; /* Gras pour un titre plus impactant */
-}
-
-    /* Conteneur des champs email et mot de passe */
-    .input-container {
-      display: flex;
-      justify-content: space-between; /* Espace entre les champs */
-      gap: 10px; /* Espacement entre les champs */
+    /* ===== EN-TÊTE ===== */
+    .brand{
+      position:fixed; top:40px; left:50%; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+      gap:6px; z-index:0;
+    }
+    .brand h1{
+      margin:0;
+      font-family:'Playfair Display',serif;
+      font-weight:700; letter-spacing:2px;
+      text-shadow:0 2px 6px rgba(0,0,0,.35);
+      color:#D4AF37; line-height:1.05;
+      font-size:94px;              /* PANCRAZI */
+    }
+    .brand .ampersand{font-size:1.99em;}   /* & PARTNERS (85 % de PANCRAZI) */
+    .brand .slogan{
+      margin:0;
+      font:500 20px 'Montserrat',sans-serif;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:#D4AF37;
     }
 
-    /* Largeur des champs */
-    .input-field {
-      flex: 1; /* Les deux champs prennent la même largeur */
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 2px solid #0c2d48;
-      border-radius: 8px;
-      font-size: 16px;
-      color: #0c2d48;
-      background-color: #f9f9f9;
-      box-sizing: border-box;
-      transition: border-color 0.3s;
+    /* ===== FORMULAIRE ===== */
+    .container{
+      background:rgba(0,0,0,.75);
+      padding:40px; border-radius:15px;
+      max-width:450px; width:100%;
+      text-align:center;
+      box-shadow:0 15px 30px rgba(0,0,0,.5);
     }
-
-    .input-field:focus {
-      border-color: #D4AF37; /* Or doux sur focus */
-      outline: none;
+    h2{
+      margin:0 0 30px;
+      font:700 40px/1 'Playfair Display',serif;
+      color:#D4AF37;
     }
-
-    .login-button {
-      width: 100%;
-      padding: 12px;
-      background-color: #D4AF37; /* Or doux pour les boutons */
-      color: #0c2d48;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
+    .input-container{display:flex; gap:10px; margin-bottom:15px;}
+    .input-field{
+      flex:1; padding:12px;
+      border:2px solid #0c2d48; border-radius:8px;
+      font-size:16px; color:#0c2d48; background:#f9f9f9;
+      transition:border-color .3s;
     }
+    .input-field:focus{border-color:#D4AF37; outline:none;}
 
-    .login-button:hover {
-      background-color: #e1b500; /* Un or plus intense lors du survol */
+    .login-button{
+      width:100%; padding:12px; border:0; border-radius:8px;
+      background:#D4AF37; color:#0c2d48; font-weight:600;
+      cursor:pointer; transition:background-color .3s;
     }
+    .login-button:hover{background:#e1b500;}
 
-    .forgot-link {
-      margin-top: 15px;
-      font-size: 14px;
-      color: white;
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: 500;
+    .forgot-link{
+      display:inline-block; margin-top:15px;
+      font-size:14px; text-decoration:underline; cursor:pointer; font-weight:500;
     }
+    .forgot-link:hover{color:#D4AF37;}
 
-    .forgot-link:hover {
-      color: #D4AF37; /* Or doux au survol */
+    /* ===== Bouton Mentions légales ===== */
+    .legal-link{
+      position:fixed; bottom:10px; right:12px;
+      font-size:25px; color:rgba(255,255,255,.75);
+      text-decoration:none; font-weight:500;
+      transition:color .2s;
     }
+    .legal-link:hover{color:#D4AF37;}
 
-    /* Réduire la taille sur mobile */
-    @media screen and (max-width: 500px) {
-      .container {
-        padding: 30px;
-      }
-      h1 {
-        font-size: 28px;
-      }
-      h2 {
-        font-size: 16px;
-      }
-      input, button {
-        font-size: 14px;
-        padding: 10px;
-      }
+    /* ===== Responsive ===== */
+    @media(max-width:500px){
+      .brand{top:20px;}
+      .brand h1{font-size:42px;}
+      .brand .slogan{font-size:14px;}
+      .container{padding:30px;}
+      h2{font-size:28px;}
+      .input-field, .login-button{font-size:14px; padding:10px;}
     }
   </style>
 </head>
 <body>
-  <!-- Conteneur de la page de connexion -->
+
+  <!-- ===== Vidéo + overlay ===== -->
+  <div id="ytwrap"><div id="ytbg"></div></div>
+  <div class="overlay"></div>
+
+  <!-- ===== EN-TÊTE ===== -->
+  <header class="brand">
+    <h1>PANCRAZI</h1>
+    <h1 class="ampersand">&amp; PARTNERS</h1>
+    <p class="slogan">L’excellence pour tous</p>
+  </header>
+
+  <!-- ===== FORMULAIRE ===== -->
   <div class="container">
     <h2>Connexion au Logiciel</h2>
-    <!-- Conteneur pour les champs email et mot de passe -->
     <div class="input-container">
-      <input type="text" class="input-field" id="username" placeholder="Email" />
-      <input type="password" class="input-field" id="password" placeholder="Mot de passe" />
+      <input type="text"  class="input-field" id="username" placeholder="Email">
+      <input type="password" class="input-field" id="password" placeholder="Mot de passe">
     </div>
     <button class="login-button" onclick="login()">Se connecter</button>
-    <span class="forgot-link" onclick="ouvrirPopup()">Mot de passe oublié ?</span>
+    <span class="forgot-link" onclick="ouvrirPopup()">Mot de passe oublié&nbsp;?</span>
     <div class="error" id="errorMessage"></div>
   </div>
 
+  <!-- ===== Bouton Mentions légales ===== -->
+  <a href="mentions.html" class="legal-link">Mentions légales</a>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    const utilisateurs = [
-      { nom: "Admin", email: "cbpancrazi@laforet.com", password: "Paulagiu2015!" }
-    ];
-
-    function login() {
-      const username = document.getElementById("username").value.trim().toLowerCase();
-      const password = document.getElementById("password").value.trim();
-      const erreur = document.getElementById("errorMessage");
-
-      const user = utilisateurs.find(u =>
-        (u.email.toLowerCase() === username || u.nom.toLowerCase() === username) &&
-        u.password === password
-      );
-
-      if (user) {
-        sessionStorage.setItem("utilisateurConnecte", JSON.stringify(user));
-        window.location.href = "accueil.html";
-      } else {
-        erreur.textContent = "Identifiants incorrects. Veuillez réessayer.";
-      }
+    /* boucle vidéo : 38 s → 55 s */
+    const VIDEO_ID='dF-nxUskIJ4', START=38, END=55;
+    function onYouTubeIframeAPIReady(){
+      new YT.Player('ytbg',{
+        videoId:VIDEO_ID,
+        playerVars:{
+          autoplay:1,mute:1,controls:0,modestbranding:1,rel:0,
+          start:START,end:END,playsinline:1,iv_load_policy:3,cc_load_policy:0
+        },
+        events:{
+          onReady:e=>e.target.playVideo(),
+          onStateChange:e=>{
+            if(e.data===YT.PlayerState.PLAYING){
+              const loop=setInterval(()=>{
+                if(e.target.getCurrentTime()>=END){e.target.seekTo(START);}
+                if(e.target.getPlayerState()!==YT.PlayerState.PLAYING){clearInterval(loop);}
+              },250);
+            }
+          }
+        }
+      });
     }
 
-    function togglePassword() {
-      const pwd = document.getElementById("password");
-      pwd.type = pwd.type === "password" ? "text" : "password";
+    /* Auth simplifiée */
+    const utilisateurs=[{nom:'Admin',email:'cbpancrazi@laforet.com',password:'Paulagiu2015!'}];
+    function login(){
+      const u=document.getElementById('username').value.trim().toLowerCase();
+      const p=document.getElementById('password').value.trim();
+      const err=document.getElementById('errorMessage');
+      const user=utilisateurs.find(x=>(x.email.toLowerCase()===u||x.nom.toLowerCase()===u)&&x.password===p);
+      if(user){
+        sessionStorage.setItem('utilisateurConnecte',JSON.stringify(user));
+        window.location.href='accueil.html';
+      }else{
+        err.textContent='Identifiants incorrects. Veuillez réessayer.';
+      }
     }
   </script>
 </body>
