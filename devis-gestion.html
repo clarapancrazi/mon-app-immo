@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devis — PANCRAZI &amp; Partners</title>
+  <style>
+    :root {
+      --dark-bg: #111;
+      --overlay-bg: rgba(0,0,0,0.75);
+      --gold: #D4AF37;
+      --white: #ffffff;
+      --blue-dark: #0a3d62;
+      --green-dark: #006837;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    html, body { height:100%; }
+    body {
+      font-family:'Inter', sans-serif;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size:cover;
+      color:var(--white);
+      position:relative;
+    }
+    .overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:var(--overlay-bg); z-index:-1; }
+    header.brand {
+      display:flex; flex-direction:column; align-items:center;
+      margin:20px;
+    }
+    header.brand h1 { font-family:'Playfair Display', serif; font-size:32px; color:var(--gold); margin:0; line-height:1; }
+    header.brand .ampersand { font-size:1.5em; }
+    header.brand .slogan { color:var(--white); font-size:14px; margin-top:4px; }
+    .result-container {
+      max-width:700px;
+      margin:40px auto;
+      background:var(--dark-bg);
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.5);
+      padding:30px;
+    }
+    .section {
+      margin-bottom:30px;
+      padding:20px;
+      border-radius:8px;
+      background:var(--dark-bg);
+      border:2px solid var(--gold);
+    }
+    .section.legend-blue { border-color:var(--blue-dark); }
+    .section.legend-green { border-color:var(--green-dark); }
+    .section h2 {
+      font-size:20px;
+      color:var(--gold);
+      margin-bottom:16px;
+    }
+    .row { display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; }
+    .row .label { color:var(--white); flex:1; }
+    .row .value { width:120px; text-align:right; color:var(--white); }
+    .total { font-weight:700; background:var(--gold); color:var(--dark-bg); padding:8px; border-radius:4px; }
+    .actions { text-align:center; margin-top:20px; }
+    .btn { background:var(--gold); color:var(--dark-bg); padding:12px 24px; border:none; border-radius:8px; cursor:pointer; font-size:16px; font-weight:600; margin:0 8px; }
+    @media(max-width:600px) {
+      .result-container { margin:20px; padding:20px; }
+      .row { flex-direction:column; align-items:flex-start; }
+      .row .value { margin-top:4px; }
+      .actions .btn { display:block; width:100%; margin:8px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <header class="brand">
+    <h1>PANCRAZI</h1>
+    <h1 class="ampersand">&amp; PARTNERS</h1>
+    <p class="slogan">L’excellence pour tous</p>
+  </header>
+
+  <div class="result-container">
+    <div class="section legend-blue">
+      <h2>LOCATION</h2>
+      <div class="row"><div class="label">Visite, dossier, bail</div><div class="value" id="val-loc1">0,00 €</div></div>
+      <div class="row"><div class="label">État des lieux</div><div class="value" id="val-loc2">0,00 €</div></div>
+      <div class="row"><div class="label">Négociation</div><div class="value" id="val-loc3">0,00 €</div></div>
+      <div class="row total"><div class="label">Total Location</div><div class="value" id="val-totalLoc">0,00 €</div></div>
+    </div>
+
+    <div class="section legend-green">
+      <h2>GESTION</h2>
+      <div class="row"><div class="label">Loyer H.C (m)</div><div class="value" id="val-loyerMens">0,00 €</div></div>
+      <div class="row"><div class="label">Provisions</div><div class="value" id="val-provisionsMens">0,00 €</div></div>
+      <div class="row total"><div class="label">Total Brut Mensuel</div><div class="value" id="val-totalBrutMens">0,00 €</div></div>
+      <hr style="border:1px solid var(--gold); margin:16px 0;">
+      <div class="row"><div class="label">Pack Gestion</div><div class="value" id="val-packMens">0,00 €</div></div>
+      <div class="row"><div class="label">GLI</div><div class="value" id="val-gliMens">0,00 €</div></div>
+      <div class="row"><div class="label">PNO</div><div class="value" id="val-pnoMens">0,00 €</div></div>
+      <div class="row total"><div class="label">Total Déductible</div><div class="value" id="val-totalDedMens">0,00 €</div></div>
+      <div class="row total"><div class="label">Revenu Net Mensuel</div><div class="value" id="val-reversMens">0,00 €</div></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="history.back()">Retour</button>
+      <button class="btn">Envoyer le devis</button>
+    </div>
+  </div>
+
+  <script>
+    // Lecture et injection locales
+    const g = id => parseFloat(localStorage.getItem(id))||0;
+    const surface = g('surface'), honoD=g('honodoss'), honoE=g('honoetat'), fraisN=g('fraisneg');
+    const loyer=g('loyer'), prov=g('provisions'), pctPack=g('pack'), pctGLI=g('assurloy'), pno=g('assurpno');
+    const totalLoc=surface*honoD+surface*honoE+fraisN;
+    const brutMens=loyer+prov;
+    const packMens=brutMens*pctPack/100;
+    const gliMens=brutMens*pctGLI/100;
+    // injection
+    document.getElementById('val-loc1').innerText=(surface*honoD).toFixed(2)+' €';
+    document.getElementById('val-loc2').innerText=(surface*honoE).toFixed(2)+' €';
+    document.getElementById('val-loc3').innerText=fraisN.toFixed(2)+' €';
+    document.getElementById('val-totalLoc').innerText=totalLoc.toFixed(2)+' €';
+    document.getElementById('val-loyerMens').innerText=loyer.toFixed(2)+' €';
+    document.getElementById('val-provisionsMens').innerText=prov.toFixed(2)+' €';
+    document.getElementById('val-totalBrutMens').innerText=brutMens.toFixed(2)+' €';
+    document.getElementById('val-packMens').innerText=packMens.toFixed(2)+' €';
+    document.getElementById('val-gliMens').innerText=gliMens.toFixed(2)+' €';
+    document.getElementById('val-pnoMens').innerText=pno.toFixed(2)+' €';
+    document.getElementById('val-totalDedMens').innerText=(packMens+gliMens+pno).toFixed(2)+' €';
+    document.getElementById('val-reversMens').innerText=(brutMens - (packMens+gliMens+pno)).toFixed(2)+' €';
+  </script>
+</body>
+</html>

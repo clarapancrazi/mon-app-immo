@@ -3,165 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Équipe & Commerciaux</title>
+  <title>Équipe & Commerciaux — Pancrazi Immobilier</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
   <style>
-    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; display: flex; height: 100vh; }
-    .sidebar { width: 250px; background-color: #0c2d48; color: white; padding: 20px; display: flex; flex-direction: column; }
-    .sidebar h2 { margin-bottom: 30px; }
-    .sidebar a { color: white; text-decoration: none; margin: 10px 0; font-weight: bold; }
-    .main-content { flex: 1; padding: 40px; overflow-y: auto; }
-    .page-title { font-size: 28px; color: #0c2d48; margin-bottom: 20px; }
-    .add-button { display: inline-block; margin-bottom: 30px; background-color: #0c2d48; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
-    .filters { margin-bottom: 20px; }
-    .filters select { padding: 8px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; }
-    .team-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s ease; cursor: pointer; display: flex; align-items: center; gap: 20px; }
-    .card:hover { transform: translateY(-5px); }
-    .card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
-    .card-info { flex-grow: 1; }
-    .card-info h3 { margin: 0; font-size: 20px; color: #0c2d48; }
-    .card-info p { margin: 5px 0; font-size: 14px; color: #555; }
-    .card-info .ca { font-weight: bold; color: #333; margin-top: 10px; }
-    .card-info .entry-date { color: #888; font-size: 12px; margin-top: 5px; }
+    :root {
+      --gold: #D4AF37;
+      --deep-black: #0b0b0b;
+      --dark-grey: #1c1c1c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
+    body {
+      display: flex;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75); z-index: -1;
+    }
+
+    /* Sidebar */
+    nav.sidebar {
+      width: 240px; background: var(--deep-black); display: flex;
+      flex-direction: column; border-right: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .sidebar-header { padding: 28px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .sidebar-header h1 {
+      font-family: 'Playfair Display', serif; font-size: 20px;
+      font-weight: 700; color: var(--gold); letter-spacing: 1px;
+    }
+    .menu { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .menu a {
+      font-size: 14px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 1px; color: #ccc; padding: 10px 14px;
+      border-left: 2px solid transparent; transition: all 0.3s ease;
+    }
+    .menu a:hover, .menu a.active {
+      color: var(--gold); border-left: 2px solid var(--gold);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .sidebar-bottom { padding: 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .sidebar-bottom a { font-size: 13px; color: #aaa; transition: color 0.3s ease; }
+    .sidebar-bottom a:hover { color: var(--gold); }
+
+    /* Main content */
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; z-index: 2; }
+    header.brand {
+      flex-shrink: 0; padding: 40px 0 20px;
+      background: rgba(0, 0, 0, 0.7); text-align: center;
+    }
+    .brand h1 {
+      margin: 0; font-family: 'Playfair Display', serif;
+      font-weight: 700; letter-spacing: 2px;
+      text-shadow: 0 2px 6px rgba(0,0,0,.35);
+      color: var(--gold); line-height: 1.05; font-size: 72px;
+    }
+    .brand .ampersand { font-size: 1.99em; }
+    .brand .slogan {
+      margin: 0; font: 500 18px 'Montserrat', sans-serif;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .user-info {
+      position: absolute; top: 20px; right: 40px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px;
+    }
+    .logout-btn {
+      background: #e74c3c; border: none;
+      color: #fff; padding: 8px 14px;
+      border-radius: 6px; cursor: pointer;
+    }
+    .logout-btn:hover { background: #c0392b; }
+
+    .content-scroll { flex: 1; overflow-y: auto; padding: 40px; }
+
+    /* Page-specific */
+    .content-scroll .page-title {
+      font-size: 28px; color: var(--gold); margin-bottom: 20px;
+    }
+
+    /* Org Chart */
+    .org-chart ul {
+      padding-top: 20px; position: relative; display: flex; justify-content: center;
+    }
+    .org-chart li {
+      text-align: center; list-style: none; position: relative; padding: 20px 5px 0 5px;
+    }
+    .org-chart li + li::before {
+      content: ''; position: absolute; top: 40%; left: -50px;
+      width: 50px; height: 1px; background: var(--offwhite);
+    }
+    .org-chart li ul {
+      display: flex; justify-content: center; margin-top: 20px;
+    }
+    .org-chart li ul li::before, .org-chart li ul li::after {
+      content: ''; position: absolute; top: 0; left: 50%;
+      width: 1px; height: 20px; background: var(--offwhite);
+    }
+    .org-chart li div {
+      border: 1px solid var(--offwhite); padding: 10px 20px;
+      display: inline-block; border-radius: 8px;
+      background: rgba(0,0,0,0.6); color: var(--offwhite);
+    }
+    .org-chart ul:after { content: ''; flex: 1; }
 
     @media screen and (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
-      .main-content {
-        padding: 20px;
-      }
-      .page-title {
-        font-size: 22px;
-      }
-      .add-button {
-        display: block;
-        width: 100%;
-        text-align: center;
-        padding: 12px;
-        font-size: 16px;
-      }
-      .filters label, .filters select {
-        width: 100%;
-        display: block;
-        margin-bottom: 10px;
-      }
-      .card {
-        flex-direction: column;
-        text-align: center;
-        padding: 16px;
-      }
-      .card img {
-        margin: auto;
-      }
-      .card-info h3 {
-        font-size: 18px;
-      }
-      .card-info p, .card-info .ca, .card-info .entry-date {
-        font-size: 14px;
-      }
+      nav.sidebar { display: none; }
+      .content-scroll { padding: 20px; }
+      .page-title { font-size: 22px; }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Pancrazi Immobilier</h2>
-    <a href="dashboard.html">Tableau de bord</a>
-    <a href="equipe.html">Équipe &amp; Commerciaux</a>
-    <a href="transactions.html">Transactions</a>
-    <a href="locations.html">Locations</a>
-    <a href="gestion.html">Gestion locative</a>
-    <a href="saisonniere.html">Location saisonnière</a>
-    <a href="clients.html">Accès clients</a>
-    <a href="simulateurs.html">Outils &amp; simulateurs</a>
-    <a href="administratif.html">Administratif agence</a>
-  </div>
+  <div class="overlay"></div>
+  <nav class="sidebar">
+    <div class="sidebar-header"><h1>PANCRAZI</h1></div>
+    <div class="menu">
+      <a href="accueil.html">Accueil</a>
+      <a href="dashboard.html">Tableau de bord</a>
+      <a href="equipe.html" class="active">Équipe & Commerciaux</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="locations.html">Locations</a>
+      <a href="gestion.html">Gestion locative</a>
+      <a href="saisonniere.html">Location saisonnière</a>
+      <a href="clients.html">Accès clients</a>
+      <a href="comptabilite.html">comptabilité</a>
+      <a href="administratif.html">Administratif agence</a>
+    </div>
+    <div class="sidebar-bottom"><a href="parametrages.html">Paramétrages</a></div>
+  </nav>
 
-  <div class="main-content">
-    <div class="page-title">Équipe & Commerciaux</div>
-    <a class="add-button" href="ajouter-collaborateur.html">+ Ajouter un collaborateur</a>
-
-    <div class="filters">
-      <label for="tri">Afficher le classement par :</label>
-      <select id="tri" onchange="trierCollaborateurs()">
-        <option value="previsionnel">CA Prévisionnel</option>
-        <option value="encaisse">CA Encaissé</option>
-      </select>
+  <main>
+    <header class="brand">
+      <h1>PANCRAZI</h1>
+      <h1 class="ampersand">&amp; PARTNERS</h1>
+      <p class="slogan">L’excellence pour tous</p>
+    </header>
+    <div class="user-info">
+      <span id="userName">Bonjour,</span>
+      <button class="logout-btn" onclick="logout()">Déconnexion</button>
     </div>
 
-    <div class="team-list" id="teamList"></div>
-  </div>
+    <div class="content-scroll">
+      <div class="page-title">Équipe & Commerciaux</div>
+
+      <div class="org-chart">
+        <ul>
+          <li><div>Antoine PANCRAZI<br/><em>PDG Commercial</em></div></li>
+          <li><div>Clara PANCRAZI<br/><em>PDG Administratif et Comptabilité</em></div></li>
+        </ul>
+        <ul>
+          <li><div>Yohann VARRIN<br/><em>Responsable Pôle Investissements Programme Neuf</em></div></li>
+          <li>
+            <div>Vanina MANICACCI<br/><em>Responsable Pôle Immobilier</em></div>
+            <ul>
+              <li><div>Mathieu LOVICHI<br/><em>Négociateur</em></div></li>
+              <li><div>Christophe AGNESA<br/><em>Négociateur</em></div></li>
+              <li><div>Liliana SCHADEGG<br/><em>Négociatrice</em></div></li>
+              <li><div>Célia AUTRAN<br/><em>Négociatrice</em></div></li>
+              <li><div>Gregory LESTRADE<br/><em>Négociateur</em></div></li>
+            </ul>
+          </li>
+          <li><div>Caroline LECHVREL<br/><em>Responsable Pôle Locations</em></div></li>
+        </ul>
+      </div>
+    </div>
+  </main>
 
   <script>
-    // Simuler des données dans localStorage pour le test
-    const collaborateurs = [
-      { 
-        prenom: 'Jean', 
-        nom: 'Dupont', 
-        photo: 'https://www.w3schools.com/w3images/avatar2.png', 
-        emailPro: 'jean.dupont@example.com', 
-        previsionnel: '50000', 
-        encaisse: '35000', 
-        dateEntree: '2020-06-01'
-      },
-      { 
-        prenom: 'Marie', 
-        nom: 'Lemoine', 
-        photo: 'https://www.w3schools.com/w3images/avatar1.png', 
-        emailPro: 'marie.lemoine@example.com', 
-        previsionnel: '40000', 
-        encaisse: '30000', 
-        dateEntree: '2021-03-15'
-      },
-      { 
-        prenom: 'Luc', 
-        nom: 'Martin', 
-        photo: 'https://www.w3schools.com/w3images/avatar6.png', 
-        emailPro: 'luc.martin@example.com', 
-        previsionnel: '60000', 
-        encaisse: '50000', 
-        dateEntree: '2019-09-10'
-      }
-    ];
-
-    localStorage.setItem('collaborateurs', JSON.stringify(collaborateurs));
-
-    function trierCollaborateurs() {
-      afficherCollaborateurs();
-    }
-
-    function afficherCollaborateurs() {
-      const collaborateurs = JSON.parse(localStorage.getItem('collaborateurs')) || [];
-      const critere = document.getElementById('tri').value;
-
-      collaborateurs.sort((a, b) => {
-        const valA = parseFloat(a[critere] || 0);
-        const valB = parseFloat(b[critere] || 0);
-        return valB - valA;
-      });
-
-      const container = document.getElementById('teamList');
-      container.innerHTML = '';
-
-      collaborateurs.forEach(c => {
-        const div = document.createElement('div');
-        div.className = 'card';
-        div.onclick = () => window.location.href = `fiche.html?prenom=${encodeURIComponent(c.prenom)}&nom=${encodeURIComponent(c.nom)}`;
-        div.innerHTML = `
-          <img src="${c.photo}" alt="Photo">
-          <div class="card-info">
-            <h3>${c.prenom} ${c.nom}</h3>
-            <p>${c.emailPro || ''}</p>
-            <p class="ca">CA Prévisionnel : ${c.previsionnel || '0 €'}</p>
-            <p class="ca">CA Encaissé : ${c.encaisse || '0 €'}</p>
-            <p class="entry-date">Date d'entrée : ${c.dateEntree || 'N/A'}</p>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    afficherCollaborateurs();
+    function logout() { window.location.href = 'dashboard.html'; }
   </script>
 </body>
 </html>

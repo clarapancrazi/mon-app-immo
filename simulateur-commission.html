@@ -2,161 +2,200 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur de Commission</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commission négociateur — Pancrazi Immobilier</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- html2pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <style>
+    :root {
+      --gold: #D4AF37;
+      --deep-black: #0b0b0b;
+      --dark-grey: #1c1c1c;
+      --light-grey: #111;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
-      padding: 40px;
-      color: #333;
+      display: flex;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
     }
+    a { text-decoration: none; color: inherit; }
+    .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.75); z-index:-1; }
 
-    h1 {
-      color: #0c2d48;
-      margin-bottom: 30px;
+    /* Sidebar */
+    nav.sidebar {
+      width: 240px;
+      background: var(--deep-black);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 4px 0 10px rgba(0,0,0,0.3);
     }
+    .sidebar-header { padding:28px 24px; border-bottom:1px solid rgba(255,255,255,0.05); }
+    .sidebar-header h1 { font-family:'Playfair Display', serif; font-size:20px; font-weight:700; color:var(--gold); letter-spacing:1px; }
+    .menu { flex:1; padding:24px; display:flex; flex-direction:column; gap:16px; }
+    .menu a { font-size:14px; font-weight:500; text-transform:uppercase; letter-spacing:1px; color:#ccc; padding:10px 14px; border-left:2px solid transparent; transition:all 0.3s ease; }
+    .menu a:hover, .menu a.active { color:var(--gold); border-left:2px solid var(--gold); background:rgba(255,255,255,0.04); }
+    .sidebar-bottom { padding:24px; border-top:1px solid rgba(255,255,255,0.05); }
+    .sidebar-bottom a { font-size:13px; color:#aaa; transition:color 0.3s ease; }
+    .sidebar-bottom a:hover { color:var(--gold); }
 
-    .simulateur {
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
+    /* Main */
+    main { flex:1; display:flex; flex-direction:column; overflow:hidden; position:relative; z-index:2; }
+    header.brand { flex-shrink:0; padding:40px 0 20px; background:rgba(0,0,0,0.7); text-align:center; }
+    .brand h1 { margin:0; font-family:'Playfair Display', serif; font-weight:700; letter-spacing:2px; text-shadow:0 2px 6px rgba(0,0,0,.35); color:var(--gold); line-height:1.05; font-size:72px; }
+    .brand .ampersand { font-size:1.99em; }
+    .brand .slogan { margin:0; font:500 18px 'Montserrat', sans-serif; letter-spacing:1px; text-transform:uppercase; color:var(--gold); }
+    .user-info { position:absolute; top:20px; right:40px; display:flex; align-items:center; gap:12px; font-size:13px; }
+    .logout-btn { background:#e74c3c; border:none; color:#fff; padding:8px 14px; border-radius:6px; cursor:pointer; }
+    .logout-btn:hover { background:#c0392b; }
+
+    .content-scroll { flex:1; overflow-y:auto; padding:40px; }
+    .content-scroll h1 { font-size:28px; color:var(--gold); margin-bottom:30px; }
+
+    .simulateur-container {
+      background: #111;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       max-width: 800px;
-      margin: auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin: 0 auto;
+      color: #ddd;
     }
-
-    .ligne {
+    .simulateur-container .ligne {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 15px;
       align-items: center;
+      margin-bottom: 16px;
     }
-
-    label {
-      width: 60%;
+    .simulateur-container label {
+      flex: 1 1 60%;
+      color: #bbb;
+      font-weight: 500;
     }
-
-    input {
-      width: 35%;
+    .simulateur-container input {
+      flex: 1 1 35%;
       padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
+      border: 1px solid rgba(255,255,255,0.2);
       border-radius: 6px;
-    }
-
-    .result {
-      font-weight: bold;
-      color: #0c2d48;
-      font-size: 20px;
+      background: var(--dark-grey);
+      color: white;
+      font-size: 14px;
       text-align: right;
+    }
+    .result {
+      text-align: right;
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--gold);
       margin-top: 20px;
     }
-
     .export-actions {
       margin-top: 30px;
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 12px;
     }
-
     .btn-export, .btn-facture {
-      background-color: #0c2d48;
-      color: white;
-      padding: 12px 20px;
+      background: var(--gold);
+      color: var(--deep-black);
+      padding: 10px 16px;
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 6px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.2s, box-shadow 0.2s;
+      transition: background 0.2s;
     }
+    .btn-export:hover, .btn-facture:hover { background: #bfa433; }
 
-    .btn-export:hover, .btn-facture:hover {
-      background-color: #134b7a;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    @media screen and (max-width:768px) {
+      nav.sidebar { display:none; }
+      .content-scroll { padding:20px; }
+      .content-scroll h1 { font-size:22px; }
+      .simulateur-container { padding:16px; }
+      .simulateur-container .ligne { flex-direction: column; gap:10px; }
+      .btn-export, .btn-facture { width:100%; }
     }
   </style>
 </head>
 <body>
-
-  <h1>Simulateur de Commission 2025</h1>
-  <div class="simulateur" id="bloc-simulateur">
-    <div class="ligne">
-      <label for="commissionTTC">Prix de la commission TTC (€)</label>
-      <input type="number" id="commissionTTC" value="30000" onchange="calculerCommission()">
+  <div class="overlay"></div>
+  <nav class="sidebar">
+    <div class="sidebar-header"><h1>PANCRAZI</h1></div>
+    <div class="menu">
+      <a href="accueil.html">Accueil</a>
+      <a href="simulateurs.html">Simulateurs</a>
+   
     </div>
-    <div class="ligne">
-      <label>Prix de la commission HT (20% TVA)</label>
-      <input type="text" id="commissionHT" readonly>
+    <div class="sidebar-bottom"><a href="parametrages.html">Paramétrages</a></div>
+  </nav>
+  <main>
+    <header class="brand">
+      <h1>PANCRAZI</h1>
+      <h1 class="ampersand">&amp; PARTNERS</h1>
+      <p class="slogan">L’excellence pour tous</p>
+    </header>
+    <div class="user-info"><span id="userName">Bonjour,</span><button class="logout-btn" onclick="logout()">Déconnexion</button></div>
+    <div class="content-scroll">
+      <h1>Simulateur Commission</h1>
+      <div class="simulateur-container" id="bloc-simulateur">
+        <div class="ligne">
+          <label for="commissionTTC">Commission TTC (€)</label>
+          <input type="number" id="commissionTTC" value="30000" onchange="calculerCommission()" />
+        </div>
+        <div class="ligne">
+          <label>Commission HT (20% TVA)</label>
+          <input type="text" id="commissionHT" readonly />
+        </div>
+        <div class="ligne">
+          <label>Hors redevance (8%)</label>
+          <input type="text" id="commissionHorsRedevance" readonly />
+        </div>
+        <div class="ligne">
+          <label>Base de calcul</label>
+          <input type="text" id="baseCalcul" readonly />
+        </div>
+        <div class="ligne">
+          <label>% Entrée</label>
+          <input type="number" id="pourcentageEntree" value="20" onchange="calculerCommission()" />
+        </div>
+        <div class="ligne">
+          <label>% Sortie</label>
+          <input type="number" id="pourcentageSortie" value="20" onchange="calculerCommission()" />
+        </div>
+        <div class="result" id="resultatCommission">Ma commission : 0 €</div>
+        <div class="export-actions">
+          <button class="btn-export" onclick="exportPDF()">📄 Exporter en PDF</button>
+          <button class="btn-facture" onclick="genererFacture()">🧾 Générer facture</button>
+        </div>
+      </div>
     </div>
-    <div class="ligne">
-      <label>Prix de la commission hors REDEVANCE (8%)</label>
-      <input type="text" id="commissionHorsRedevance" readonly>
-    </div>
-    <div class="ligne">
-      <label>BASE DE CALCUL</label>
-      <input type="text" id="baseCalcul" readonly>
-    </div>
-    <div class="ligne">
-      <label>% Entrée</label>
-      <input type="number" id="pourcentageEntree" value="20" onchange="calculerCommission()">
-    </div>
-    <div class="ligne">
-      <label>% Sortie</label>
-      <input type="number" id="pourcentageSortie" value="20" onchange="calculerCommission()">
-    </div>
-
-    <div class="result" id="resultatCommission">
-      Ma commission : 0 €
-    </div>
-
-    <div class="export-actions">
-      <button class="btn-export" onclick="exportPDF()">📄 Exporter en PDF</button>
-      <button class="btn-facture" onclick="genererFacture()">🧾 Générer la facture collaborateur</button>
-    </div>
-  </div>
-
-  <!-- Librairie html2pdf -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+  </main>
   <script>
+    function logout() { window.location.href='dashboard.html'; }
     function calculerCommission() {
       const ttc = parseFloat(document.getElementById("commissionTTC").value) || 0;
       const ht = ttc / 1.2;
-      const horsRedevance = ht * 0.926; // 100% - 7.41%
-      const base = horsRedevance;
-
+      const horsRedevance = ht * 0.926;
       const entree = parseFloat(document.getElementById("pourcentageEntree").value) || 0;
       const sortie = parseFloat(document.getElementById("pourcentageSortie").value) || 0;
-
-      const totalPourcentage = (entree + sortie) / 100;
-      const commission = base * totalPourcentage;
-
+      const commission = horsRedevance * ((entree + sortie)/100);
       document.getElementById("commissionHT").value = ht.toFixed(2) + " €";
       document.getElementById("commissionHorsRedevance").value = horsRedevance.toFixed(2) + " €";
-      document.getElementById("baseCalcul").value = base.toFixed(2) + " €";
+      document.getElementById("baseCalcul").value = horsRedevance.toFixed(2) + " €";
       document.getElementById("resultatCommission").innerText = "Ma commission : " + commission.toFixed(2) + " €";
     }
-
     function exportPDF() {
-      const element = document.getElementById("bloc-simulateur");
-      html2pdf().set({
-        margin: 10,
-        filename: 'simulateur-commission.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      }).from(element).save();
+      html2pdf().set({ margin:10, filename:'simulateur-commission.pdf', html2canvas:{ scale:2 }, jsPDF:{ unit:'mm', format:'a4' } }).from(document.getElementById('bloc-simulateur')).save();
     }
-
-    function genererFacture() {
-      window.location.href = "simulateur-commission-facture.html";
-    }
-
-    // Lancement automatique au chargement
+    function genererFacture() { window.location.href='simulateur-commission-facture.html'; }
     window.onload = calculerCommission;
   </script>
-
 </body>
 </html>

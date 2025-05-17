@@ -1,159 +1,220 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Facture Collaborateur</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facture Collaborateur — Pancrazi Immobilier</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- html2pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <style>
+    :root {
+      --gold: #D4AF37;
+      --deep-black: #0b0b0b;
+      --dark-grey: #1c1c1c;
+      --light-grey: #111;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
     body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      padding: 40px;
-      background: #f4f4f4;
-      color: #333;
+      display: flex;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
     }
+    a { text-decoration: none; color: inherit; }
+    .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.75); z-index:-1; }
 
-    .facture {
-      background: #fff;
+    /* Sidebar */
+    nav.sidebar {
+      width: 240px;
+      background: var(--deep-black);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+    }
+    .sidebar-header { padding:28px 24px; border-bottom:1px solid rgba(255,255,255,0.05); }
+    .sidebar-header h1 { font-family:'Playfair Display', serif; font-size:20px; font-weight:700; color:var(--gold); letter-spacing:1px; }
+    .menu { flex:1; padding:24px; display:flex; flex-direction:column; gap:16px; }
+    .menu a { font-size:14px; font-weight:500; text-transform:uppercase; letter-spacing:1px; color:#ccc; padding:10px 14px; border-left:2px solid transparent; transition:all 0.3s ease; }
+    .menu a:hover, .menu a.active { color:var(--gold); border-left:2px solid var(--gold); background:rgba(255,255,255,0.04); }
+    .sidebar-bottom { padding:24px; border-top:1px solid rgba(255,255,255,0.05); }
+    .sidebar-bottom a { font-size:13px; color:#aaa; transition:color 0.3s ease; }
+    .sidebar-bottom a:hover { color:var(--gold); }
+
+    /* Main */
+    main { flex:1; display:flex; flex-direction:column; overflow:hidden; position:relative; z-index:2; }
+    header.brand { flex-shrink:0; padding:40px 0 20px; background:rgba(0,0,0,0.7); text-align:center; }
+    .brand h1 { margin:0; font-family:'Playfair Display', serif; font-weight:700; letter-spacing:2px; text-shadow:0 2px 6px rgba(0,0,0,.35); color:var(--gold); line-height:1.05; font-size:72px; }
+    .brand .ampersand { font-size:1.99em; }
+    .brand .slogan { margin:0; font:500 18px 'Montserrat', sans-serif; letter-spacing:1px; text-transform:uppercase; color:var(--gold); }
+    .user-info { position:absolute; top:20px; right:40px; display:flex; align-items:center; gap:12px; font-size:13px; }
+    .logout-btn { background:#e74c3c; border:none; color:#fff; padding:8px 14px; border-radius:6px; cursor:pointer; }
+    .logout-btn:hover { background:#c0392b; }
+
+    /* Content */
+    .content-scroll { flex:1; overflow-y:auto; padding:40px; }
+    .content-scroll h1 { font-size:28px; color:var(--gold); margin-bottom:30px; }
+
+    .facture-container {
+      background: #111;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      color: #ddd;
       max-width: 800px;
-      margin: auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 0 auto 40px;
     }
-
-    h1 {
+    .facture-container h2 {
+      color: var(--gold);
       text-align: center;
-      color: #0c2d48;
+      margin-bottom: 24px;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
     }
-
     .entetes {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
+      font-size: 14px;
     }
-
-    .bloc {
-      width: 45%;
-    }
-
     .bloc h3 {
-      margin-bottom: 5px;
-      color: #0c2d48;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-size: 16px;
     }
+    .bloc p, .bloc span {
+      margin: 2px 0;
+    }
+    .info-ligne {
+      margin-bottom: 12px;
+    }
+    .info-ligne strong { color: var(--gold); }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
     }
-
-    table th, table td {
+    th, td {
       padding: 12px;
-      border: 1px solid #ccc;
+      border: 1px solid rgba(255,255,255,0.1);
       text-align: left;
+      font-size: 14px;
     }
-
-    table th {
-      background-color: #e9f1f8;
+    th {
+      background: rgba(255,255,255,0.1);
+      color: var(--gold);
     }
-
     .total {
       text-align: right;
       font-size: 18px;
       font-weight: bold;
       margin-top: 20px;
-      color: #0c2d48;
+      color: var(--gold);
     }
-
-    .export-actions {
-      margin-top: 30px;
-      text-align: right;
-    }
-
     .btn-export {
-      background-color: #0c2d48;
-      color: white;
-      padding: 12px 20px;
+      display: inline-block;
+      background: var(--gold);
+      color: var(--deep-black);
+      padding: 10px 16px;
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 6px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 14px;
+      margin-top: 24px;
     }
+    .btn-export:hover { background: #bfa433; }
 
     .mention-legale {
-      margin-top: 40px;
-      font-size: 11px;
-      color: #666;
+      margin-top: 32px;
+      font-size: 12px;
+      color: #888;
       line-height: 1.4;
       text-align: justify;
+    }
+
+    @media screen and (max-width:768px) {
+      nav.sidebar { display:none; }
+      .content-scroll { padding:20px; }
+      .content-scroll h1 { font-size:22px; }
+      .facture-container { padding:16px; }
+      .entetes { flex-direction:column; gap:20px; }
+      .btn-export { width:100%; text-align:center; }
     }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
+  <nav class="sidebar">
+    <div class="sidebar-header"><h1>PANCRAZI</h1></div>
+    <div class="menu">
+      <a href="accueil.html">Accueil</a>
+      <a href="simulateurs.html">Simulateurs</a>
+    </div>
+    <div class="sidebar-bottom"><a href="parametrages.html">Paramétrages</a></div>
+  </nav>
 
-  <div class="facture" id="facture">
-    <h1>Facture collaborateur</h1>
+  <main>
+    <header class="brand">
+      <h1>PANCRAZI</h1>
+      <h1 class="ampersand">&amp; PARTNERS</h1>
+      <p class="slogan">L’excellence pour tous</p>
+    </header>
 
-    <div class="entetes">
-      <div class="bloc">
-        <h3>Émise par :</h3>
-        Jean Dupont<br>
-        SIRET : 123 456 789 00012<br>
-        Contrat RCP : RCP-2025-017<br>
-        Email : jean.dupont@email.com
+    <div class="user-info"><span id="userName">Bonjour,</span><button class="logout-btn" onclick="logout()">Déconnexion</button></div>
+
+    <div class="content-scroll">
+      <h1>Facture Collaborateur</h1>
+      <div class="facture-container" id="facture">
+        <h2>Facture Collaborateur</h2>
+        <div class="entetes">
+          <div class="bloc">
+            <h3>Émise par :</h3>
+            <p>Jean Dupont</p>
+            <p>SIRET : 123 456 789 00012</p>
+            <p>Contrat RCP : RCP-2025-017</p>
+            <p>Email : jean.dupont@email.com</p>
+          </div>
+          <div class="bloc">
+            <h3>Destinataire :</h3>
+            <p>Pancrazi Immobilier</p>
+            <p>12 avenue de la République<br>20000 Ajaccio</p>
+            <p>SIREN : 512 789 654</p>
+            <p>TVA : FR12 512789654</p>
+          </div>
+        </div>
+        <div class="info-ligne"><strong>Facture n° : </strong>FAC-2025-001</div>
+        <div class="info-ligne"><strong>Date : </strong>24/04/2025</div>
+        <div class="info-ligne"><strong>Dossier : </strong>Villa Les Pins - Transaction 2025-017</div>
+        <table>
+          <thead><tr><th>Description</th><th>Montant HT (€)</th></tr></thead>
+          <tbody>
+            <tr><td>Commission négociateur (40% sur base 28 951,20 €)</td><td>11 580,48</td></tr>
+          </tbody>
+        </table>
+        <div class="total">
+          Total à régler : 11 580,48 € HT<br>
+          TVA non applicable, article 293 B du CGI
+        </div>
+        <button class="btn-export" onclick="exportPDF()">📄 Exporter en PDF</button>
+        <div class="mention-legale">
+          Ce document est fourni à titre informatif au collaborateur. En aucun cas l’agence Pancrazi Immobilier ou cette application ne pourra être tenue responsable d’une mauvaise gestion comptable du négociateur. Chaque collaborateur est seul responsable de la tenue à jour de sa comptabilité, notamment en cas de contrôle fiscal ou social.
+        </div>
       </div>
-      <div class="bloc">
-        <h3>Destinataire :</h3>
-        Pancrazi Immobilier<br>
-        12 avenue de la République<br>
-        20000 Ajaccio<br>
-        SIREN : 512 789 654<br>
-        TVA : FR12 512789654
-      </div>
     </div>
+  </main>
 
-    <p><strong>Facture n° :</strong> FAC-2025-001</p>
-    <p><strong>Date :</strong> 24/04/2025</p>
-    <p><strong>Dossier :</strong> Villa Les Pins - Transaction 2025-017</p>
-
-    <table>
-      <tr>
-        <th>Description</th>
-        <th>Montant HT (€)</th>
-      </tr>
-      <tr>
-        <td>Commission négociateur (40% sur base 28 951,20 €)</td>
-        <td>11 580,48</td>
-      </tr>
-    </table>
-
-    <div class="total">
-      Total à régler : 11 580,48 € HT<br>
-      TVA non applicable, article 293 B du CGI
-    </div>
-
-    <div class="export-actions">
-      <button class="btn-export" onclick="exportPDF()">📄 Exporter en PDF</button>
-    </div>
-
-    <div class="mention-legale">
-      Ce document est fourni à titre informatif au collaborateur. En aucun cas l’agence Pancrazi Immobilier ou cette application ne pourra être tenue responsable d’une mauvaise gestion comptable du négociateur. Chaque collaborateur est seul responsable de la tenue à jour de sa comptabilité, notamment en cas de contrôle fiscal ou social.
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
+    function logout() { window.location.href='dashboard.html'; }
     function exportPDF() {
-      const element = document.getElementById("facture");
-      html2pdf().set({
-        margin: 10,
-        filename: 'facture-collaborateur.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      }).from(element).save();
+      const element = document.getElementById('facture');
+      html2pdf().set({ margin:10, filename:'facture-collaborateur.pdf', html2canvas:{ scale:2 }, jsPDF:{ unit:'mm', format:'a4' } }).from(element).save();
     }
   </script>
-
 </body>
 </html>

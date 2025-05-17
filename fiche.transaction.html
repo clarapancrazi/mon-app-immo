@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiche Transaction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --black: #0b0b0b;
+      --dark: #111;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: -1;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background: var(--dark);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 36px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--gold);
+      font-size: 22px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 6px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #ddd;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    .flex-row {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .column {
+      flex: 1;
+      min-width: 300px;
+    }
+    .btn-bar {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .save-btn, .back-btn, .add-comment-btn {
+      background: var(--gold);
+      color: black;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .save-btn:hover, .back-btn:hover, .add-comment-btn:hover {
+      background: #c9a32b;
+    }
+    .remove-btn {
+      margin-top: 12px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .timeline {
+      margin: 30px 0;
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      color: white;
+    }
+    .timeline-step {
+      flex: 1;
+      border-top: 3px solid gray;
+      padding-top: 10px;
+      position: relative;
+    }
+    .timeline-step.active { border-color: var(--gold); }
+    .timeline-step::before {
+      content: '';
+      width: 14px;
+      height: 14px;
+      background: gray;
+      border-radius: 50%;
+      position: absolute;
+      top: -8px;
+      left: calc(50% - 7px);
+    }
+    .timeline-step.active::before { background: var(--gold); }
+    .comments-section ul, .docs-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comments-section li, .docs-section li {
+      background: #222;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-left: 4px solid var(--gold);
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1>Fiche transaction</h1>
+
+    <div class="section-title">Informations sur le bien</div>
+    <div class="flex-row">
+      <div class="column">
+        <label>Bien</label><input data-field="bien" />
+        <label>Prix (€)</label><input data-field="prix" type="number" />
+        <label>Honoraires (€)</label><input data-field="honoraires" type="number" />
+      </div>
+      <div class="column">
+        <label>Conditions suspensives</label><textarea data-field="conditions"></textarea>
+        <label>Statut</label>
+        <select data-field="statut">
+          <option value="offre">Offre</option>
+          <option value="compromis">Compromis</option>
+          <option value="acte">Acte</option>
+        </select>
+      </div>
+      <div class="column">
+        <label>Date de l'offre</label><input data-field="date_offre" type="date" />
+        <label>Date du compromis</label><input data-field="date_compromis" type="date" />
+        <label>Date de l'acte</label><input data-field="date_acte" type="date" />
+      </div>
+    </div>
+
+    <div class="section-title">Parties prenantes</div>
+    <div class="flex-row">
+      <div class="column">
+        <h3 style="color: var(--gold)">Vendeurs</h3>
+        <div id="vendeurs"></div>
+        <button class="add-comment-btn" onclick="addPerson('vendeur')">+ Ajouter un vendeur</button>
+      </div>
+      <div class="column">
+        <h3 style="color: var(--gold)">Acquéreurs</h3>
+        <div id="acheteurs"></div>
+        <button class="add-comment-btn" onclick="addPerson('acheteur')">+ Ajouter un acquéreur</button>
+      </div>
+    </div>
+
+    <div class="section-title">Suivi de la transaction</div>
+    <div class="timeline">
+      <div class="timeline-step" id="step_offre">Offre</div>
+      <div class="timeline-step" id="step_compromis">Compromis</div>
+      <div class="timeline-step" id="step_retractation">SRU J+10</div>
+      <div class="timeline-step" id="step_pret">Prêt J+60</div>
+      <div class="timeline-step" id="step_permis">Permis J+120</div>
+      <div class="timeline-step" id="step_acte">Acte</div>
+    </div>
+
+    <div class="section-title">Commentaires</div>
+    <div class="comments-section">
+      <ul id="commentsList"></ul>
+      <input id="newComment" placeholder="Ajouter un commentaire" />
+      <button class="add-comment-btn" onclick="addComment()">Ajouter</button>
+    </div>
+
+    <div class="section-title">Documents</div>
+    <div class="docs-section">
+      <label>Lien document</label>
+      <input id="doc_link" placeholder="https://...">
+      <button class="add-comment-btn" onclick="addDoc()">Ajouter</button>
+      <ul id="docsList"></ul>
+    </div>
+
+    <div class="btn-bar">
+      <button class="save-btn" onclick="saveTransaction()">💾 Enregistrer</button>
+      <button class="back-btn" onclick="window.location.href='transactions.html'">← Retour</button>
+      <button class="save-btn" onclick="window.print()">📄 Exporter en PDF</button>
+    </div>
+  </div>
+  <script>
+    const id = new URLSearchParams(location.search).get("id") || 0;
+    const all = JSON.parse(localStorage.getItem("transactions") || "[]");
+    const transaction = all[id] || {};
+
+    function saveTransaction() {
+      document.querySelectorAll("[data-field]").forEach(input => transaction[input.dataset.field] = input.value);
+      all[id] = transaction;
+      localStorage.setItem("transactions", JSON.stringify(all));
+      alert("Transaction enregistrée.");
+    }
+
+    function addComment() {
+      const c = document.getElementById("newComment").value.trim();
+      if (!c) return;
+      transaction.comments = transaction.comments || [];
+      transaction.comments.push(c);
+      document.getElementById("newComment").value = "";
+      saveTransaction();
+      renderComments();
+    }
+
+    function renderComments() {
+      const ul = document.getElementById("commentsList");
+      ul.innerHTML = (transaction.comments || []).map(c => `<li>${c}</li>`).join('');
+    }
+
+    function addDoc() {
+      const l = document.getElementById("doc_link").value.trim();
+      if (!l) return;
+      transaction.docs = transaction.docs || [];
+      transaction.docs.push(l);
+      document.getElementById("doc_link").value = "";
+      saveTransaction();
+      renderDocs();
+    }
+
+    function renderDocs() {
+      const ul = document.getElementById("docsList");
+      ul.innerHTML = (transaction.docs || []).map(d => `<li><a href="${d}" target="_blank">${d}</a></li>`).join('');
+    }
+
+    function addPerson(role) {
+      const container = document.getElementById(role + 's');
+      const index = container.children.length;
+      const div = document.createElement('div');
+      div.classList.add('column');
+      div.innerHTML = `
+        <label>Nom</label><input type="text">
+        <label>Prénom</label><input type="text">
+        <label>Email</label><input type="email">
+        <button class="remove-btn" onclick="this.parentElement.remove()">Supprimer</button>
+      `;
+      container.appendChild(div);
+    }
+
+    renderComments();
+    renderDocs();
+  </script>
+</body>
+</html>

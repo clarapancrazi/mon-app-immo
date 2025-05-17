@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PANCRAZI &amp; PARTNERS – Fiche Négociateur</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --black:#0b0b0b; --gold:#d4a44f; --white:#f5f5f5; --green:rgba(76,175,80,0.6); --red:rgba(244,67,54,0.6); --transition:0.6s ease; }
+    * { box-sizing: border-box; }
+    body { margin:0; display:flex; flex-direction:column; font-family:'Cinzel',serif; text-transform:uppercase; color:var(--white); background:var(--black); }
+    .header-brand { text-align:center; padding:1rem; background:rgba(0,0,0,0.7); }
+    .header-brand h1 { margin:0; font-size:2.5rem; color:var(--gold); }
+    .header-brand h2 { margin:0; font-size:1.2rem; color:var(--white); letter-spacing:0.1em; }
+    .wrapper { display:flex; flex:1; min-height:0; }
+    .sidebar { width:220px; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); padding:2rem 1rem; display:flex; flex-direction:column; gap:1rem; }
+    .sidebar a { color:var(--gold); text-decoration:none; font-size:0.9rem; padding:0.5rem; border-radius:6px; transition:background var(--transition); }
+    .sidebar a:hover, .sidebar a.active { background:rgba(212,175,79,0.3); }
+    .content { flex:1; overflow-y:auto; padding:2rem; }
+    .content h1 { margin-top:0; font-size:2rem; color:var(--gold); }
+    .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin:1rem 0; }
+    .metric-card { background:rgba(0,0,0,0.5); border:1px solid rgba(212,175,79,0.25); border-radius:10px; padding:1rem; text-align:center; transition:transform var(--transition),box-shadow var(--transition); }
+    .metric-card:hover { transform:translateY(-3px); box-shadow:0 4px 15px rgba(212,175,79,0.35); }
+    .metric-card .label { font-size:0.8rem; margin-bottom:0.4rem; }
+    .metric-card .value { font-size:1.4rem; font-weight:700; }
+    section { margin:2rem 0; padding:1.5rem; background:rgba(0,0,0,0.6); border:1px solid rgba(212,175,79,0.25); border-radius:12px; }
+    section h2 { margin:0 0 0.75rem; font-size:1.1rem; color:var(--gold); }
+    form { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; }
+    label { display:flex; flex-direction:column; font-size:0.85rem; }
+    label span { margin-bottom:0.3rem; }
+    input { padding:0.5rem; border:1px solid rgba(212,175,79,0.4); border-radius:6px; background:var(--black); color:var(--white); }
+    input:focus { outline:none; border-color:var(--gold); background:rgba(255,255,255,0.1); }
+    button { grid-column:1/-1; padding:0.6rem 1.2rem; border:none; border-radius:6px; background:var(--gold); color:var(--black); font-weight:700; cursor:pointer; }
+    button:hover { background:#c89945; }
+    .filters { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+    .filters label { font-size:0.8rem; display:flex; align-items:center; }
+    .filters input { margin-left:0.4rem; padding:0.3rem; border:1px solid rgba(212,175,79,0.4); border-radius:4px; background:var(--black); color:var(--white); }
+    table { border-collapse:collapse; width:100%; margin-top:1rem; }
+    th, td { padding:0.6rem; border:1px solid rgba(212,175,79,0.2); text-align:center; }
+    th { background:rgba(212,175,79,0.2); }
+    tfoot td { font-weight:700; }
+    .delete-btn { background:transparent; border:none; color:var(--red); cursor:pointer; font-size:1rem; }
+    .pack-service table th, .pack-service table td { width:calc(100%/12); }
+    .month-paid a { display:inline-block; width:100%; height:100%; color:var(--white); text-decoration:none; }
+    .month-unpaid { background:var(--red); }
+    .month-paid { background:var(--green); }
+    .salary-box { margin-top:1rem; padding:1rem; border:1px solid rgba(212,175,79,0.4); border-radius:8px; max-width:300px; text-align:center; }
+  </style>
+</head>
+<body>
+  <header class="header-brand"><h1>PANCRAZI</h1><h2>&amp; PARTNERS</h2></header>
+  <div class="wrapper">
+    <aside class="sidebar">
+      <a href="accueil.html">Accueil</a>
+      <a href="management-vanina.html">Dashboard</a>
+      <a href="equipe-vanina.html">Équipes</a>
+      <a href="#" class="active">Fiche</a>
+    </aside>
+    <main class="content">
+      <h1><!-- NOM PRÉNOM --></h1>
+      <div class="metrics">
+        <div class="metric-card"><div class="label">CA Réalisé</div><div class="value" id="ca-realise">€ 0</div></div>
+        <div class="metric-card"><div class="label">Objectif</div><div class="value" id="ca-objectif">€ 50 000</div></div>
+        <div class="metric-card"><div class="label">Taux Atteinte</div><div class="value" id="taux-atteinte">0 %</div></div>
+      </div>
+      <!-- Saisie Journalière -->
+      <section>
+        <h2>Saisie Journalière</h2>
+        <form id="daily-form">
+          <label><span>Date</span><input type="date" name="date" required /></label>
+          <label><span>Prospection</span><input type="number" name="prospection" min="0" required /></label>
+          <label><span>Estimations</span><input type="number" name="estimations" min="0" required /></label>
+          <label><span>Visites</span><input type="number" name="visites" min="0" required /></label>
+          <label><span>Mandats</span><input type="number" name="mandats" min="0" required /></label>
+          <label><span>Offres</span><input type="number" name="offres" min="0" required /></label>
+          <label><span>Compromis</span><input type="number" name="compromis" min="0" required /></label>
+          <label><span>Actes</span><input type="number" name="actes" min="0" required /></label>
+          <button type="submit">Enregistrer</button>
+        </form>
+      </section>
+      <!-- Historique des Saisies -->
+      <section>
+        <h2>Historique des Saisies</h2>
+        <div class="filters">
+          <label>Du<input type="date" id="filter-start" /></label>
+          <label>Au<input type="date" id="filter-end" /></label>
+          <button id="filter-btn">Filtrer</button>
+        </div>
+        <table>
+          <thead><tr><th>Date</th><th>Prospection</th><th>Estimations</th><th>Visites</th><th>Mandats</th><th>Offres</th><th>Compromis</th><th>Actes</th><th>Action</th></tr></thead>
+          <tbody id="daily-history-body"></tbody>
+          <tfoot><tr><td>Total</td><td id="tot-prospection">0</td><td id="tot-estimations">0</td><td id="tot-visites">0</td><td id="tot-mandats">0</td><td id="tot-offres">0</td><td id="tot-compromis">0</td><td id="tot-actes">0</td><td></td></tr></tfoot>
+        </table>
+      </section>
+      <!-- Saisie Commission Simplifiée -->
+      <section>
+        <h2>Saisie Commission</h2>
+        <form id="comm-form">
+          <label><span>Date</span><input type="date" name="date" required /></label>
+          <label><span>Commission (€)</span><input type="number" name="commission" min="0" step="0.01" required /></label>
+          <button type="submit">Enregistrer</button>
+        </form>
+      </section>
+      <!-- Historique Commissions -->
+      <section>
+        <h2>Historique Commissions</h2>
+        <div class="filters">
+          <label>Du<input type="date" id="comm-start" /></label>
+          <label>Au<input type="date" id="comm-end" /></label>
+          <button id="comm-filter">Filtrer</button>
+        </div>
+        <table>
+          <thead><tr><th>Date</th><th>Commission (€)</th><th>Action</th></tr></thead>
+          <tbody id="comm-history-body"></tbody>
+          <tfoot><tr><td>Total</td><td id="tot-commission">€ 0</td><td></td></tr></tfoot>
+        </table>
+        <div class="salary-box"><div>Rémunération mensuelle estimée :</div><div id="monthly-salary">€ 0</div></div>
+      </section>
+      <!-- Pack de Service -->
+      <section class="pack-service">
+        <h2>Pack de Service</h2>
+        <div class="info">Abonnement mensuel : 114 € TTC</div>
+        <table>
+          <thead><tr><th>Jan</th><th>Fév</th><th>Mar</th><th>Avr</th><th>Mai</th><th>Juin</th><th>Juil</th><th>Aoû</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Déc</th></tr></thead>
+          <tbody><tr id="pack-status-row">
+            <td class="month-paid"><a href="invoices/jan.pdf" download>✓</a></td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-paid"><a href="invoices/avr.pdf" download>✓</a></td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+            <td class="month-unpaid">✗</td>
+          </tr></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+  <script>
+    // Add rows with deletion
+    function addRowDaily() {
+      const form = document.getElementById('daily-form');
+      const tbody = document.getElementById('daily-history-body');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const tr = document.createElement('tr');
+        ['date','prospection','estimations','visites','mandats','offres','compromis','actes'].forEach(name => {
+          const td = document.createElement('td'); td.textContent = data.get(name); tr.appendChild(td);
+        });
+        const delTd = document.createElement('td');
+        const btn = document.createElement('button'); btn.className='delete-btn'; btn.textContent='🗑';
+        btn.addEventListener('click', ()=>{ tr.remove(); computeDailyTotals(); });
+        delTd.appendChild(btn); tr.appendChild(delTd);
+        tbody.appendChild(tr);
+        computeDailyTotals(); form.reset();
+      });
+    }
+    function addRowComm() {
+      const form = document.getElementById('comm-form');
+      const tbody = document.getElementById('comm-history-body');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const date = data.get('date');
+        const commission = parseFloat(data.get('commission')).toFixed(2);
+        const tr = document.createElement('tr');
+        [date, commission].forEach(val => {
+          const td = document.createElement('td'); td.textContent = val; tr.appendChild(td);
+        });
+        const delTd = document.createElement('td');
+        const btn = document.createElement('button'); btn.className='delete-btn'; btn.textContent='🗑';
+        btn.addEventListener('click', ()=>{ tr.remove(); computeCommTotals(); });
+        delTd.appendChild(btn); tr.appendChild(delTd);
+        tbody.appendChild(tr);
+        computeCommTotals(); form.reset();
+      });
+    }
+    function computeDailyTotals() {
+      const rows = document.querySelectorAll('#daily-history-body tr');
+      const sums = [0,0,0,0,0,0,0];
+      rows.forEach(r=>{ for(let i=1;i<=7;i++) sums[i-1]+=parseFloat(r.cells[i].textContent); });
+      ['prospection','estimations','visites','mandats','offres','compromis','actes'].forEach((key,i)=>{
+        document.getElementById('tot-'+key).textContent = sums[i];
+      });
+    }
+    function computeCommTotals() {
+      const rows = document.querySelectorAll('#comm-history-body tr'); let sum=0;
+      rows.forEach(r=> sum+= parseFloat(r.cells[1].textContent));
+      document.getElementById('tot-commission').textContent = '€ '+sum.toFixed(2);
+      document.getElementById('monthly-salary').textContent = '€ '+(sum/12).toFixed(2);
+    }
+    document.addEventListener('DOMContentLoaded',()=>{ addRowDaily(); addRowComm(); });
+  </script>
+</body>
+</html>

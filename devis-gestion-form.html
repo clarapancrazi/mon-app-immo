@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devis Gestion — PANCRAZI &amp; Partners</title>
+  <style>
+    :root {
+      --dark-bg: #111;
+      --overlay-bg: rgba(0,0,0,0.75);
+      --gold: #D4AF37;
+      --white: #ffffff;
+      --light: #f5f9fa;
+      --blue-dark: #0a3d62;      /* accent pour LOCATION */
+      --green-dark: #006837;     /* accent pour GESTION */
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--white);
+      position: relative;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--overlay-bg);
+      z-index: -1;
+    }
+    header.brand {
+      display: flex; flex-direction: column; align-items: center;
+      margin: 20px;
+    }
+    header.brand h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--gold);
+      margin: 0;
+      line-height: 1;
+    }
+    header.brand .ampersand { font-size: 1.5em; }
+    header.brand .slogan {
+      color: var(--light);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: var(--dark-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .form-container h2 {
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    fieldset {
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: var(--dark-bg);
+    }
+    fieldset.loc { border-color: var(--blue-dark); }
+    fieldset.gest { border-color: var(--green-dark); }
+    legend {
+      font-weight: 600;
+      color: var(--white);
+      padding: 0 10px;
+      font-size: 16px;
+    }
+    legend.loc { color: var(--blue-dark); }
+    legend.gest { color: var(--green-dark); }
+    .row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+    .row label {
+      font-weight: 500;
+      color: var(--light);
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .row input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 2px solid var(--light);
+      background: var(--dark-bg);
+      color: var(--white);
+    }
+    .row input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .buttons {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn {
+      background: var(--gold);
+      color: var(--dark-bg);
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    @media (max-width: 600px) {
+      .form-container { margin: 20px; padding: 20px; }
+      header.brand h1 { font-size: 24px; }
+      .form-container h2 { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <header class="brand">
+    <h1>PANCRAZI</h1>
+    <h1 class="ampersand">&amp; PARTNERS</h1>
+    <p class="slogan">L’excellence pour tous</p>
+  </header>
+
+  <div class="form-container">
+    <h2>Demande de Devis</h2>
+    <form id="devisForm">
+      <fieldset class="loc">
+        <legend class="loc">LOCATION</legend>
+        <div class="row">
+          <label for="loyer">Loyer mensuel H.C (€)</label>
+          <input type="number" id="loyer" required />
+        </div>
+        <div class="row">
+          <label for="provisions">Provisions sur charges (€)</label>
+          <input type="number" id="provisions" required />
+        </div>
+      </fieldset>
+
+      <fieldset class="gest">
+        <legend class="gest">GESTION</legend>
+        <div class="row">
+          <label for="surface">Surface (m²)</label>
+          <input type="number" id="surface" required />
+        </div>
+        <div class="row">
+          <label for="honodoss">Honoraires dossier et visites (€/m²)</label>
+          <input type="number" id="honodoss" required />
+        </div>
+        <div class="row">
+          <label for="honoetat">Honoraires état des lieux (€/m²)</label>
+          <input type="number" id="honoetat" required />
+        </div>
+        <div class="row">
+          <label for="fraisneg">Frais d'entremise et négociation (€)</label>
+          <input type="number" id="fraisneg" required />
+        </div>
+        <div class="row">
+          <label for="pack">Pack gestion (%)</label>
+          <input type="number" id="pack" required />
+        </div>
+        <div class="row">
+          <label for="assurloy">Assurance loyers impayés (%)</label>
+          <input type="number" id="assurloy" required />
+        </div>
+        <div class="row">
+          <label for="assurpno">Assurance PNO (€)</label>
+          <input type="number" id="assurpno" required />
+        </div>
+      </fieldset>
+
+      <div class="buttons">
+        <button type="submit" class="btn">Valider et voir le devis</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('devisForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      ['loyer','provisions','surface','honodoss','honoetat','fraisneg','pack','assurloy','assurpno']
+        .forEach(id => localStorage.setItem(id, document.getElementById(id).value));
+      window.location.href = 'devis-gestion.html';
+    });
+  </script>
+</body>
+</html>

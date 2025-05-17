@@ -3,85 +3,212 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modifier les assurances obligatoires</title>
+  <title>Modifier les assurances obligatoires — Pancrazi Immobilier</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
+      font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 40px;
-      background-color: #f9f9f9;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75); z-index: -1;
     }
     .container {
       max-width: 700px;
       margin: auto;
-      background: white;
+      background: #111;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
     h1 {
       text-align: center;
-      color: #0c2d48;
+      color: #D4AF37;
       margin-bottom: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    .insurance-group {
+      margin-bottom: 25px;
+    }
+    .insurance-group h2 {
+      color: #D4AF37;
+      margin-bottom: 10px;
+      font-size: 18px;
     }
     label {
       display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      color: #ccc;
     }
-    input {
+    input[type="text"],
+    input[type="date"] {
       width: 100%;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid #444;
       border-radius: 8px;
       font-size: 14px;
+      background: #1c1c1c;
+      color: white;
+    }
+    input[type="checkbox"] {
+      margin-right: 8px;
+      transform: scale(1.2);
+    }
+    .flex-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .flex-row label {
+      margin: 0;
     }
     .btn-save {
-      background-color: #0c2d48;
-      color: white;
+      background: #D4AF37;
+      color: #0b0b0b;
       padding: 12px 20px;
       border: none;
       border-radius: 8px;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      margin-top: 30px;
+      margin-top: 20px;
       width: 100%;
     }
-    .btn-save:hover {
-      background-color: #134b7a;
+    .btn-save:hover { background: #bfa433; }
+    .error {
+      color: #e74c3c;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
     }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
   <div class="container">
     <h1>Modifier les assurances obligatoires</h1>
     <form id="form-assurances">
-      <label for="rcp">Assurance RCP</label>
-      <input type="text" id="rcp" name="rcp" />
+      <!-- Locaux -->
+      <div class="insurance-group">
+        <h2>Assurance des locaux</n2>
+        <label for="locauxAssureur">Nom de l’assureur</label>
+        <input type="text" id="locauxAssureur" name="locauxAssureur" required />
+        <label for="locauxStart">Date de début de couverture</label>
+        <input type="date" id="locauxStart" name="locauxStart" required />
+        <label for="locauxEnd">Date de fin de couverture</label>
+        <input type="date" id="locauxEnd" name="locauxEnd" required />
+        <div class="flex-row">
+          <input type="checkbox" id="locauxPaid" name="locauxPaid" />
+          <label for="locauxPaid">Payée</label>
+        </div>
+        <label for="locauxPaymentDate">Date de paiement</label>
+        <input type="date" id="locauxPaymentDate" name="locauxPaymentDate" />
+      </div>
+      <!-- RCP -->
+      <div class="insurance-group">
+        <h2>Assurance RCP</h2>
+        <label for="rcpAssureur">Nom de l’assureur</label>
+        <input type="text" id="rcpAssureur" name="rcpAssureur" required />
+        <label for="rcpStart">Date de début de couverture</label>
+        <input type="date" id="rcpStart" name="rcpStart" required />
+        <label for="rcpEnd">Date de fin de couverture</label>
+        <input type="date" id="rcpEnd" name="rcpEnd" required />
+        <div class="flex-row">
+          <input type="checkbox" id="rcpPaid" name="rcpPaid" />
+          <label for="rcpPaid">Payée</label>
+        </div>
+        <label for="rcpPaymentDate">Date de paiement</label>
+        <input type="date" id="rcpPaymentDate" name="rcpPaymentDate" />
+      </div>
+      <!-- Garantie financière -->
+      <div class="insurance-group">
+        <h2>Garantie financière</n2>
+        <label for="garantieAssureur">Nom de l’assureur</label>
+        <input type="text" id="garantieAssureur" name="garantieAssureur" required />
+        <label for="garantieStart">Date de début de couverture</label>
+        <input type="date" id="garantieStart" name="garantieStart" required />
+        <label for="garantieEnd">Date de fin de couverture</label>
+        <input type="date" id="garantieEnd" name="garantieEnd" required />
+        <div class="flex-row">
+          <input type="checkbox" id="garantiePaid" name="garantiePaid" />
+          <label for="garantiePaid">Payée</label>
+        </div>
+        <label for="garantiePaymentDate">Date de paiement</label>
+        <input type="date" id="garantiePaymentDate" name="garantiePaymentDate" />
+      </div>
 
-      <label for="garantie">Garantie financière</label>
-      <input type="text" id="garantie" name="garantie" />
-
-      <label for="locaux">Assurance des locaux</label>
-      <input type="text" id="locaux" name="locaux" />
-
+      <div class="error" id="error-msg">Merci de remplir tous les champs obligatoires.</div>
       <button type="submit" class="btn-save">💾 Enregistrer</button>
     </form>
   </div>
 
   <script>
+    // Charger les valeurs existantes
     window.onload = () => {
-      document.getElementById('rcp').value = localStorage.getItem('assuranceRCP') || '';
-      document.getElementById('garantie').value = localStorage.getItem('garantieFinanciere') || '';
-      document.getElementById('locaux').value = localStorage.getItem('assuranceLocaux') || '';
+      // Locaux
+      document.getElementById('locauxAssureur').value = localStorage.getItem('assuranceLocauxAssureur') || '';
+      document.getElementById('locauxStart').value = localStorage.getItem('assuranceLocauxStart') || '';
+      document.getElementById('locauxEnd').value = localStorage.getItem('assuranceLocauxEnd') || '';
+      document.getElementById('locauxPaid').checked = localStorage.getItem('assuranceLocauxPaid') === 'true';
+      document.getElementById('locauxPaymentDate').value = localStorage.getItem('assuranceLocauxPaymentDate') || '';
+      // RCP
+      document.getElementById('rcpAssureur').value = localStorage.getItem('assuranceRCPAssureur') || '';
+      document.getElementById('rcpStart').value = localStorage.getItem('assuranceRCPStart') || '';
+      document.getElementById('rcpEnd').value = localStorage.getItem('assuranceRCPEnd') || '';
+      document.getElementById('rcpPaid').checked = localStorage.getItem('assuranceRCPPaid') === 'true';
+      document.getElementById('rcpPaymentDate').value = localStorage.getItem('assuranceRCPPaymentDate') || '';
+      // Garantie
+      document.getElementById('garantieAssureur').value = localStorage.getItem('assuranceGarantieAssureur') || '';
+      document.getElementById('garantieStart').value = localStorage.getItem('assuranceGarantieStart') || '';
+      document.getElementById('garantieEnd').value = localStorage.getItem('assuranceGarantieEnd') || '';
+      document.getElementById('garantiePaid').checked = localStorage.getItem('assuranceGarantiePaid') === 'true';
+      document.getElementById('garantiePaymentDate').value = localStorage.getItem('assuranceGarantiePaymentDate') || '';
     };
 
+    // Validation et sauvegarde
     document.getElementById('form-assurances').addEventListener('submit', function(e) {
       e.preventDefault();
-      localStorage.setItem('assuranceRCP', document.getElementById('rcp').value);
-      localStorage.setItem('garantieFinanciere', document.getElementById('garantie').value);
-      localStorage.setItem('assuranceLocaux', document.getElementById('locaux').value);
+      const requiredFields = [
+        'locauxAssureur','locauxStart','locauxEnd',
+        'rcpAssureur','rcpStart','rcpEnd',
+        'garantieAssureur','garantieStart','garantieEnd'
+      ];
+      let valid = true;
+      requiredFields.forEach(id => {
+        if (!document.getElementById(id).value) valid = false;
+      });
+      const errorMsg = document.getElementById('error-msg');
+      if (!valid) {
+        errorMsg.style.display = 'block';
+        return;
+      }
+      errorMsg.style.display = 'none';
+      // Locaux
+      localStorage.setItem('assuranceLocauxAssureur', document.getElementById('locauxAssureur').value);
+      localStorage.setItem('assuranceLocauxStart', document.getElementById('locauxStart').value);
+      localStorage.setItem('assuranceLocauxEnd', document.getElementById('locauxEnd').value);
+      localStorage.setItem('assuranceLocauxPaid', document.getElementById('locauxPaid').checked);
+      localStorage.setItem('assuranceLocauxPaymentDate', document.getElementById('locauxPaymentDate').value);
+      // RCP
+      localStorage.setItem('assuranceRCPAssureur', document.getElementById('rcpAssureur').value);
+      localStorage.setItem('assuranceRCPStart', document.getElementById('rcpStart').value);
+      localStorage.setItem('assuranceRCPEnd', document.getElementById('rcpEnd').value);
+      localStorage.setItem('assuranceRCPPaid', document.getElementById('rcpPaid').checked);
+      localStorage.setItem('assuranceRCPPaymentDate', document.getElementById('rcpPaymentDate').value);
+      // Garantie
+      localStorage.setItem('assuranceGarantieAssureur', document.getElementById('garantieAssureur').value);
+      localStorage.setItem('assuranceGarantieStart', document.getElementById('garantieStart').value);
+      localStorage.setItem('assuranceGarantieEnd', document.getElementById('garantieEnd').value);
+      localStorage.setItem('assuranceGarantiePaid', document.getElementById('garantiePaid').checked);
+      localStorage.setItem('assuranceGarantiePaymentDate', document.getElementById('garantiePaymentDate').value);
       alert('Informations enregistrées !');
       window.location.href = 'administratif.html';
     });

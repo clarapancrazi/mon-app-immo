@@ -40,7 +40,7 @@
     /* ===== HEADER – Brand ===== */
     .brand {
       position: fixed;
-      top: 40px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -68,13 +68,16 @@
       text-transform: uppercase;
       color: var(--gold);
     }
+    .brand .home-btn {
+      margin-top: 20px;
+    }
 
     /* ===== MAIN CONTENT ===== */
     .container {
       width: 90%;
       max-width: 1200px;
       text-align: center;
-      margin: 260px auto 40px; /* leave space for fixed header */
+      margin: 260px auto 40px;
     }
     .page-title {
       font-family: 'Playfair Display', serif;
@@ -149,7 +152,6 @@
     /* Home button */
     .home-btn {
       display: inline-block;
-      margin-top: 60px;
       background: var(--gold);
       color: #000;
       padding: 12px 28px;
@@ -179,6 +181,7 @@
     <h1>PANCRAZI</h1>
     <h1 class="ampersand">&amp; PARTNERS</h1>
     <p class="slogan">L’excellence pour tous</p>
+    <a href="accueil.html" class="home-btn">Accueil</a>
   </header>
 
   <main class="container">
@@ -212,9 +215,21 @@
         <p>Accédez à votre espace Nodalview.</p>
         <a href="https://www.nodalview.com" target="_blank">Accéder</a>
       </div>
+      <!-- GEOFONCIER -->
+      <div class="card">
+        <img src="https://www.geofoncier.fr/favicon.ico" alt="GEOFONCIER" />
+        <h3>GEOFONCIER</h3>
+        <p>Accédez à votre espace GeoFoncier.</p>
+        <a href="https://www.geofoncier.fr" target="_blank">Accéder</a>
+      </div>
+      <!-- GEOPORTAIL -->
+      <div class="card">
+        <img src="https://www.geoportail.gouv.fr/favicon.ico" alt="GEOPORTAIL" />
+        <h3>GEOPORTAIL</h3>
+        <p>Accédez au Geoportail pour vos cartes et données géographiques.</p>
+        <a href="https://www.geoportail.gouv.fr" target="_blank">Accéder</a>
+      </div>
     </div>
-
-    <a href="accueil.html" class="home-btn">Accueil</a>
   </main>
 </body>
 </html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PANCRAZI &amp; PARTNERS – Management</title>
+
+    <!-- Google Font for an elegant, uppercase serif look -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet" />
+
+    <style>
+      :root {
+        /* Brand colours */
+        --black: #0b0b0b;
+        --navy: #071e36;
+        --beige: #f2efe8;
+        --gold: #d4a44f;
+        --white: #f5f5f5;
+        --burnt: #b35421;
+
+        /* Transition timing */
+        --transition: 0.6s ease;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; font-family: "Cinzel", serif; text-transform: uppercase; letter-spacing: 0.05em; color: var(--white); }
+
+      /* BACKGROUND LAYERS */
+      body.has-bg { background: var(--black); }
+      body.has-bg::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1920&q=80") center/cover no-repeat;
+        opacity: 0.2;
+        z-index: -3;
+        pointer-events: none;
+      }
+      body.has-bg::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: url("logo-software.png") center/contain no-repeat;
+        opacity: 0.25;
+        z-index: -2;
+        pointer-events: none;
+      }
+
+      /* HERO / HEADER */
+      .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.6rem; padding: 4rem 1rem 2.5rem; }
+      .logo-main { margin: 0; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; color: var(--gold); line-height: 1; }
+      .logo-sub { margin: 0; font-size: clamp(1.3rem, 4vw, 2.5rem); color: var(--gold); line-height: 1.1; }
+      .tagline { margin: 0 0 1.5rem; font-size: clamp(0.8rem, 2vw, 1.2rem); letter-spacing: 0.2em; color: var(--gold); }
+      .btn-home { display: inline-block; padding: 0.8rem 2.4rem; font-size: clamp(0.75rem, 1.5vw, 1rem); background: var(--gold); color: var(--black); border: none; border-radius: 6px; text-decoration: none; transition: background var(--transition), transform var(--transition); }
+      .btn-home:hover, .btn-home:focus-visible { background: #c89945; transform: translateY(-2px); }
+      .btn-home:focus-visible { outline: 3px dashed var(--white); }
+
+      /* MANAGEMENT GRID */
+      .managers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; width: 90%; max-width: 1200px; margin: 0 auto 4rem; transition: var(--transition); }
+      .manager-tile {
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        padding: 2rem 1rem 3rem; gap: 0.8rem; cursor: pointer; position: relative; overflow: hidden;
+        background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(212, 175, 79, 0.25); border-radius: 14px;
+        backdrop-filter: blur(4px); transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      }
+      .manager-tile h2 { margin: 0; font-size: clamp(1.1rem, 3vw, 1.8rem); color: var(--gold); text-align: center; }
+      .manager-tile:hover { transform: translateY(-10px); box-shadow: 0 8px 30px rgba(212, 175, 79, 0.35); border-color: var(--gold); }
+      .manager-tile::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(135deg, transparent 40%, rgba(212, 175, 79, 0.2)); opacity: 0; transition: opacity var(--transition); pointer-events: none; }
+      .manager-tile:hover::before { opacity: 1; }
+
+      /* Responsive hero padding */
+      @media (max-width: 640px) { .hero { padding: 3rem 1rem 1.5rem; } }
+    </style>
+  </head>
+
+  <body class="has-bg">
+    <!-- HERO HEADER -->
+    <header class="hero">
+      <h1 class="logo-main">PANCRAZI</h1>
+      <h2 class="logo-sub">&amp; PARTNERS</h2>
+      <p class="tagline">Management Teams</p>
+      <a href="accueil.html" class="btn-home">Accueil</a>
+    </header>
+
+    <!-- MANAGEMENT TILES -->
+    <main class="managers-grid">
+      <!-- Tile unique pour Vanina MANICACCI -->
+      <article class="manager-tile" tabindex="0" onclick="location.href='management-vanina.html'">
+        <h2>Vanina MANICACCI</h2>
+      </article>
+      <!-- Dupliquez cette section article pour ajouter d'autres managers -->
+    </main>
+
+    <script>
+      // Keyboard accessibility
+      document.querySelectorAll('.manager-tile').forEach(tile => {
+        tile.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            tile.click();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

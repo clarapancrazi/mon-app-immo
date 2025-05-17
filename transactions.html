@@ -3,112 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transactions</title>
+  <title>Transactions — Pancrazi Immobilier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
+    :root {
+      --gold: #D4AF37;
+      --deep-black: #0b0b0b;
+      --dark-grey: #1c1c1c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
       display: flex;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
       height: 100vh;
     }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: -1;
+    }
     .sidebar {
-      width: 250px;
-      background-color: #0c2d48;
-      color: white;
-      padding: 20px;
+      width: 240px;
+      background: var(--deep-black);
+      padding: 24px;
       display: flex;
       flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
     }
-    .sidebar h2 {
-      margin-bottom: 30px;
+    .sidebar h1 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 20px;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
     }
     .sidebar a {
-      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ccc;
+      padding: 12px 18px;
+      margin-bottom: 8px;
+      display: block;
+      border-left: 2px solid transparent;
+      transition: all 0.3s ease;
       text-decoration: none;
-      margin: 10px 0;
-      font-weight: bold;
     }
-    .main-content {
+    .sidebar a:hover {
+      color: var(--gold);
+      border-left: 2px solid var(--gold);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    main {
       flex: 1;
-      background-color: #f9f9f9;
       padding: 40px;
+      overflow-y: auto;
     }
-    .page-title {
-      font-size: 28px;
-      font-weight: 600;
-      color: #0c2d48;
+    header.brand {
+      text-align: center;
       margin-bottom: 30px;
     }
-    .filters {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 15px;
+    header.brand h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      color: var(--gold);
     }
-    .filters input, .filters select, .filters button {
-      padding: 8px 15px;
+    .brand .slogan {
+      font-family: 'Montserrat', sans-serif;
       font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    .filters input, .filters select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #222;
+      color: white;
     }
     .filters button {
-      background-color: #0c2d48;
-      color: white;
+      background: var(--gold);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
       cursor: pointer;
-    }
-    .filters button:hover {
-      background-color: #D4AF37;
+      color: black;
     }
     .transaction-card {
-      background-color: white;
-      padding: 24px;
+      background: #111;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      margin-bottom: 24px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
     }
     .transaction-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      transform: translateY(-4px);
     }
     .transaction-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .transaction-header h3 {
       margin: 0;
+      color: var(--gold);
       font-size: 20px;
-      color: #0c2d48;
-    }
-    .transaction-info {
-      font-size: 15px;
-      color: #333;
-      line-height: 1.6;
     }
     .statut {
       padding: 6px 12px;
       border-radius: 20px;
-      font-weight: 600;
-      font-size: 14px;
-      color: white;
       text-transform: uppercase;
+      font-weight: 600;
+      font-size: 13px;
+      color: white;
     }
-    .statut.offre { background-color: #f0ad4e; }
-    .statut.compromis { background-color: #5bc0de; }
-    .statut.acte { background-color: #5cb85c; }
-    .honoraires-calculation {
-      margin-top: 20px;
-      font-weight: bold;
+    .statut.offre { background: #f39c12; }
+    .statut.compromis { background: #3498db; }
+    .statut.acte { background: #27ae60; }
+    .transaction-info {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+    .transaction-actions {
+      margin-top: 10px;
+    }
+    .transaction-actions button {
+      background: var(--gold);
+      color: black;
+      border: none;
+      padding: 6px 12px;
+      margin-right: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .transaction-actions button:hover {
+      background: #c9a32b;
+    }
+    .totals {
+      margin-top: 30px;
+      font-weight: 600;
+      color: var(--gold);
       font-size: 16px;
-      color: #D4AF37;
+    }
+    .add-btn {
+      background: var(--gold);
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+    .add-btn:hover {
+      background: #c89f2a;
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Pancrazi Immobilier</h2>
+  <div class="overlay"></div>
+  <nav class="sidebar">
+    <h1>PANCRAZI</h1>
+    <a href="accueil.html">Accueil</a>
     <a href="dashboard.html">Tableau de bord</a>
     <a href="equipe.html">Équipe & Commerciaux</a>
     <a href="transactions.html">Transactions</a>
@@ -116,116 +188,143 @@
     <a href="gestion.html">Gestion locative</a>
     <a href="saisonniere.html">Location saisonnière</a>
     <a href="clients.html">Accès clients</a>
-    <a href="simulateurs.html">Outils & simulateurs</a>
+    <a href="comptabilite.html">comptabilité</a>
     <a href="administratif.html">Administratif agence</a>
-  </div>
+    <a href="parametrages.html">Paramétrages</a>
+  </nav>
+  <main>
+    <header class="brand">
+      <h1>PANCRAZI & PARTNERS</h1>
+      <p class="slogan">L'excellence pour tous</p>
+    </header>
 
-  <div class="main-content">
-    <div class="page-title">Transactions</div>
+    <button class="add-btn" onclick="createNewTransaction()">+ Nouvelle transaction</button>
+    <button class="add-btn" onclick="exportToPDF()">📄 Exporter en PDF</button>
 
-    <!-- Filters Section -->
     <div class="filters">
-      <input type="text" id="searchClient" placeholder="Prénom ou Nom du client" />
-      <button onclick="searchTransaction()">Recherche</button>
+      <input type="text" id="searchInput" placeholder="Rechercher un client">
       <select id="statusFilter">
-        <option value="all">Tout</option>
-        <option value="offre">Offres</option>
+        <option value="all">Tous les statuts</option>
+        <option value="offre">Offre</option>
         <option value="compromis">Compromis</option>
-        <option value="acte">Actes</option>
+        <option value="acte">Acte</option>
       </select>
-      <button onclick="filterTransactions()">Filtrer</button>
+      <select id="sortDate">
+        <option value="none">Trier par date</option>
+        <option value="date_offre">Date offre</option>
+        <option value="date_compromis">Date compromis</option>
+        <option value="date_acte">Date acte</option>
+      </select>
+      <button onclick="applyFilters()">Filtrer</button>
     </div>
 
-    <!-- Transactions Cards -->
-    <div id="transactionsContainer">
-      <div class="transaction-card" onclick="window.location.href='fiche-transaction1.html'">
-        <div class="transaction-header">
-          <h3>Villa - Route des Sanguinaires, Ajaccio</h3>
-          <span class="statut compromis">Compromis</span>
-        </div>
-        <div class="transaction-info">
-          <strong>Vendeur :</strong> Jean Dupont &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marie Rossi<br>
-          <strong>Prix de vente :</strong> 850 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 42 500 €<br>
-          <strong>Offre :</strong> 15/03/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 28/03/2024 &nbsp; | &nbsp; <strong>Acte prévu :</strong> 30/06/2024
-        </div>
-      </div>
-
-      <div class="transaction-card" onclick="window.location.href='fiche-transaction2.html'">
-        <div class="transaction-header">
-          <h3>Appartement - Cours Napoléon, Ajaccio</h3>
-          <span class="statut acte">Acte</span>
-        </div>
-        <div class="transaction-info">
-          <strong>Vendeur :</strong> Claire Martin &nbsp; | &nbsp; <strong>Acquéreur :</strong> Marc Lemoine<br>
-          <strong>Prix de vente :</strong> 420 000 € &nbsp; | &nbsp; <strong>Honoraires :</strong> 21 000 €<br>
-          <strong>Offre :</strong> 05/01/2024 &nbsp; | &nbsp; <strong>Compromis :</strong> 15/01/2024 &nbsp; | &nbsp; <strong>Acte :</strong> 28/02/2024
-        </div>
-      </div>
-    </div>
-
-    <!-- Honoraires Calculation -->
-    <div class="honoraires-calculation">
-      <button onclick="calculateHonoraires()">Calculer les Honoraires</button>
-      <div id="honorairesResult"></div>
-    </div>
-  </div>
+    <div id="transactionsContainer"></div>
+    <div class="totals" id="honorairesResult"></div>
+  </main>
 
   <script>
-    // Transactions example data
-    const transactions = [
-      { prenom: "Jean", nom: "Dupont", bien: "Villa - Route des Sanguinaires", prix: 850000, etat: "compromis", honoraires: 42500 },
-      { prenom: "Claire", nom: "Martin", bien: "Appartement - Cours Napoléon", prix: 420000, etat: "acte", honoraires: 21000 },
-    ];
-
-    // Display transactions
-    function displayTransactions(filteredTransactions) {
-      const container = document.getElementById('transactionsContainer');
-      container.innerHTML = ''; // Reset container
-      filteredTransactions.forEach(transaction => {
-        const card = document.createElement('div');
-        card.classList.add('transaction-card');
+    function getTransactions() {
+      return JSON.parse(localStorage.getItem("transactions") || "[]");
+    }
+    function saveTransactions(data) {
+      localStorage.setItem("transactions", JSON.stringify(data));
+    }
+    function createNewTransaction() {
+      const transactions = getTransactions();
+      const newTransaction = {
+        vendeur: "",
+        acheteur: "",
+        bien: "",
+        prix: 0,
+        honoraires: 0,
+        statut: "offre",
+        date_offre: "",
+        date_compromis: "",
+        date_acte: "",
+        comments: [],
+        docs: []
+      };
+      transactions.push(newTransaction);
+      saveTransactions(transactions);
+      const id = transactions.length - 1;
+      window.location.href = `fiche.transaction.html?id=${id}`;
+    }
+    function displayTransactions(data) {
+      const container = document.getElementById("transactionsContainer");
+      container.innerHTML = "";
+      let totalPrevisionnel = 0;
+      let totalEncaisse = 0;
+      data.forEach((t, i) => {
+        totalPrevisionnel += t.honoraires || 0;
+        if (t.statut === "acte") totalEncaisse += t.honoraires || 0;
+        const card = document.createElement("div");
+        card.className = "transaction-card";
         card.innerHTML = `
           <div class="transaction-header">
-            <h3>${transaction.bien}</h3>
-            <span class="statut ${transaction.etat}">${transaction.etat.charAt(0).toUpperCase() + transaction.etat.slice(1)}</span>
+            <h3>${t.bien || "Bien sans titre"}</h3>
+            <span class="statut ${t.statut}">${t.statut}</span>
           </div>
           <div class="transaction-info">
-            <strong>Vendeur :</strong> ${transaction.prenom} ${transaction.nom} <br>
-            <strong>Prix de vente :</strong> ${transaction.prix.toLocaleString('fr-FR')} € <br>
-            <strong>Honoraires :</strong> ${transaction.honoraires.toLocaleString('fr-FR')} €
+            <strong>Vendeur :</strong> ${t.vendeur || "-"} &nbsp; | &nbsp;
+            <strong>Acquéreur :</strong> ${t.acheteur || "-"}<br>
+            <strong>Prix :</strong> ${t.prix?.toLocaleString("fr-FR") || 0} € &nbsp; | &nbsp;
+            <strong>Honoraires :</strong> ${t.honoraires?.toLocaleString("fr-FR") || 0} €<br>
+            <strong>Offre :</strong> ${t.date_offre || "-"} &nbsp; | &nbsp;
+            <strong>Compromis :</strong> ${t.date_compromis || "-"} &nbsp; | &nbsp;
+            <strong>Acte :</strong> ${t.date_acte || "-"}
+          </div>
+          <div class="transaction-actions">
+            <button onclick="event.stopPropagation(); edit(${i})">✏️ Modifier</button>
+            <button onclick="event.stopPropagation(); remove(${i})">🗑️ Supprimer</button>
           </div>
         `;
+        card.onclick = () => edit(i);
         container.appendChild(card);
       });
+      document.getElementById("honorairesResult").innerText = `Prévisionnel : ${totalPrevisionnel.toLocaleString("fr-FR")} €  |  Encaissé : ${totalEncaisse.toLocaleString("fr-FR")} €`;
     }
-
-    // Filter transactions based on status
-    function filterTransactions() {
-      const statusFilter = document.getElementById('statusFilter').value;
-      const filteredTransactions = transactions.filter(transaction => 
-        statusFilter === "all" || transaction.etat === statusFilter
-      );
-      displayTransactions(filteredTransactions);
+    function edit(index) {
+      window.location.href = `fiche.transaction.html?id=${index}`;
     }
-
-    // Search transactions by client name
-    function searchTransaction() {
-      const searchValue = document.getElementById('searchClient').value.toLowerCase();
-      const filteredTransactions = transactions.filter(transaction =>
-        transaction.prenom.toLowerCase().includes(searchValue) ||
-        transaction.nom.toLowerCase().includes(searchValue)
-      );
-      displayTransactions(filteredTransactions);
+    function remove(index) {
+      const data = getTransactions();
+      if (confirm("Supprimer cette transaction ?")) {
+        data.splice(index, 1);
+        saveTransactions(data);
+        displayTransactions(data);
+      }
     }
-
-    // Calculate the total honoraires based on filtered transactions
-    function calculateHonoraires() {
-      const totalHonoraires = transactions.reduce((acc, transaction) => acc + transaction.honoraires, 0);
-      document.getElementById('honorairesResult').innerText = `Total des honoraires : ${totalHonoraires.toLocaleString('fr-FR')} €`;
+    function applyFilters() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const status = document.getElementById("statusFilter").value;
+      const sortKey = document.getElementById("sortDate").value;
+      let data = getTransactions();
+      if (status !== "all") data = data.filter(t => t.statut === status);
+      if (search) {
+        data = data.filter(t => (t.vendeur || '').toLowerCase().includes(search) || (t.acheteur || '').toLowerCase().includes(search));
+      }
+      if (sortKey !== "none") {
+        data = data.sort((a, b) => new Date(a[sortKey] || 0) - new Date(b[sortKey] || 0));
+      }
+      displayTransactions(data);
     }
-
-    // Initial display
-    displayTransactions(transactions);
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const data = getTransactions();
+      let y = 10;
+      doc.setFontSize(12);
+      doc.text("Liste des Transactions - Pancrazi Immobilier", 10, y);
+      y += 10;
+      data.forEach((t, i) => {
+        const line = `${t.bien || 'Bien'} | Vendeur: ${t.vendeur || '-'} | Acquéreur: ${t.acheteur || '-'} | Prix: ${t.prix}€ | Honoraires: ${t.honoraires}€ | Statut: ${t.statut}`;
+        doc.text(line, 10, y);
+        y += 8;
+        if (y > 280) { doc.addPage(); y = 10; }
+      });
+      doc.save("transactions.pdf");
+    }
+    displayTransactions(getTransactions());
   </script>
 </body>
 </html>
